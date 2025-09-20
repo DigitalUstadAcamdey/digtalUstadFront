@@ -5,29 +5,39 @@
 @import url("https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Cabin:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Zain:wght@200;300;400;700;800;900&display=swap");
 
 @font-face {
-  font-family: swissra-normal;
-  src: url("/fonts/swissra-normal.otf") format("opentype");
+  font-family: "ibm-sans-arabic";
+  src: url("/fonts/IBMPlexSansArabic-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
 }
+
 @font-face {
-  font-family: swissra-medium;
-  src: url("/fonts/swissra-medium.otf") format("opentype");
+  font-family: "ibm-sans-arabic";
+  src: url("/fonts/IBMPlexSansArabic-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
 }
+
 @font-face {
-  font-family: swissra-bold;
-  src: url("/fonts/swissra-bold.otf") format("opentype");
+  font-family: "ibm-sans-arabic";
+  src: url("/fonts/IBMPlexSansArabic-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
 }
 
 @layer components {
   .apply-fonts-normal {
-    font-family: "swissra-normal";
+    font-family: "ibm-sans-arabic-regular";
     font-weight: 100;
   }
   .apply-fonts-medium {
-    font-family: "swissra-medium";
+    font-family: "ibm-sans-arabic-medium";
+    font-weight: 400;
   }
 
   .apply-fonts-bold {
-    font-family: "swissra-bold";
+    font-family: "ibm-sans-arabic-bold";
+    font-weight: 800;
   }
   .hoverEle {
     @apply transition duration-300 cursor-pointer;
@@ -49,20 +59,24 @@
   .custom-width {
     width: calc(100vw - 300px);
   }
+
   .custom-width-Course {
     width: calc(100vw - 400px);
+  }
+  .scroll-btn-custom {
+    right: calc(300px + 2rem); /* عرض السايدبار + مسافة */
   }
 }
 
 /* تخصيص شريط التمرير لجميع العناصر القابلة للتمرير في الموقع */
 ::-webkit-scrollbar {
-  width: 2px; /* عرض شريط التمرير */
+  width: 0px; /* عرض شريط التمرير */
 }
 
 /* مسار شريط التمرير */
-::-webkit-scrollbar-track {
-  @apply bg-mainColor rounded-md; /* لون مسار شريط التمرير */
-}
+/* ::-webkit-scrollbar-track { */
+/* @apply bg-mainColor rounded-md; لون مسار شريط التمرير */
+/* } */
 
 /* مقبض شريط التمرير */
 ::-webkit-scrollbar-thumb {
@@ -95,4 +109,7 @@ html {
 }
 body {
   overflow-x: visible !important;
+}
+input {
+  color: black;
 }

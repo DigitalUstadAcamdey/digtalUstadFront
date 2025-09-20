@@ -6,22 +6,19 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <div className="w-full  bg-mainColor text-white py-8 flex flex-col mt-12">
+    <div className="w-full  bg-mainColor text-white dark:bg-transparent/5 py-8 flex flex-col mt-12">
       <div className="container mx-auto flex items-center justify-between border-b-2 ">
         <Link
           href={`/`}
-          className="flex items-center flex-row-reverse  md:gap-3"
+          className="flex items-center flex-row-reverse  md:gap-3 py-2"
         >
           <Image
-            src="/imgs/logoImg.png"
+            src="/imgs/dashboard-user-imgs/logoDashUser.png"
             alt="logoImg"
-            className="md:w-14 md:h-14 xs:w-12 xs:h-12 "
+            loading="lazy"
             width={150}
             height={150}
           />
-          <h1 className="md:text-xl xs:text-base font-light xs:hidden lg:block">
-            Sience Academie
-          </h1>
         </Link>
         <div className="flex gap-5 ">
           <h1 className="apply-fonts-normal sm:block xs:hidden">

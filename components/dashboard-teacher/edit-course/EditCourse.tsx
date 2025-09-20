@@ -93,28 +93,32 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-2xl border border-gray-200 w-full max-w-md transform animate-modal">
+      <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 w-full max-w-md transform animate-modal">
         {/* Modal Header */}
-        <div className="flex items-center gap-4 p-6 border-b border-gray-200">
+        <div className="flex items-center gap-4 p-6 border-b border-gray-200 dark:border-gray-700">
           <div className={`p-3 ${colors.bg} rounded-full`}>
             <AlertTriangle className={`${colors.icon}`} size={24} />
           </div>
           <div>
-            <h3 className="text-xl font-bold text-gray-800">{title}</h3>
+            <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100">
+              {title}
+            </h3>
           </div>
         </div>
 
         {/* Modal Body */}
         <div className="p-6">
-          <p className="text-gray-600 leading-relaxed">{message}</p>
+          <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+            {message}
+          </p>
         </div>
 
         {/* Modal Actions */}
-        <div className="flex items-center gap-3 justify-end p-6 border-t border-gray-200 bg-gray-50 rounded-b-2xl">
+        <div className="flex items-center gap-3 justify-end p-6 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-950 rounded-b-2xl">
           <button
             onClick={onCancel}
             disabled={loading}
-            className={` px-6 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors duration-200 disabled:cursor-not-allowed`}
+            className={`px-6 py-2 text-gray-600 dark:text-gray-400 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200 disabled:cursor-not-allowed`}
           >
             {cancelText}
           </button>
@@ -213,8 +217,6 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
     const { name, value } = e.target;
     setCourseData((prev) => ({ ...prev, [name]: value }));
   };
-
-
 
   const [activeTab, setActiveTab] = useState("details");
   const [courseData, setCourseData] = useState<CourseDetails>({
@@ -741,26 +743,28 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6 ">
+    <div className="min-h-screen  p-6 ">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="bg-white rounded-lg shadow-sm border p-6 mb-6">
+        <div className="bg-white dark:bg-gray-900 rounded-lg shadow-sm border dark:border-gray-700 p-6 mb-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-800 mb-2">
+              <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-2">
                 تعديل الكورس
               </h1>
-              <p className="text-gray-600">إدارة وتعديل محتوى الكورس بسهولة</p>
+              <p className="text-gray-600 dark:text-gray-400">
+                إدارة وتعديل محتوى الكورس بسهولة
+              </p>
             </div>
             <div className="flex items-center gap-3">
               <button
-                className={`flex items-center gap-2  text-white px-6 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg
-                  ${
-                    editeCourseLoading
-                      ? "bg-mainColorHoverLight cursor-not-allowed"
-                      : "bg-mainColor hover:bg-mainColorHoverLight cursor-pointer"
-                  }
-                  `}
+                className={`flex items-center gap-2 text-white px-6 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg
+          ${
+            editeCourseLoading
+              ? "bg-mainColorHoverLight cursor-not-allowed disabled:opacity-50"
+              : "bg-mainColor hover:bg-mainColorHoverLight cursor-pointer"
+          }
+          `}
                 onClick={async () => {
                   if (activeTab === "details") {
                     await handleEditCourse();
@@ -769,6 +773,7 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                     router.push(`/course/${course?._id}`);
                   }
                 }}
+                disabled={editeCourseLoading}
               >
                 {editeCourseLoading ? (
                   <Loader2
@@ -787,19 +792,20 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
         </div>
 
         {/* Tabs Navigation */}
-        <div className="bg-white rounded-lg shadow-sm border mb-6">
-          <div className="flex border-b">
+        <div className="bg-white dark:bg-gray-900 rounded-lg shadow-sm border dark:border-gray-700 mb-6">
+          <div className="flex border-b border-gray-200 dark:border-gray-700">
             {tabs.map((tab) => {
               const Icon = tab.icon;
               return (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-3 px-6 py-4 font-medium transition-all duration-300 border-b-2 ${
-                    activeTab === tab.id
-                      ? "border-[#3D45EE] text-[#3D45EE] bg-[#B9BCFF]/20"
-                      : "border-transparent text-[#6E7485] hover:text-[#3D45EE] hover:bg-[#F3F3F3]"
-                  }`}
+                  className={`flex items-center gap-3 px-6 py-4 font-medium transition-all duration-300 border-b-2
+            ${
+              activeTab === tab.id
+                ? "border-[#3D45EE] text-[#3D45EE] bg-[#B9BCFF]/20 dark:bg-gray-800"
+                : "border-transparent text-gray-600 dark:text-gray-400 hover:text-[#3D45EE] dark:hover:text-[#6A78FB] hover:bg-gray-100 dark:hover:bg-gray-800"
+            }`}
                 >
                   <Icon size={20} />
                   {tab.label}
@@ -810,15 +816,15 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
         </div>
 
         {/* Content Sections */}
-        <div className="bg-white rounded-lg shadow-sm border">
+        <div className="bg-white dark:bg-gray-900 rounded-lg shadow-sm border dark:border-gray-700">
           {/* تفاصيل الكورس */}
           {activeTab === "details" && (
             <div className="p-8 animate-fadeIn">
               <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 bg-[#B9BCFF]/30 rounded-lg">
+                <div className="p-2 bg-[#B9BCFF]/30 rounded-lg dark:bg-indigo-900/30">
                   <BookOpen className="text-[#3D45EE]" size={24} />
                 </div>
-                <h2 className="text-2xl font-bold text-gray-800">
+                <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
                   تفاصيل الكورس
                 </h2>
               </div>
@@ -828,7 +834,7 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                 <div className="space-y-6">
                   {/* العنوان */}
                   <div>
-                    <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+                    <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       <Edit3 size={16} />
                       عنوان الكورس
                     </label>
@@ -837,14 +843,14 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                       value={courseData.title || course?.title || ""}
                       onChange={handleInputChange}
                       name="title"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3D45EE] focus:border-transparent transition-all duration-300"
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-[#3D45EE] focus:border-transparent transition-all duration-300"
                       placeholder="أدخل عنوان الكورس"
                     />
                   </div>
 
                   {/* الوصف */}
                   <div>
-                    <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+                    <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       <FileText size={16} />
                       وصف الكورس
                     </label>
@@ -855,7 +861,7 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                       onChange={handleInputChange}
                       name="description"
                       rows={4}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3D45EE] focus:border-transparent transition-all duration-300 resize-none"
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-[#3D45EE] focus:border-transparent transition-all duration-300 resize-none"
                       placeholder="أدخل وصف مفصل للكورس"
                     />
                   </div>
@@ -863,7 +869,7 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                   {/* السعر والفئة */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+                      <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         <DollarSign size={16} />
                         السعر (DZD)
                       </label>
@@ -872,13 +878,13 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                         value={courseData.price || course?.price || ""}
                         onChange={handleInputChange}
                         name="price"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3D45EE] focus:border-transparent transition-all duration-300"
+                        className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-[#3D45EE] focus:border-transparent transition-all duration-300"
                         placeholder="0"
                       />
                     </div>
 
                     <div>
-                      <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+                      <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         <Tag size={16} />
                         الفئة
                       </label>
@@ -886,7 +892,7 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                         value={courseData.category || course?.category || ""}
                         onChange={handleInputChange}
                         name="category"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3D45EE] focus:border-transparent transition-all duration-300"
+                        className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-[#3D45EE] focus:border-transparent transition-all duration-300"
                       >
                         {categories.map((cat) => (
                           <option key={cat.value} value={cat.value}>
@@ -902,12 +908,12 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                 <div className="space-y-6">
                   {/* صورة الكورس */}
                   <div>
-                    <label className="flex flex-col border-2 border-dashed cursor-pointer border-gray-300 rounded-lg p-8 text-center hover:border-[#3D45EE] transition-colors duration-300">
+                    <label className="flex flex-col border-2 border-dashed cursor-pointer border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center hover:border-[#3D45EE] transition-colors duration-300">
                       <Upload
-                        className="mx-auto mb-4 text-gray-400"
+                        className="mx-auto mb-4 text-gray-400 dark:text-gray-500"
                         size={48}
                       />
-                      <p className="text-gray-600 mb-2">
+                      <p className="text-gray-600 dark:text-gray-400 mb-2">
                         اسحب الصورة هنا أو انقر للاختيار
                       </p>
                       <input
@@ -921,13 +927,13 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                   {/* معاينة الصورة */}
                   {imageCoverPreview && (
                     <div className="mt-4">
-                      <p className="text-gray-600 text-sm mb-2 apply-fonts-normal">
+                      <p className="text-gray-600 dark:text-gray-400 text-sm mb-2 apply-fonts-normal">
                         معاينة الصورة:
                       </p>
                       <Image
                         src={imageCoverPreview}
                         alt="صورة الغلاف"
-                        className="w-[500px] h-[322px] rounded-2xl border-2 "
+                        className="w-[500px] h-[322px] rounded-2xl border-2 border-gray-200 dark:border-gray-700"
                         width={550}
                         height={550}
                       />
@@ -935,7 +941,7 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                   )}
                   {/* المفاهيم */}
                   <div>
-                    <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+                    <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       <Settings size={16} />
                       مفاهيم الكورس
                     </label>
@@ -944,7 +950,7 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                         type="text"
                         value={newConcept}
                         onChange={(e) => setNewConcept(e.target.value)}
-                        className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3D45EE] focus:border-transparent transition-all duration-300"
+                        className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-[#3D45EE] focus:border-transparent transition-all duration-300"
                         placeholder="أضف مفهوم جديد"
                       />
                       <button
@@ -959,7 +965,7 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                         concepts.map((concept, index) => (
                           <span
                             key={index}
-                            className="bg-[#B9BCFF]/30 text-[#3D45EE] px-3 py-1 rounded-full text-sm flex items-center gap-2 group hover:bg-[#B9BCFF]/50 transition-colors duration-300"
+                            className="bg-[#B9BCFF]/30 dark:bg-indigo-900/30 text-[#3D45EE] px-3 py-1 rounded-full text-sm flex items-center gap-2 group hover:bg-[#B9BCFF]/50 dark:hover:bg-indigo-900/50 transition-colors duration-300"
                           >
                             {concept}
                             <button
@@ -971,7 +977,9 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                           </span>
                         ))
                       ) : (
-                        <h1>لا توجد أي مفاهيم</h1>
+                        <h1 className="text-gray-500 dark:text-gray-400">
+                          لا توجد أي مفاهيم
+                        </h1>
                       )}
                     </div>
                   </div>
@@ -985,10 +993,10 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
             <div className="p-8 animate-fadeIn">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-[#FF6636]/10 rounded-lg">
+                  <div className="p-2 bg-[#FF6636]/10 rounded-lg dark:bg-orange-900/30">
                     <Video className="text-[#FF6636]" size={24} />
                   </div>
-                  <h2 className="text-2xl font-bold text-gray-800">
+                  <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
                     الأقسام والفيديوهات
                   </h2>
                 </div>
@@ -1013,9 +1021,9 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                 {sections.map((section) => (
                   <div
                     key={section._id}
-                    className="border border-gray-200 rounded-lg overflow-hidden"
+                    className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden"
                   >
-                    <div className="bg-gray-50 px-6 py-4 border-b">
+                    <div className="bg-gray-50 dark:bg-gray-950 px-6 py-4 border-b dark:border-gray-700">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3 flex-1">
                           <FolderOpen className="text-[#FF6636]" size={20} />
@@ -1027,7 +1035,7 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                                 onChange={(e) =>
                                   setEditingSectionTitle(e.target.value)
                                 }
-                                className="text-lg font-semibold bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#3D45EE] rounded px-3 py-2 flex-1"
+                                className="text-lg font-semibold bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-[#3D45EE] rounded px-3 py-2 flex-1"
                                 placeholder="عنوان القسم"
                                 autoFocus
                               />
@@ -1073,7 +1081,7 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                             </div>
                           ) : (
                             <h3
-                              className="text-lg font-semibold cursor-pointer hover:text-[#3D45EE] transition-colors duration-300"
+                              className="text-lg font-semibold cursor-pointer text-gray-800 dark:text-gray-100 hover:text-[#3D45EE] dark:hover:text-[#6A78FB] transition-colors duration-300"
                               onClick={() => {
                                 setEditingSectionId(section._id);
                                 setEditingSectionTitle(section.title);
@@ -1096,7 +1104,7 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                               setEditingSectionId(section._id);
                               setEditingSectionTitle(section.title);
                             }}
-                            className="text-[#3D45EE] hover:text-[#2E36C0] p-2 rounded-lg hover:bg-blue-50 transition-colors duration-300"
+                            className="text-[#3D45EE] hover:text-[#2E36C0] p-2 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-800 transition-colors duration-300"
                           >
                             <Edit3 size={16} />
                           </button>
@@ -1106,7 +1114,7 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                             className={`p-2 rounded-lg transition-colors duration-300 ${
                               deleteSectionLoading
                                 ? "text-gray-400 cursor-not-allowed"
-                                : "text-[#EE3D45] hover:text-[#FF5F68] hover:bg-red-50"
+                                : "text-[#EE3D45] hover:text-[#FF5F68] hover:bg-red-50 dark:hover:bg-gray-800"
                             }`}
                           >
                             {deleteSectionLoading ? (
@@ -1124,7 +1132,7 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                         {section.videos.map((video) => (
                           <div
                             key={video._id}
-                            className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow duration-300"
+                            className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden hover:shadow-md transition-shadow duration-300"
                           >
                             {/* Video Header */}
                             <div className="flex items-center gap-4 p-4">
@@ -1141,7 +1149,7 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                                       onChange={(e) =>
                                         setEditingVideoTitle(e.target.value)
                                       }
-                                      className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3D45EE] focus:border-transparent transition-all duration-300 flex-1"
+                                      className="px-3 py-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-[#3D45EE] focus:border-transparent transition-all duration-300 flex-1"
                                       placeholder="عنوان الدرس"
                                       autoFocus
                                     />
@@ -1182,7 +1190,7 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                                   </div>
                                 ) : (
                                   <h4
-                                    className="font-medium cursor-pointer hover:text-[#3D45EE] transition-colors duration-300"
+                                    className="font-medium cursor-pointer text-gray-800 dark:text-gray-100 hover:text-[#3D45EE] dark:hover:text-[#6A78FB] transition-colors duration-300"
                                     onClick={() => {
                                       setEditingVideoId(video._id);
                                       setEditingVideoTitle(video.lessonTitle);
@@ -1195,7 +1203,7 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
 
                               <div className="flex items-center gap-2">
                                 {video.files && video.files.length > 0 && (
-                                  <span className="bg-[#0DC7B1]/10 text-[#0DC7B1] px-2 py-1 rounded-full text-xs">
+                                  <span className="bg-[#0DC7B1]/10 dark:bg-cyan-900/30 text-[#0DC7B1] dark:text-cyan-400 px-2 py-1 rounded-full text-xs">
                                     {video.files.length} ملف
                                   </span>
                                 )}
@@ -1222,7 +1230,7 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                                   onClick={() =>
                                     toggleVideoExpansion(video._id)
                                   }
-                                  className="text-gray-500 hover:text-gray-700 p-2 rounded-lg transition-colors duration-300"
+                                  className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 p-2 rounded-lg transition-colors duration-300"
                                   title={
                                     expandedVideos.has(video._id)
                                       ? "إخفاء الملفات"
@@ -1240,7 +1248,7 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                                     setEditingVideoId(video._id);
                                     setEditingVideoTitle(video.lessonTitle);
                                   }}
-                                  className="text-[#3D45EE] hover:text-[#2E36C0] p-2 rounded-lg hover:bg-blue-50 transition-colors duration-300"
+                                  className="text-[#3D45EE] hover:text-[#2E36C0] p-2 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-800 transition-colors duration-300"
                                   title="تعديل الفيديو"
                                 >
                                   <Edit3 size={16} />
@@ -1253,7 +1261,7 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                                   className={`p-2 rounded-lg transition-colors duration-300 ${
                                     deleteVideoLoading
                                       ? "text-gray-400 cursor-not-allowed"
-                                      : "text-[#EE3D45] hover:text-[#FF5F68] hover:bg-red-50"
+                                      : "text-[#EE3D45] hover:text-[#FF5F68] hover:bg-red-50 dark:hover:bg-gray-800"
                                   }`}
                                   title="حذف الفيديو"
                                 >
@@ -1271,10 +1279,10 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
 
                             {/* Files Section */}
                             {expandedVideos.has(video._id) && (
-                              <div className="border-t border-gray-200 bg-gray-50 p-4">
+                              <div className="border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-950 p-4">
                                 <div className="flex items-center gap-2 mb-3">
                                   <File className="text-[#0DC7B1]" size={16} />
-                                  <h5 className="font-medium text-gray-700">
+                                  <h5 className="font-medium text-gray-700 dark:text-gray-200">
                                     الملفات المرفقة
                                   </h5>
                                 </div>
@@ -1284,16 +1292,16 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                                     {video.files.map((file) => (
                                       <div
                                         key={file._id}
-                                        className="flex items-center gap-3 p-3 bg-white border border-gray-200 rounded-lg group hover:shadow-sm transition-all duration-300"
+                                        className="flex items-center gap-3 p-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg group hover:shadow-sm transition-all duration-300"
                                       >
-                                        <div className="p-2 bg-[#0DC7B1]/10 rounded-lg">
+                                        <div className="p-2 bg-[#0DC7B1]/10 dark:bg-cyan-900/30 rounded-lg">
                                           <File
                                             className="text-[#0DC7B1]"
                                             size={16}
                                           />
                                         </div>
                                         <div className="flex-1">
-                                          <p className="font-medium text-gray-800">
+                                          <p className="font-medium text-gray-800 dark:text-gray-100">
                                             {file.filename}
                                           </p>
                                         </div>
@@ -1319,7 +1327,7 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                                             className={`p-2 rounded-lg transition-colors duration-300 opacity-0 group-hover:opacity-100 ${
                                               DeleteFileLoading
                                                 ? "text-gray-400 cursor-not-allowed"
-                                                : "text-[#EE3D45] hover:text-[#FF5F68] hover:bg-red-50"
+                                                : "text-[#EE3D45] hover:text-[#FF5F68] hover:bg-red-50 dark:hover:bg-gray-800"
                                             }`}
                                             title="حذف الملف"
                                           >
@@ -1337,7 +1345,7 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                                     ))}
                                   </div>
                                 ) : (
-                                  <div className="text-center py-4 text-gray-500">
+                                  <div className="text-center py-4 text-gray-500 dark:text-gray-400">
                                     <File className="mx-auto mb-2" size={24} />
                                     <p className="text-sm">
                                       لا توجد ملفات مرفقة
@@ -1358,7 +1366,7 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                           </div>
                         ))}
                         {section.videos.length === 0 && (
-                          <div className="text-center py-8 text-gray-500">
+                          <div className="text-center py-8 text-gray-500 dark:text-gray-400">
                             <Video className="mx-auto mb-2" size={32} />
                             <p>لا توجد فيديوهات في هذا القسم</p>
                           </div>
@@ -1369,7 +1377,7 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                 ))}
 
                 {sections.length === 0 && (
-                  <div className="text-center py-12 text-gray-500">
+                  <div className="text-center py-12 text-gray-500 dark:text-gray-400">
                     <FolderOpen className="mx-auto mb-4" size={48} />
                     <p className="text-lg mb-2">لا توجد أقسام بعد</p>
                     <p className="text-sm">
@@ -1396,21 +1404,21 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
         {/* Section Modal */}
         {showSectionModal && (
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-            <div className="bg-white rounded-2xl shadow-2xl border border-gray-200 w-full max-w-md transform animate-modal">
+            <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 w-full max-w-md transform animate-modal">
               {/* Modal Header */}
-              <div className="flex items-center justify-between p-6 border-b border-gray-200">
+              <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-[#FF6636]/10 rounded-lg">
+                  <div className="p-2 bg-[#FF6636]/10 rounded-lg dark:bg-orange-900/30">
                     <FolderOpen className="text-[#FF6636]" size={20} />
                   </div>
-                  <h3 className="text-xl font-bold text-gray-800">
+                  <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100">
                     إضافة قسم جديد
                   </h3>
                 </div>
                 <button
                   onClick={closeSectionModal}
                   disabled={addSectionLoading}
-                  className="text-gray-400 hover:text-gray-600 p-2 hover:bg-gray-100 rounded-lg transition-all duration-200 disabled:cursor-not-allowed"
+                  className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-200 disabled:cursor-not-allowed"
                 >
                   <X size={20} />
                 </button>
@@ -1419,7 +1427,7 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
               {/* Modal Body */}
               <div className="p-6">
                 <div className="mb-6">
-                  <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-3">
+                  <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                     <Edit3 size={16} />
                     عنوان القسم
                   </label>
@@ -1427,7 +1435,7 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                     type="text"
                     value={newSectionTitle}
                     onChange={(e) => setNewSectionTitle(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#FF6636] focus:border-transparent transition-all duration-300"
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-[#FF6636] focus:border-transparent transition-all duration-300"
                     placeholder="أدخل عنوان القسم"
                     autoFocus
                     onKeyPress={(e) => {
@@ -1436,7 +1444,7 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                       }
                     }}
                   />
-                  <p className="text-gray-500 text-xs mt-2">
+                  <p className="text-gray-500 dark:text-gray-400 text-xs mt-2">
                     سيتم إضافة هذا القسم إلى الكورس ويمكنك إضافة الفيديوهات إليه
                     لاحقاً
                   </p>
@@ -1447,7 +1455,7 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                   <button
                     onClick={closeSectionModal}
                     disabled={addSectionLoading}
-                    className="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-4 py-2 text-gray-600 dark:text-gray-400 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     إلغاء
                   </button>
@@ -1456,7 +1464,7 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                     disabled={addSectionLoading || !newSectionTitle.trim()}
                     className={`flex items-center gap-2 px-6 py-2 rounded-lg transition-all duration-300 transform hover:scale-105 ${
                       addSectionLoading || !newSectionTitle.trim()
-                        ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                        ? "bg-gray-300 text-gray-500 dark:bg-gray-700 dark:text-gray-400 cursor-not-allowed"
                         : "bg-[#FF6636] hover:bg-[#E55529] text-white shadow-lg"
                     }`}
                   >
@@ -1481,21 +1489,21 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
         {/* Video Modal */}
         {showVideoModal && (
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-            <div className="bg-white rounded-2xl shadow-2xl border border-gray-200 w-full max-w-2xl transform animate-modal max-h-[90vh] overflow-y-auto">
+            <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 w-full max-w-2xl transform animate-modal max-h-[90vh] overflow-y-auto">
               {/* Modal Header */}
-              <div className="flex items-center justify-between p-6 border-b border-gray-200 sticky top-0 bg-white z-10">
+              <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700 sticky top-0 bg-white dark:bg-gray-900 z-10">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-[#3D45EE]/10 rounded-lg">
+                  <div className="p-2 bg-[#3D45EE]/10 rounded-lg dark:bg-indigo-900/30">
                     <Video className="text-[#3D45EE]" size={20} />
                   </div>
-                  <h3 className="text-xl font-bold text-gray-800">
+                  <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100">
                     إضافة فيديو جديد
                   </h3>
                 </div>
                 <button
                   onClick={closeVideoModal}
                   disabled={addVideoLoading}
-                  className="text-gray-400 hover:text-gray-600 p-2 hover:bg-gray-100 rounded-lg transition-all duration-200 disabled:cursor-not-allowed"
+                  className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-200 disabled:cursor-not-allowed"
                 >
                   <X size={20} />
                 </button>
@@ -1505,7 +1513,7 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
               <div className="p-6 space-y-6">
                 {/* Video Title Input */}
                 <div>
-                  <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-3">
+                  <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                     <Edit3 size={16} />
                     عنوان الفيديو <span className="text-red-500">*</span>
                   </label>
@@ -1513,7 +1521,7 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                     type="text"
                     value={newVideoTitle}
                     onChange={(e) => setNewVideoTitle(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3D45EE] focus:border-transparent transition-all duration-300"
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-[#3D45EE] focus:border-transparent transition-all duration-300"
                     placeholder="أدخل عنوان الفيديو"
                     autoFocus
                   />
@@ -1521,7 +1529,7 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
 
                 {/* Video Description Input */}
                 <div>
-                  <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-3">
+                  <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                     <FileText size={16} />
                     وصف الفيديو <span className="text-red-500">*</span>
                   </label>
@@ -1529,14 +1537,14 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                     value={newVideoDescription}
                     onChange={(e) => setNewVideoDescription(e.target.value)}
                     rows={4}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3D45EE] focus:border-transparent transition-all duration-300 resize-none"
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-[#3D45EE] focus:border-transparent transition-all duration-300 resize-none"
                     placeholder="أدخل وصف مفصل للفيديو"
                   />
                 </div>
 
                 {/* Video Duration Input */}
                 <div>
-                  <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-3">
+                  <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                     <Clock size={16} />
                     مدة الفيديو <span className="text-red-500">*</span>
                   </label>
@@ -1544,62 +1552,62 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                     type="text"
                     value={newVideoDuration}
                     onChange={(e) => setNewVideoDuration(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3D45EE] focus:border-transparent transition-all duration-300"
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-[#3D45EE] focus:border-transparent transition-all duration-300"
                     placeholder="مثال: 15:30 أو 10 دقائق"
                   />
-                  <p className="text-gray-500 text-xs mt-2">
+                  <p className="text-gray-500 dark:text-gray-400 text-xs mt-2">
                     أدخل مدة الفيديو بالشكل المناسب (مثال: 15:30 أو 10 دقائق)
                   </p>
                 </div>
 
                 {/* Video File Upload */}
                 <div>
-                  <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-3">
+                  <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                     <Upload size={16} />
                     ملف الفيديو <span className="text-red-500">*</span>
                   </label>
                   <label
                     className={`
-                    flex flex-col items-center justify-center w-full h-32 
-                    border-2 border-dashed rounded-lg 
-                    cursor-pointer transition-all duration-300
-                    ${
-                      addVideoLoading
-                        ? "opacity-50 cursor-not-allowed"
-                        : "hover:border-[#3D45EE] hover:bg-[#3D45EE]/5"
-                    }
-                    ${
-                      newVideoFile?.name
-                        ? "border-[#3D45EE] bg-[#3D45EE]/5"
-                        : "border-gray-300 bg-gray-50"
-                    }
-                  `}
+              flex flex-col items-center justify-center w-full h-32 
+              border-2 border-dashed rounded-lg 
+              cursor-pointer transition-all duration-300
+              ${
+                addVideoLoading
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:border-[#3D45EE] hover:bg-[#3D45EE]/5"
+              }
+              ${
+                newVideoFile?.name
+                  ? "border-[#3D45EE] bg-[#3D45EE]/5 dark:bg-indigo-900/10"
+                  : "border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800"
+              }
+            `}
                   >
                     <div className="flex flex-col items-center justify-center pt-5 pb-6">
                       <Upload
                         className={`mb-3 ${
                           newVideoFile?.name
                             ? "text-[#3D45EE]"
-                            : "text-gray-400"
+                            : "text-gray-400 dark:text-gray-500"
                         }`}
                         size={24}
                       />
                       {newVideoFile?.name ? (
                         <div className="text-center">
-                          <p className="text-sm font-medium text-gray-700 mb-1">
+                          <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                             تم اختيار الملف:
                           </p>
-                          <p className="text-sm text-[#3D45EE] font-semibold">
+                          <p className="text-sm text-[#3D45EE] dark:text-[#6A78FB] font-semibold">
                             {newVideoFile?.name}
                           </p>
                         </div>
                       ) : (
                         <>
-                          <p className="mb-2 text-sm text-gray-500">
+                          <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
                             <span className="font-semibold">اضغط للرفع</span> أو
                             اسحب وأفلت
                           </p>
-                          <p className="text-xs text-gray-500">
+                          <p className="text-xs text-gray-500 dark:text-gray-400">
                             MP4, WebM أو AVI (الحد الأقصى: 500MB)
                           </p>
                         </>
@@ -1617,11 +1625,11 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
               </div>
 
               {/* Modal Actions */}
-              <div className="flex items-center gap-3 justify-end p-6 border-t border-gray-200 bg-gray-50 rounded-b-2xl">
+              <div className="flex items-center gap-3 justify-end p-6 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-950 rounded-b-2xl">
                 <button
                   onClick={closeVideoModal}
                   disabled={addVideoLoading}
-                  className="px-6 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-6 py-2 text-gray-600 dark:text-gray-400 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   إلغاء
                 </button>
@@ -1635,18 +1643,18 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                     !newVideoFile
                   }
                   className={`
-                  flex items-center gap-2 px-6 py-2 rounded-lg 
-                  transition-all duration-300 transform hover:scale-105
-                  ${
-                    addVideoLoading ||
-                    !newVideoTitle.trim() ||
-                    !newVideoDescription.trim() ||
-                    !newVideoDuration.trim() ||
-                    !newVideoFile
-                      ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                      : "bg-[#3D45EE] hover:bg-[#2E36C0] text-white shadow-lg"
-                  }
-                `}
+            flex items-center gap-2 px-6 py-2 rounded-lg 
+            transition-all duration-300 transform hover:scale-105
+            ${
+              addVideoLoading ||
+              !newVideoTitle.trim() ||
+              !newVideoDescription.trim() ||
+              !newVideoDuration.trim() ||
+              !newVideoFile
+                ? "bg-gray-300 text-gray-500 dark:bg-gray-700 dark:text-gray-400 cursor-not-allowed"
+                : "bg-[#3D45EE] hover:bg-[#2E36C0] text-white shadow-lg"
+            }
+          `}
                 >
                   {addVideoLoading ? (
                     <>
@@ -1668,21 +1676,21 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
         {/* File Modal */}
         {showFileModal && (
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-            <div className="bg-white rounded-2xl shadow-2xl border border-gray-200 w-full max-w-md transform animate-modal">
+            <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 w-full max-w-md transform animate-modal">
               {/* Modal Header */}
-              <div className="flex items-center justify-between p-6 border-b border-gray-200">
+              <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-[#0DC7B1]/10 rounded-lg">
+                  <div className="p-2 bg-[#0DC7B1]/10 rounded-lg dark:bg-cyan-900/30">
                     <File className="text-[#0DC7B1]" size={20} />
                   </div>
-                  <h3 className="text-xl font-bold text-gray-800">
+                  <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100">
                     إضافة ملف جديد
                   </h3>
                 </div>
                 <button
                   onClick={closeFileModal}
                   disabled={addFileLoading}
-                  className="text-gray-400 hover:text-gray-600 p-2 hover:bg-gray-100 rounded-lg transition-all duration-200 disabled:cursor-not-allowed"
+                  className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-200 disabled:cursor-not-allowed"
                 >
                   <X size={20} />
                 </button>
@@ -1692,7 +1700,7 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
               <div className="p-6">
                 {/* File Name Input */}
                 <div className="mb-6">
-                  <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-3">
+                  <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                     <Edit3 size={16} />
                     اسم الملف <span className="text-red-500">*</span>
                   </label>
@@ -1700,13 +1708,13 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                     type="text"
                     value={newFileName}
                     onChange={(e) => setNewFileName(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0DC7B1] focus:border-transparent transition-all duration-300"
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-[#0DC7B1] focus:border-transparent transition-all duration-300"
                     placeholder="أدخل اسم الملف"
                     autoFocus
                   />
                   {newFile && (
-                    <div className="mt-2 p-2 bg-blue-50 border border-blue-200 rounded-lg">
-                      <p className="text-sm text-blue-700">
+                    <div className="mt-2 p-2 bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-900 rounded-lg">
+                      <p className="text-sm text-blue-700 dark:text-blue-300">
                         <span className="font-medium">الملف المختار:</span>{" "}
                         {newFile.name}
                       </p>
@@ -1716,53 +1724,55 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
 
                 {/* File Upload */}
                 <div className="mb-6">
-                  <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-3">
+                  <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                     <Upload size={16} />
                     الملف <span className="text-red-500">*</span>
                   </label>
                   <label
                     className={`
-                    flex flex-col items-center justify-center w-full h-32 
-                    border-2 border-dashed rounded-lg 
-                    cursor-pointer transition-all duration-300
-                    ${
-                      addFileLoading
-                        ? "opacity-50 cursor-not-allowed"
-                        : "hover:border-[#0DC7B1] hover:bg-[#0DC7B1]/5"
-                    }
-                    ${
-                      newFile?.name
-                        ? "border-[#0DC7B1] bg-[#0DC7B1]/5"
-                        : "border-gray-300 bg-gray-50"
-                    }
-                  `}
+              flex flex-col items-center justify-center w-full h-32 
+              border-2 border-dashed rounded-lg 
+              cursor-pointer transition-all duration-300
+              ${
+                addFileLoading
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:border-[#0DC7B1] hover:bg-[#0DC7B1]/5"
+              }
+              ${
+                newFile?.name
+                  ? "border-[#0DC7B1] bg-[#0DC7B1]/5 dark:bg-cyan-900/10"
+                  : "border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800"
+              }
+            `}
                   >
                     <div className="flex flex-col items-center justify-center pt-5 pb-6">
                       <Upload
                         className={`mb-3 ${
-                          newFile?.name ? "text-[#0DC7B1]" : "text-gray-400"
+                          newFile?.name
+                            ? "text-[#0DC7B1]"
+                            : "text-gray-400 dark:text-gray-500"
                         }`}
                         size={24}
                       />
                       {newFile?.name ? (
                         <div className="text-center">
-                          <p className="text-sm font-medium text-gray-700 mb-1">
+                          <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                             تم اختيار الملف:
                           </p>
-                          <p className="text-sm text-[#0DC7B1] font-semibold">
+                          <p className="text-sm text-[#0DC7B1] dark:text-cyan-400 font-semibold">
                             {newFile?.name}
                           </p>
-                          <p className="text-xs text-gray-500 mt-1">
+                          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                             الحجم: {(newFile.size / 1024 / 1024).toFixed(2)} MB
                           </p>
                         </div>
                       ) : (
                         <>
-                          <p className="mb-2 text-sm text-gray-500">
+                          <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
                             <span className="font-semibold">اضغط للرفع</span> أو
                             اسحب وأفلت
                           </p>
-                          <p className="text-xs text-gray-500">
+                          <p className="text-xs text-gray-500 dark:text-gray-400">
                             PDF, DOC, DOCX, PPT, TXT أو أي نوع ملف
                           </p>
                         </>
@@ -1782,7 +1792,7 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                   <button
                     onClick={closeFileModal}
                     disabled={addFileLoading}
-                    className="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-4 py-2 text-gray-600 dark:text-gray-400 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     إلغاء
                   </button>
@@ -1791,7 +1801,7 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                     disabled={addFileLoading || !newFileName.trim() || !newFile}
                     className={`flex items-center gap-2 px-6 py-2 rounded-lg transition-all duration-300 transform hover:scale-105 ${
                       addFileLoading || !newFileName.trim() || !newFile
-                        ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                        ? "bg-gray-300 text-gray-500 dark:bg-gray-700 dark:text-gray-400 cursor-not-allowed"
                         : "bg-[#0DC7B1] hover:bg-[#0BB5A0] text-white shadow-lg"
                     }`}
                   >

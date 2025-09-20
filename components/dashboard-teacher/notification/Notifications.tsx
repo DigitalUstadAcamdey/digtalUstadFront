@@ -1,69 +1,75 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import NotificationCard from "./NotificationCard";
-
 import { useUserStore } from "@/store/userStore";
 import { io } from "socket.io-client";
 import { Notifcation } from "@/types/notification";
 import Spinner from "@/components/spinner/Spinner";
+import { colors } from "@/constants/colors";
 
-const socket = io(process.env.NEXT_PUBLIC_BACK_URL);
+const socket = io(process.env.NEXT_PUBLIC_BACK_URL as string);
 
-const Notifcations = () => {
+const Notifications = () => {
   const { user, loading } = useUserStore();
-  const [notifcation, setNotifcation] = useState<Notifcation[]>([]);
+  const [liveNotifications, setLiveNotifications] = useState<Notifcation[]>([]);
 
   useEffect(() => {
+    // استخدام التحديث الوظيفي لتجنب إعادة إنشاء الـ effect
     socket.on("newComment", (data) => {
-      setNotifcation([...notifcation, data]);
+      setLiveNotifications((prevNotifications) => [data, ...prevNotifications]);
     });
-  }, [notifcation]);
+
+    // تنظيف الـ event listener عند إلغاء تحميل المكون
+    return () => {
+      socket.off("newComment");
+    };
+  }, []);
+
   if (loading) {
     return (
-      <div className="bg-wygColor lg:custom-width rounded-xl px-4 py-5 h-[100vh] ">
+      <div className=" dark:bg-bodyDark lg:custom-width rounded-xl px-4 py-5 h-[100vh]">
         <Spinner />
       </div>
     );
   }
+
+  // دمج الإشعارات الجديدة مع الإشعارات القديمة
+  const allNotifications = [
+    ...liveNotifications,
+    ...(user.notifications || []),
+  ];
+
   return (
-    <div className=" lg:custom-width rounded-xl px-4 py-5 h-[94vh] overflow-y-scroll">
-      <div className="mb-5">
-        <h1 className="apply-fonts-normal text-2xl font-semibold ">إشعارتك</h1>
+    <div className="lg:custom-width rounded-xl px-4 py-5 h-[94vh] overflow-y-scroll  dark:bg-bodyDark">
+      <div className="mb-6">
+        <h1 className="apply-fonts-normal text-2xl font-semibold text-slate-800 dark:text-textPrimary">
+          إشعاراتك
+        </h1>
       </div>
-      <div>
-        {notifcation.length > 0 &&
-          notifcation.map((notifcation, index) => {
-            console.log(notifcation);
-            return (
-              <NotificationCard
-                key={index}
-                lessonNumber={notifcation.lessonNumber}
-                notifcationDate={notifcation.comment.createdAt}
-                notifcationImg={notifcation.courseImage}
-                notifcationName={notifcation.message}
-                courseId={notifcation.courseId}
-              />
-            );
-          })}
-        {user.notifications.length > 0 ? (
-          user.notifications.map((notifcation, index) => {
-            return (
-              <NotificationCard
-                key={index}
-                lessonNumber={notifcation.lessonNumber}
-                notifcationDate={notifcation.createdAt}
-                notifcationImg={notifcation.courseImage}
-                notifcationName={notifcation.message}
-                courseId={notifcation.courseId}
-              />
-            );
-          })
+
+      <div className="space-y-4">
+        {allNotifications.length > 0 ? (
+          allNotifications.map((notification, index) => (
+            <NotificationCard
+              key={index}
+              lessonNumber={notification.lessonNumber}
+              notificationDate={notification.createdAt}
+              notificationImg={notification.courseImage}
+              notificationName={notification.message}
+              courseId={notification.courseId}
+              isNew={liveNotifications.some((n) => n._id === notification._id)} // تحديد ما إذا كان الإشعار جديداً
+            />
+          ))
         ) : (
-          <h1>لا توجد أي إشعارات</h1>
+          <div className="flex items-center justify-center h-full text-center py-20">
+            <h1 className="apply-fonts-normal text-xl text-slate-500 dark:text-textSecondary">
+              لا توجد أي إشعارات حالياً.
+            </h1>
+          </div>
         )}
       </div>
     </div>
   );
 };
 
-export default Notifcations;
+export default Notifications;

@@ -1,4 +1,5 @@
 import EditCourse from "@/components/dashboard-teacher/edit-course/EditCourse";
+import ScrollToTopButton from "@/components/utlisComponenets/ScrollToTopButton";
 import {
   AlertCircle,
   ArrowLeft,
@@ -165,6 +166,7 @@ const page = async ({ params }: PageProps) => {
     return (
       <div>
         <EditCourse courseFetcher={course} />
+        <ScrollToTopButton />
       </div>
     );
   } catch (error) {

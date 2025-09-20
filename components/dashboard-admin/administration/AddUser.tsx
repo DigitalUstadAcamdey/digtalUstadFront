@@ -1,7 +1,7 @@
 "use client";
 import showToast from "@/utils/showToast";
 import { CloseOutlined } from "@mui/icons-material";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import React, { FormEvent, useState } from "react";
 import { useSearchUser } from "@/store/searchUser";
 
@@ -32,6 +32,10 @@ const AddUser = () => {
 
   const handelAddUser = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (userData.password.trim().length < 6) {
+      showToast("info", "يجب أن تكون كلمة المرور 6 أحرف على الأقل");
+      return;
+    }
     try {
       setLoading(true);
       await axios.post(
@@ -59,8 +63,8 @@ const AddUser = () => {
 
       setshowAdd(false);
     } catch (error) {
-      //@ts-expect-error:fix
-      showToast("error", error.response.data.message);
+      const err = error as AxiosError<{ message: string }>;
+      showToast("error", err.response?.data?.message || "حدث خطأ غير متوقع");
     } finally {
       setLoading(false);
     }

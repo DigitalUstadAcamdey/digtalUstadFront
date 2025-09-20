@@ -523,15 +523,15 @@ export default function CourseUploader() {
     }
   };
   return (
-    <div className="min-h-screen ">
+    <div className="min-h-screen  transition-colors duration-300">
       <div className="max-w-6xl mx-auto">
-        <div className=" bg-white rounded-2xl shadow-xl overflow-hidden">
+        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl dark:shadow-2xl overflow-hidden">
           {/* Header */}
-          <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-8 text-white">
+          <div className="bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-800 dark:to-purple-800 p-8 text-white">
             <h1 className="text-3xl font-bold apply-fonts-normal mb-2">
               إنشاء كورس جديد
             </h1>
-            <p className="text-indigo-100 apply-fonts-normal">
+            <p className="text-indigo-100 dark:text-indigo-200 apply-fonts-normal">
               قم بإنشاء وتنظيم محتوى الكورس الخاص بك
             </p>
           </div>
@@ -539,7 +539,7 @@ export default function CourseUploader() {
           <div className="p-8">
             {/* Stepper */}
             <div className="flex justify-between mb-12 relative">
-              <div className="absolute top-5 left-0 right-0 h-0.5 bg-gray-200 -z-10"></div>
+              <div className="absolute top-5 left-0 right-0 h-0.5 bg-gray-200 dark:bg-gray-700 -z-10"></div>
               {["تفاصيل عامة", "الأقسام و الفيديوهات", "نشر الكورس"].map(
                 (label, index) => (
                   <div key={index} className="flex flex-col items-center">
@@ -549,7 +549,7 @@ export default function CourseUploader() {
                           ? "bg-indigo-600 text-white shadow-lg transform scale-110"
                           : step > index + 1
                           ? "bg-green-500 text-white"
-                          : "bg-gray-200 text-gray-500"
+                          : "bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400"
                       }`}
                     >
                       {step > index + 1 ? "✓" : index + 1}
@@ -557,10 +557,10 @@ export default function CourseUploader() {
                     <span
                       className={`mt-3 text-sm font-medium apply-fonts-normal transition-colors ${
                         step === index + 1
-                          ? "text-indigo-600"
+                          ? "text-indigo-600 dark:text-indigo-400"
                           : step > index + 1
-                          ? "text-green-600"
-                          : "text-gray-400"
+                          ? "text-green-600 dark:text-green-400"
+                          : "text-gray-400 dark:text-gray-500"
                       }`}
                     >
                       {label}
@@ -605,23 +605,23 @@ export default function CourseUploader() {
             {step === 3 && <StepPublish currentCourse={currentCourse} />}
 
             {/* Navigation */}
-            <div className="flex justify-between mt-12 pt-8 border-t border-gray-200">
+            <div className="flex justify-between mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
               {/* Back Button with Tooltip */}
               <div className="relative group">
                 <button
                   disabled
-                  className="px-8 py-3 bg-gray-100 text-gray-400 rounded-xl font-medium apply-fonts-normal cursor-not-allowed flex items-center gap-2 relative"
+                  className="px-8 py-3 bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-600 rounded-xl font-medium apply-fonts-normal cursor-not-allowed flex items-center gap-2 relative"
                 >
                   رجوع
                 </button>
                 {/* Tooltip */}
-                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-4 py-2 bg-gray-800 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap">
+                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-4 py-2 bg-gray-800 dark:bg-gray-700 text-white dark:text-gray-200 text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap">
                   <div className="apply-fonts-normal flex items-center gap-2">
                     <Info className="w-4 h-4" />
                     لا يمكن الرجوع للخطوة السابقة لضمان سلامة البيانات
                   </div>
                   {/* Arrow */}
-                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-800"></div>
+                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-800 dark:border-t-gray-700"></div>
                 </div>
               </div>
 
@@ -691,10 +691,10 @@ export default function CourseUploader() {
 
             {/* Delete Confirmation Modal */}
             {showDeleteModal && deleteModalConfig && (
-              <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-auto transform transition-all duration-300">
+              <div className="fixed inset-0 bg-black bg-opacity-50 dark:bg-opacity-80 flex items-center justify-center z-50 p-4">
+                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl dark:shadow-inner max-w-md w-full mx-auto transform transition-all duration-300">
                   {/* Modal Header */}
-                  <div className="bg-gradient-to-r from-red-500 to-red-600 text-white p-6 rounded-t-2xl">
+                  <div className="bg-gradient-to-r from-red-500 to-red-600 dark:from-red-700 dark:to-red-800 text-white p-6 rounded-t-2xl">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
                         <AlertTriangle className="w-5 h-5" />
@@ -707,7 +707,7 @@ export default function CourseUploader() {
 
                   {/* Modal Content */}
                   <div className="p-6">
-                    <p className="text-gray-600 apply-fonts-normal leading-relaxed mb-6">
+                    <p className="text-gray-600 dark:text-gray-300 apply-fonts-normal leading-relaxed mb-6">
                       {deleteModalConfig.message}
                     </p>
 
@@ -721,7 +721,7 @@ export default function CourseUploader() {
                           deleteSectionLoading ||
                           deleteFileLoading
                         }
-                        className="px-6 py-3 bg-gray-100 text-gray-700 rounded-xl font-medium apply-fonts-normal hover:bg-gray-200 transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+                        className="px-6 py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-xl font-medium apply-fonts-normal hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors disabled:cursor-not-allowed disabled:opacity-50"
                       >
                         إلغاء
                       </button>
@@ -733,7 +733,7 @@ export default function CourseUploader() {
                           deleteSectionLoading ||
                           deleteFileLoading
                         }
-                        className="px-6 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl font-medium apply-fonts-normal hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                        className="px-6 py-3 bg-gradient-to-r from-red-500 to-red-600 dark:from-red-600 dark:to-red-700 text-white rounded-xl font-medium apply-fonts-normal hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                       >
                         {loadingDeleteVideo !== "" ||
                         loadingDeleteCourse ||
@@ -806,7 +806,7 @@ function StepGeneralDetails({
       {/* Course Title & Price */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-3 apply-fonts-normal">
+          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 apply-fonts-normal">
             عنوان الكورس
           </label>
           <input
@@ -815,11 +815,11 @@ function StepGeneralDetails({
             value={courseDetails?.title}
             onChange={handleInputChange}
             name="title"
-            className="w-full border-2 border-gray-200 p-4 rounded-xl focus:outline-none focus:border-indigo-500 transition-colors apply-fonts-normal text-lg"
+            className="w-full bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-2 border-gray-200 dark:border-gray-700 p-4 rounded-xl focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 transition-colors apply-fonts-normal text-lg"
           />
         </div>
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-3 apply-fonts-normal">
+          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 apply-fonts-normal">
             السعر (دينار جزائري)
           </label>
           <input
@@ -828,14 +828,14 @@ function StepGeneralDetails({
             value={courseDetails?.price}
             onChange={handleInputChange}
             name="price"
-            className="w-full border-2 border-gray-200 p-4 rounded-xl focus:outline-none focus:border-indigo-500 transition-colors text-lg"
+            className="w-full bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-2 border-gray-200 dark:border-gray-700 p-4 rounded-xl focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 transition-colors text-lg"
           />
         </div>
       </div>
 
       {/* Description */}
       <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-3 apply-fonts-normal">
+        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 apply-fonts-normal">
           وصف الكورس
         </label>
         <textarea
@@ -844,20 +844,20 @@ function StepGeneralDetails({
           onChange={handleInputChange}
           rows={6}
           name="description"
-          className="w-full border-2 border-gray-200 p-4 rounded-xl focus:outline-none focus:border-indigo-500 transition-colors apply-fonts-normal text-lg resize-none"
+          className="w-full bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-2 border-gray-200 dark:border-gray-700 p-4 rounded-xl focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 transition-colors apply-fonts-normal text-lg resize-none"
         />
       </div>
 
       {/* Category */}
       <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-3 apply-fonts-normal">
+        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 apply-fonts-normal">
           الفئة
         </label>
         <select
           name="category"
           value={courseDetails?.category}
           onChange={handleInputChange}
-          className="w-full border-2 border-gray-200 p-4 rounded-xl focus:outline-none focus:border-indigo-500 transition-colors apply-fonts-normal text-lg"
+          className="w-full bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-2 border-gray-200 dark:border-gray-700 p-4 rounded-xl focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 transition-colors apply-fonts-normal text-lg"
         >
           <option value="">اختر الفئة</option>
           <option value="رياضيات">رياضيات</option>
@@ -870,10 +870,10 @@ function StepGeneralDetails({
 
       {/* Image Cover */}
       <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-3 apply-fonts-normal">
+        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 apply-fonts-normal">
           صورة الغلاف
         </label>
-        <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-indigo-400 transition-colors">
+        <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-8 text-center hover:border-indigo-400 dark:hover:border-indigo-500 transition-colors">
           <input
             type="file"
             id="imageCover"
@@ -891,18 +891,18 @@ function StepGeneralDetails({
                   width={400}
                   height={250}
                 />
-                <p className="text-indigo-600 font-medium apply-fonts-normal">
+                <p className="text-indigo-600 dark:text-indigo-400 font-medium apply-fonts-normal">
                   انقر لتغيير الصورة
                 </p>
               </div>
             ) : (
               <div className="space-y-4">
-                <Upload className="mx-auto w-12 h-12 text-gray-400" />
+                <Upload className="mx-auto w-12 h-12 text-gray-400 dark:text-gray-500" />
                 <div>
-                  <p className="text-lg font-semibold text-gray-600 apply-fonts-normal">
+                  <p className="text-lg font-semibold text-gray-600 dark:text-gray-400 apply-fonts-normal">
                     انقر لرفع صورة الغلاف
                   </p>
-                  <p className="text-sm text-gray-400 apply-fonts-normal">
+                  <p className="text-sm text-gray-400 dark:text-gray-500 apply-fonts-normal">
                     PNG, JPG أو GIF (الحد الأقصى 5MB)
                   </p>
                 </div>
@@ -914,7 +914,7 @@ function StepGeneralDetails({
 
       {/* Concepts */}
       <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-3 apply-fonts-normal">
+        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 apply-fonts-normal">
           المفاهيم الرئيسية
         </label>
         <div className="flex gap-3 mb-4">
@@ -923,7 +923,7 @@ function StepGeneralDetails({
             value={newconcept}
             onChange={(e) => setNewConcept(e.target.value)}
             placeholder="أضف مفهوماً جديداً"
-            className="flex-1 border-2 border-gray-200 p-4 rounded-xl focus:outline-none focus:border-indigo-500 transition-colors apply-fonts-normal"
+            className="flex-1 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-2 border-gray-200 dark:border-gray-700 p-4 rounded-xl focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-500 transition-colors apply-fonts-normal"
             onKeyPress={(e) => {
               if (e.key === "Enter" && newconcept.trim()) {
                 addConcept(newconcept);
@@ -950,15 +950,15 @@ function StepGeneralDetails({
             {concepts.map((concept: string, index: number) => (
               <div
                 key={index}
-                className="bg-gradient-to-r from-indigo-100 to-purple-100 border border-indigo-200 px-4 py-2 rounded-full flex items-center gap-2"
+                className="bg-gradient-to-r from-indigo-100 to-purple-100 dark:from-indigo-900/40 dark:to-purple-900/40 border border-indigo-200 dark:border-indigo-900 px-4 py-2 rounded-full flex items-center gap-2"
               >
-                <span className="apply-fonts-normal text-indigo-800 font-medium">
+                <span className="apply-fonts-normal text-indigo-800 dark:text-indigo-300 font-medium">
                   {concept}
                 </span>
                 <button
                   type="button"
                   onClick={() => removeConcept(index)}
-                  className="text-indigo-600 hover:text-red-600 transition-colors"
+                  className="text-indigo-600 dark:text-indigo-400 hover:text-red-600 transition-colors"
                 >
                   <X size={16} />
                 </button>
@@ -1080,8 +1080,8 @@ function StepSectionsAndVideos({
   return (
     <div className="space-y-8">
       {/* Add Section */}
-      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-2xl border border-blue-200">
-        <h2 className="text-xl font-bold text-gray-800 mb-4 apply-fonts-normal flex items-center gap-2">
+      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 p-6 rounded-2xl border border-blue-200 dark:border-blue-900">
+        <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-4 apply-fonts-normal flex items-center gap-2">
           <Plus className="w-5 h-5" />
           إضافة قسم جديد
         </h2>
@@ -1090,7 +1090,7 @@ function StepSectionsAndVideos({
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="عنوان القسم"
-            className="flex-1 border-2 border-gray-200 p-4 rounded-xl focus:outline-none focus:border-indigo-500 transition-colors apply-fonts-normal"
+            className="flex-1 border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 p-4 rounded-xl focus:outline-none focus:border-indigo-500 transition-colors apply-fonts-normal"
             onKeyPress={(e) => {
               if (e.key === "Enter" && title.trim()) {
                 handleAddSctions();
@@ -1122,12 +1122,12 @@ function StepSectionsAndVideos({
         {sections.map((section, sectionIndex) => (
           <div
             key={section._id}
-            className="bg-white border-2 border-gray-200 rounded-2xl overflow-hidden shadow-lg"
+            className="bg-white dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-2xl overflow-hidden shadow-lg"
           >
             {/* Section Header */}
-            <div className="bg-gradient-to-r from-gray-50 to-gray-100 p-6 border-b border-gray-200">
+            <div className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-850 p-6 border-b border-gray-200 dark:border-gray-700">
               <div className="flex justify-between items-center">
-                <h3 className="text-xl font-bold text-gray-800 apply-fonts-normal flex items-center gap-2">
+                <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100 apply-fonts-normal flex items-center gap-2">
                   <div className="w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center text-sm font-bold">
                     {sectionIndex + 1}
                   </div>
@@ -1136,7 +1136,7 @@ function StepSectionsAndVideos({
                 <button
                   onClick={() =>
                     openDeleteModal(
-                      "section", // يمكن تغييرها لـ "section" إذا أردت نوع منفصل
+                      "section",
                       "حذف القسم",
                       `هل أنت متأكد من حذف قسم "${section.title}"؟ سيتم حذف جميع الفيديوهات والملفات المرتبطة به نهائياً.`,
                       () => handleDeleteSction(section._id)
@@ -1162,8 +1162,8 @@ function StepSectionsAndVideos({
 
             <div className="p-6 space-y-6">
               {/* Add Video to Section */}
-              <div className="bg-blue-50 p-4 rounded-xl border border-blue-200">
-                <h4 className="font-semibold text-gray-700 mb-4 apply-fonts-normal flex items-center gap-2">
+              <div className="bg-blue-50 dark:bg-blue-900/30 p-4 rounded-xl border border-blue-200 dark:border-blue-900">
+                <h4 className="font-semibold text-gray-700 dark:text-gray-200 mb-4 apply-fonts-normal flex items-center gap-2">
                   <Video className="w-4 h-4" />
                   إضافة فيديو جديد
                 </h4>
@@ -1171,7 +1171,7 @@ function StepSectionsAndVideos({
                 {(videosUpload[section._id] || []).map((video, videoIndex) => (
                   <div
                     key={videoIndex}
-                    className="space-y-3 mb-4 p-4 bg-white rounded-lg border"
+                    className="space-y-3 mb-4 p-4 bg-white dark:bg-gray-800 rounded-lg border dark:border-gray-700"
                   >
                     <input
                       type="text"
@@ -1185,7 +1185,7 @@ function StepSectionsAndVideos({
                           e.target.value
                         )
                       }
-                      className="w-full border-2 border-gray-200 p-3 rounded-lg focus:outline-none focus:border-indigo-500 apply-fonts-normal"
+                      className="w-full border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white p-3 rounded-lg focus:outline-none focus:border-indigo-500 apply-fonts-normal"
                     />
                     <input
                       type="text"
@@ -1199,7 +1199,7 @@ function StepSectionsAndVideos({
                           e.target.value
                         )
                       }
-                      className="w-full border-2 border-gray-200 p-3 rounded-lg focus:outline-none focus:border-indigo-500 "
+                      className="w-full border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white p-3 rounded-lg focus:outline-none focus:border-indigo-500"
                     />
                     <textarea
                       placeholder="وصف الفيديو"
@@ -1212,7 +1212,7 @@ function StepSectionsAndVideos({
                           e.target.value
                         )
                       }
-                      className="w-full border-2 border-gray-200 p-3 rounded-lg focus:outline-none focus:border-indigo-500 apply-fonts-normal"
+                      className="w-full border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white p-3 rounded-lg focus:outline-none focus:border-indigo-500 apply-fonts-normal"
                     />
                     <input
                       type="file"
@@ -1227,7 +1227,7 @@ function StepSectionsAndVideos({
                           );
                         }
                       }}
-                      className="w-full border-2 border-gray-200 p-3 rounded-lg bg-gray-50"
+                      className="w-full border-2 border-gray-200 dark:border-gray-700 p-3 rounded-lg bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white"
                     />
                     <div className="flex gap-3">
                       <button
@@ -1264,8 +1264,6 @@ function StepSectionsAndVideos({
                           </>
                         )}
                       </button>
-                      {/* Progress Bar */}
-
                       <button
                         type="button"
                         onClick={() =>
@@ -1284,7 +1282,7 @@ function StepSectionsAndVideos({
                 <button
                   type="button"
                   onClick={() => addVideoField(section._id)}
-                  className="w-full border-2 border-dashed border-indigo-300 text-indigo-600 py-3 rounded-lg hover:bg-indigo-50 transition-colors font-medium apply-fonts-normal flex items-center justify-center gap-2"
+                  className="w-full border-2 border-dashed border-indigo-300 dark:border-indigo-600 text-indigo-600 dark:text-indigo-400 py-3 rounded-lg hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors font-medium apply-fonts-normal flex items-center justify-center gap-2"
                 >
                   <Plus className="w-4 h-4" />
                   إضافة فيديو
@@ -1294,7 +1292,7 @@ function StepSectionsAndVideos({
               {/* Uploaded Videos */}
               {section.videos.length > 0 && (
                 <div className="space-y-4">
-                  <h4 className="font-semibold text-gray-700 apply-fonts-normal flex items-center gap-2">
+                  <h4 className="font-semibold text-gray-700 dark:text-gray-200 apply-fonts-normal flex items-center gap-2">
                     <Video className="w-4 h-4" />
                     الفيديوهات المرفوعة ({section.videos.length})
                   </h4>
@@ -1302,14 +1300,14 @@ function StepSectionsAndVideos({
                   {section.videos.map((video) => (
                     <div
                       key={video._id}
-                      className="bg-gray-50 border border-gray-200 rounded-xl p-4"
+                      className="bg-gray-50 dark:bg-gray-950 border border-gray-200 dark:border-gray-700 rounded-xl p-4"
                     >
                       <div className="flex justify-between items-start mb-4">
                         <div className="flex-1">
-                          <h5 className="font-semibold text-gray-800 apply-fonts-normal text-lg">
+                          <h5 className="font-semibold text-gray-800 dark:text-gray-100 apply-fonts-normal text-lg">
                             {video.lessonTitle}
                           </h5>
-                          <p className="text-gray-500 text-sm apply-fonts-normal">
+                          <p className="text-gray-500 dark:text-gray-400 text-sm apply-fonts-normal">
                             مدة الفيديو: {video.duration} دقيقة
                           </p>
                         </div>
@@ -1346,8 +1344,8 @@ function StepSectionsAndVideos({
                       </div>
 
                       {/* Add Files to Video */}
-                      <div className="mt-4 p-4 bg-white rounded-lg border border-gray-200">
-                        <h6 className="font-medium text-gray-700 mb-3 apply-fonts-normal flex items-center gap-2">
+                      <div className="mt-4 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+                        <h6 className="font-medium text-gray-700 dark:text-gray-200 mb-3 apply-fonts-normal flex items-center gap-2">
                           <FileText className="w-4 h-4" />
                           إضافة ملف للدرس
                         </h6>
@@ -1366,7 +1364,7 @@ function StepSectionsAndVideos({
                                 },
                               }))
                             }
-                            className="flex-1 border border-gray-300 p-2 rounded-lg focus:outline-none focus:border-indigo-500 apply-fonts-normal"
+                            className="flex-1 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white p-2 rounded-lg focus:outline-none focus:border-indigo-500 apply-fonts-normal"
                           />
                           <input
                             type="file"
@@ -1381,7 +1379,7 @@ function StepSectionsAndVideos({
                                 }));
                               }
                             }}
-                            className="flex-1 border border-gray-300 p-2 rounded-lg bg-gray-50"
+                            className="flex-1 border border-gray-300 dark:border-gray-600 p-2 rounded-lg bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white"
                           />
                           <button
                             onClick={() => {
@@ -1419,20 +1417,20 @@ function StepSectionsAndVideos({
                         {/* Display Video Files */}
                         {video.files && video.files.length > 0 && (
                           <div className="mt-3 space-y-2">
-                            <p className="text-sm font-medium text-gray-600 apply-fonts-normal">
+                            <p className="text-sm font-medium text-gray-600 dark:text-gray-400 apply-fonts-normal">
                               الملفات المرفوعة:
                             </p>
                             {video.files.map((file) => (
                               <div
                                 key={file._id}
-                                className="flex justify-between items-center bg-green-50 border border-green-200 p-2 rounded-lg"
+                                className="flex justify-between items-center bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 p-2 rounded-lg"
                               >
                                 <div className="flex items-center gap-2">
-                                  <FileText className="w-4 h-4 text-green-600" />
-                                  <span className="text-sm font-medium apply-fonts-normal">
+                                  <FileText className="w-4 h-4 text-green-600 dark:text-green-400" />
+                                  <span className="text-sm font-medium apply-fonts-normal text-gray-900 dark:text-gray-100">
                                     {file.filename}
                                   </span>
-                                  <span className="text-xs text-gray-500">
+                                  <span className="text-xs text-gray-500 dark:text-gray-400">
                                     ({(file.size / 1024).toFixed(2)} KB)
                                   </span>
                                 </div>
@@ -1441,7 +1439,7 @@ function StepSectionsAndVideos({
                                     href={file.url}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-green-600 hover:text-green-700 text-xs underline"
+                                    className="text-green-600 dark:text-green-400 hover:text-green-700 text-xs underline"
                                   >
                                     تحميل
                                   </a>
@@ -1459,7 +1457,7 @@ function StepSectionsAndVideos({
                                           )
                                       )
                                     }
-                                    className="text-red-500 hover:text-red-700 text-xs"
+                                    className="text-red-500 dark:text-red-400 hover:text-red-700 text-xs"
                                   >
                                     ❌
                                   </button>
@@ -1478,12 +1476,12 @@ function StepSectionsAndVideos({
         ))}
 
         {sections.length === 0 && (
-          <div className="text-center py-12 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-300">
-            <Video className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-600 apply-fonts-normal mb-2">
+          <div className="text-center py-12 bg-gray-50 dark:bg-gray-900 rounded-2xl border-2 border-dashed border-gray-300 dark:border-gray-700">
+            <Video className="w-16 h-16 text-gray-400 dark:text-gray-600 mx-auto mb-4" />
+            <h3 className="text-lg font-semibold text-gray-600 dark:text-gray-300 apply-fonts-normal mb-2">
               لا توجد أقسام بعد
             </h3>
-            <p className="text-gray-400 apply-fonts-normal">
+            <p className="text-gray-400 dark:text-gray-500 apply-fonts-normal">
               ابدأ بإضافة القسم الأول لتنظيم محتوى الكورس
             </p>
           </div>
@@ -1499,7 +1497,6 @@ interface StepPublishProps {
 }
 
 function StepPublish({ currentCourse }: StepPublishProps) {
-  console.log(currentCourse);
   const totalVideos =
     currentCourse.sections?.reduce(
       (acc, section) => acc + (section.videos?.length || 0),
@@ -1519,73 +1516,83 @@ function StepPublish({ currentCourse }: StepPublishProps) {
   return (
     <div className="space-y-8">
       {/* Course Summary */}
-      <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-2xl p-8">
-        <h2 className="text-2xl font-bold text-gray-800 mb-6 apply-fonts-normal flex items-center gap-2">
+      <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 border-2 border-green-200 dark:border-green-800 rounded-2xl p-8">
+        <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6 apply-fonts-normal flex items-center gap-2">
           🎉 ملخص الكورس
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="space-y-4">
             <div>
-              <h3 className="font-semibold text-gray-700 apply-fonts-normal">
+              <h3 className="font-semibold text-gray-700 dark:text-gray-300 apply-fonts-normal">
                 عنوان الكورس:
               </h3>
-              <p className="text-lg text-gray-800 apply-fonts-normal">
+              <p className="text-lg text-gray-800 dark:text-gray-100 apply-fonts-normal">
                 {currentCourse.title}
               </p>
             </div>
 
             <div>
-              <h3 className="font-semibold text-gray-700 apply-fonts-normal">
+              <h3 className="font-semibold text-gray-700 dark:text-gray-300 apply-fonts-normal">
                 السعر:
               </h3>
-              <p className="text-lg text-gray-800">
+              <p className="text-lg text-gray-800 dark:text-gray-100">
                 {currentCourse.price} دينار جزائري
               </p>
             </div>
 
             <div>
-              <h3 className="font-semibold text-gray-700 apply-fonts-normal">
+              <h3 className="font-semibold text-gray-700 dark:text-gray-300 apply-fonts-normal">
                 الفئة:
               </h3>
-              <p className="text-lg text-gray-800 apply-fonts-normal">
+              <p className="text-lg text-gray-800 dark:text-gray-100 apply-fonts-normal">
                 {currentCourse.category}
               </p>
             </div>
           </div>
 
           <div className="space-y-4">
-            <div className="bg-white p-4 rounded-xl border border-green-200">
-              <h3 className="font-semibold text-gray-700 apply-fonts-normal mb-2">
+            <div className="bg-white dark:bg-gray-900 p-4 rounded-xl border border-green-200 dark:border-green-800">
+              <h3 className="font-semibold text-gray-700 dark:text-gray-300 apply-fonts-normal mb-2">
                 إحصائيات المحتوى:
               </h3>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="apply-fonts-normal">عدد الأقسام:</span>
-                  <span className="font-semibold">
+                  <span className="apply-fonts-normal text-gray-600 dark:text-gray-400">
+                    عدد الأقسام:
+                  </span>
+                  <span className="font-semibold text-gray-800 dark:text-gray-100">
                     {currentCourse.sections?.length || 0}
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="apply-fonts-normal">عدد الفيديوهات:</span>
-                  <span className="font-semibold">{totalVideos}</span>
+                  <span className="apply-fonts-normal text-gray-600 dark:text-gray-400">
+                    عدد الفيديوهات:
+                  </span>
+                  <span className="font-semibold text-gray-800 dark:text-gray-100">
+                    {totalVideos}
+                  </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="apply-fonts-normal">عدد الملفات:</span>
-                  <span className="font-semibold">{totalFiles}</span>
+                  <span className="apply-fonts-normal text-gray-600 dark:text-gray-400">
+                    عدد الملفات:
+                  </span>
+                  <span className="font-semibold text-gray-800 dark:text-gray-100">
+                    {totalFiles}
+                  </span>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white p-4 rounded-xl border border-green-200">
-              <h3 className="font-semibold text-gray-700 apply-fonts-normal mb-2">
+            <div className="bg-white dark:bg-gray-900 p-4 rounded-xl border border-green-200 dark:border-green-800">
+              <h3 className="font-semibold text-gray-700 dark:text-gray-300 apply-fonts-normal mb-2">
                 المفاهيم:
               </h3>
               <div className="flex flex-wrap gap-2">
                 {currentCourse.concepts?.map((concept, index) => (
                   <span
                     key={index}
-                    className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium apply-fonts-normal"
+                    className="bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 px-2 py-1 rounded-full text-xs font-medium apply-fonts-normal"
                   >
                     {concept}
                   </span>
@@ -1596,18 +1603,18 @@ function StepPublish({ currentCourse }: StepPublishProps) {
         </div>
 
         <div className="mt-6">
-          <h3 className="font-semibold text-gray-700 apply-fonts-normal mb-2">
+          <h3 className="font-semibold text-gray-700 dark:text-gray-300 apply-fonts-normal mb-2">
             الوصف:
           </h3>
-          <p className="text-gray-600 apply-fonts-normal leading-relaxed">
+          <p className="text-gray-600 dark:text-gray-400 apply-fonts-normal leading-relaxed">
             {currentCourse.description}
           </p>
         </div>
       </div>
 
       {/* Course Sections Preview */}
-      <div className="bg-white border-2 border-gray-200 rounded-2xl p-6">
-        <h3 className="text-xl font-bold text-gray-800 mb-4 apply-fonts-normal">
+      <div className="bg-white dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-2xl p-6">
+        <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-4 apply-fonts-normal">
           معاينة الأقسام
         </h3>
 
@@ -1616,10 +1623,10 @@ function StepPublish({ currentCourse }: StepPublishProps) {
             {currentCourse.sections.map((section, index) => (
               <div
                 key={section._id}
-                className="border border-gray-200 rounded-lg p-4"
+                className="border border-gray-200 dark:border-gray-700 rounded-lg p-4"
               >
-                <h4 className="font-semibold text-gray-800 apply-fonts-normal flex items-center gap-2">
-                  <span className="w-6 h-6 bg-indigo-600 text-white rounded-full flex items-center justify-center text-sm">
+                <h4 className="font-semibold text-gray-800 dark:text-gray-100 apply-fonts-normal flex items-center gap-2">
+                  <span className="w-6 h-6 bg-indigo-600 dark:bg-indigo-800 text-white rounded-full flex items-center justify-center text-sm">
                     {index + 1}
                   </span>
                   {section.title}
@@ -1630,14 +1637,14 @@ function StepPublish({ currentCourse }: StepPublishProps) {
                     {section.videos.map((video, videoIndex) => (
                       <div
                         key={video._id}
-                        className="flex items-center gap-2 text-sm text-gray-600 ml-8"
+                        className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 ml-8"
                       >
                         <Video className="w-4 h-4" />
                         <span className="apply-fonts-normal">
                           {videoIndex + 1}. {video.lessonTitle}
                         </span>
                         {video.files && video.files.length > 0 && (
-                          <span className="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-xs">
+                          <span className="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 px-2 py-0.5 rounded-full text-xs">
                             {video.files.length} ملف
                           </span>
                         )}
@@ -1649,39 +1656,45 @@ function StepPublish({ currentCourse }: StepPublishProps) {
             ))}
           </div>
         ) : (
-          <p className="text-gray-500 apply-fonts-normal text-center py-8">
+          <p className="text-gray-500 dark:text-gray-500 apply-fonts-normal text-center py-8">
             لا توجد أقسام في الكورس
           </p>
         )}
       </div>
 
       {/* Success Message */}
-      <div className="text-center bg-gradient-to-r from-indigo-50 to-purple-50 border-2 border-indigo-200 rounded-2xl p-8">
+      <div className="text-center bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/30 dark:to-purple-900/30 border-2 border-indigo-200 dark:border-indigo-800 rounded-2xl p-8">
         <div className="text-6xl mb-4">🚀</div>
-        <h2 className="text-2xl font-bold text-gray-800 mb-4 apply-fonts-normal">
+        <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4 apply-fonts-normal">
           الكورس جاهز للنشر!
         </h2>
-        <p className="text-gray-600 apply-fonts-normal mb-6">
+        <p className="text-gray-600 dark:text-gray-400 apply-fonts-normal mb-6">
           تم إنشاء الكورس بنجاح مع جميع الأقسام والفيديوهات والملفات المرفقة
         </p>
         <div className="flex justify-center gap-4">
-          <div className="bg-white px-6 py-3 rounded-xl border border-indigo-200">
-            <span className="text-2xl font-bold text-indigo-600">
+          <div className="bg-white dark:bg-gray-800 px-6 py-3 rounded-xl border border-indigo-200 dark:border-indigo-800">
+            <span className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
               {currentCourse.sections?.length || 0}
             </span>
-            <p className="text-sm text-gray-600 apply-fonts-normal">قسم</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400 apply-fonts-normal">
+              قسم
+            </p>
           </div>
-          <div className="bg-white px-6 py-3 rounded-xl border border-indigo-200">
-            <span className="text-2xl font-bold text-indigo-600">
+          <div className="bg-white dark:bg-gray-800 px-6 py-3 rounded-xl border border-indigo-200 dark:border-indigo-800">
+            <span className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
               {totalVideos}
             </span>
-            <p className="text-sm text-gray-600 apply-fonts-normal">فيديو</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400 apply-fonts-normal">
+              فيديو
+            </p>
           </div>
-          <div className="bg-white px-6 py-3 rounded-xl border border-indigo-200">
-            <span className="text-2xl font-bold text-indigo-600">
+          <div className="bg-white dark:bg-gray-800 px-6 py-3 rounded-xl border border-indigo-200 dark:border-indigo-800">
+            <span className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
               {totalFiles}
             </span>
-            <p className="text-sm text-gray-600 apply-fonts-normal">ملف</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400 apply-fonts-normal">
+              ملف
+            </p>
           </div>
         </div>
       </div>

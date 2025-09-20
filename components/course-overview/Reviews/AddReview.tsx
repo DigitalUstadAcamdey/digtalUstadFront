@@ -5,6 +5,7 @@ import showToast from "@/utils/showToast";
 import { ChatBubbleOutlineOutlined } from "@mui/icons-material";
 import { Rating } from "@mui/material";
 import axios from "axios";
+import { MessageCircle } from "lucide-react";
 import React, { FormEvent, useEffect, useState } from "react";
 
 const AddReview = ({ courseId }: { courseId: string }) => {
@@ -58,39 +59,47 @@ const AddReview = ({ courseId }: { courseId: string }) => {
     }
   };
   return (
-    <form className="flex w-full gap-3 my-5" onSubmit={handelAddReview}>
-      <button
-        type="submit"
-        className="apply-fonts-normal rounded-lg py-2 px-4 bg-mainColor hover:bg-mainColorHoverLight hoverEle text-white "
-      >
-        نشر
-      </button>
-      <div className="flex-grow">
-        <label className="relative ">
-          <div className="absolute top-0">
-            <ChatBubbleOutlineOutlined className=" text-courseTextSection mx-1" />
-          </div>
-          <div className="absolute top-0 left-0">
+    <form
+      className="flex w-full flex-col lg:flex-row items-center gap-3 my-5"
+      onSubmit={handelAddReview}
+    >
+      <div className="flex-grow w-full">
+        <label className="relative block">
+          {/* Icons and Rating on the right for RTL layout */}
+          <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
             <Rating
               dir="ltr"
               precision={0.5}
               value={rating}
-              onChange={(e) => {
+              onChange={(_, newValue) => {
                 //@ts-expect-error:fix agin
-                setRating(e.target.value);
+                setRating(newValue);
               }}
-              className=" text-courseStarColor mx-1"
+              className="text-yellow-500 dark:text-yellow-400"
             />
           </div>
+          <div className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 dark:text-gray-400">
+            <MessageCircle className="w-5 h-5" />
+          </div>
+
           <input
             type="text"
+            placeholder="أضف رأيك..."
             onChange={(e) => {
               setContent(e.target.value);
             }}
-            className="w-full text-courseTextSection rounded-xl  px-7 py-2 border-2 border-gray-400 focus:border-mainColor focus:outline-none"
+            // Add padding to the right to make space for the icons
+            className="w-full  text-slate-700 bg-slate-100 rounded-xl px-4 pr-12 py-3 border-2 border-gray-300 focus:border-blue-500 focus:outline-none transition-all duration-300 dark:text-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:focus:border-blue-400"
           />
         </label>
       </div>
+
+      <button
+        type="submit"
+        className="w-full lg:w-fit apply-fonts-normal rounded-lg py-3 px-6 bg-mainColor hover:bg-mainColorHoverLight text-white transition-colors duration-300 dark:bg-mainColor dark:hover:bg-mainColorHoverLight"
+      >
+        نشر
+      </button>
     </form>
   );
 };

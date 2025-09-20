@@ -40,8 +40,10 @@ const NotificationCard = ({
 
   return (
     <div
-      className={`w-full group relative bg-white border border-gray-200 hover:border-mainColor/30 rounded-xl transition-all duration-300 hover:shadow-md ${
-        isNew ? "border-l-4 border-l-mainColor bg-blue-50/30" : ""
+      className={`w-full group relative bg-white border border-gray-200 hover:border-mainColor/30 rounded-xl transition-all duration-300 hover:shadow-md dark:bg-[#1a1c3d] dark:border-gray-700 dark:hover:border-blue-700 dark:shadow-none ${
+        isNew
+          ? "border-l-4 border-l-mainColor bg-blue-50/30 dark:bg-[#1a1c3d]"
+          : ""
       }`}
     >
       {/* New indicator */}
@@ -72,30 +74,31 @@ const NotificationCard = ({
         {/* Content */}
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-2 mb-3">
-            <h3 className="apply-fonts-medium text-base text-gray-800 line-clamp-2 leading-relaxed">
+            <h3 className="apply-fonts-medium text-base text-gray-800 line-clamp-2 leading-relaxed dark:text-gray-100">
               {notificationName}
             </h3>
             {isNew && (
-              <span className="text-xs bg-mainColor text-white px-2 py-1 rounded-full flex-shrink-0">
+              <span className="text-xs bg-mainColor text-white px-2 py-1 rounded-full flex-shrink-0 dark:bg-blue-700">
                 جديد
               </span>
             )}
           </div>
 
           {/* Metadata */}
-          <div className="flex items-center gap-4 text-sm text-gray-600">
+          <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
             <div className="flex items-center gap-2">
-              <div className="p-1 bg-mainColor/10 rounded-full">
-                <Play size={12} className="text-mainColor" />
+              <div className="p-1 bg-mainColor/10 rounded-full dark:bg-blue-900/30">
+                <Play size={12} className="text-mainColor dark:text-blue-400" />
               </div>
               <span className="">الدرس {lessonNumber}</span>
             </div>
 
             <div className="flex items-center gap-2">
-              <Calendar size={12} className="text-gray-500" />
-              <span className="">
-                {formatDate(notificationDate)}
-              </span>
+              <Calendar
+                size={12}
+                className="text-gray-500 dark:text-gray-400"
+              />
+              <span className="">{formatDate(notificationDate)}</span>
             </div>
           </div>
         </div>
@@ -103,7 +106,7 @@ const NotificationCard = ({
         {/* Action Arrow */}
         <Link
           href={`/course/${courseId}`}
-          className="flex-shrink-0 p-2 text-gray-400 hover:text-mainColor hover:bg-blue-50 rounded-full transition-colors duration-200"
+          className="flex-shrink-0 p-2 text-gray-400 hover:text-mainColor hover:bg-blue-50 rounded-full transition-colors duration-200 dark:text-gray-500 dark:hover:text-blue-500 dark:hover:bg-blue-900/30"
         >
           <ArrowLeft size={16} />
         </Link>

@@ -116,8 +116,10 @@ const SideBar = () => {
     <>
       {/* Mobile Sidebar */}
       <div
-        className={`bg-sideBarBgColo text-white py-4 mb-2 px-3 rounded-xl h-[94vh] transition-all duration-300 ease-in-out ${
-          toggleSidebar ? "w-[300px] shadow-2xl" : "w-[60px]"
+        className={`dark:bg-bodyDark bg-sideBarBgColo text-white mb-2 px-2 border-l  transition-all duration-300 ease-in-out ${
+          toggleSidebar
+            ? "w-[300px] shadow-2xl  h-[94vh] py-4 "
+            : "w-[45px] max-h-0 "
         } lg:hidden sm:sticky xs:fixed top-2 xs:right-1 z-10 flex flex-col justify-between`}
       >
         {/* Toggle Button */}
@@ -144,13 +146,14 @@ const SideBar = () => {
               <Image
                 src="/imgs/dashboard-user-imgs/logoDashUser.png"
                 alt="logoImg"
-                className="w-12 h-12 rounded-lg"
-                width={48}
-                height={48}
+                className="w-44 rounded-lg"
+                loading="lazy"
+                width={200}
+                height={200}
               />
-              <h1 className="text-lg font-bold text-center">
+              {/* <h1 className="text-lg font-bold text-center">
                 Science Academie
-              </h1>
+              </h1> */}
             </Link>
           </div>
 
@@ -207,7 +210,7 @@ const SideBar = () => {
       </div>
 
       {/* Desktop Sidebar */}
-      <div className="bg-sideBarBgColo text-white py-6 px-4 rounded-xl h-full w-[300px] xs:hidden lg:flex flex-col justify-between shadow-lg">
+      <div className="dark:bg-bodyDark bg-sideBarBgColo text-white py-6 px-4 border-l h-full w-[300px] xs:hidden lg:flex flex-col justify-between shadow-lg">
         {/* Logo Section */}
         <div>
           <div className="w-full flex justify-center mb-8">
@@ -218,11 +221,12 @@ const SideBar = () => {
               <Image
                 src="/imgs/dashboard-user-imgs/logoDashUser.png"
                 alt="logoImg"
-                className="w-12 h-12 rounded-lg"
-                width={48}
-                height={48}
+                className="w-44 rounded-lg"
+                loading="lazy"
+                width={200}
+                height={200}
               />
-              <h1 className="text-md font-bold">Science Academie</h1>
+              {/* <h1 className="text-md font-bold">Science Academie</h1> */}
             </Link>
           </div>
 

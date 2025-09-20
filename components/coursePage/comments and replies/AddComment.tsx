@@ -43,23 +43,23 @@ const AddComment = ({ courseId }: Props) => {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-4 my-6">
+    <div className="bg-white/80 dark:bg-bodyDark dark:bg-opacity-100 backdrop-blur-sm rounded-2xl shadow-xl dark:shadow-none p-6 border border-white/50 dark:border-gray-700">
       <div className="flex items-center gap-3 mb-3">
         <div className="w-10 h-10 bg-gradient-to-br from-[#3D45EE] to-[#2E36C0] rounded-full flex items-center justify-center">
           <ChatBubbleOutlineOutlined className="text-white text-lg" />
         </div>
-        <h3 className="apply-fonts-normal font-bold text-gray-800">
+        <h3 className="apply-fonts-normal font-bold text-gray-800 dark:text-white">
           أضف تعليقك
         </h3>
       </div>
 
       <form onSubmit={handelAddComment} className="space-y-4">
-        <div className="relative">
+        <div className="relative ">
           <textarea
             value={text}
             onChange={(e) => setText(e.target.value)}
             placeholder="شاركنا رأيك في هذا الدرس..."
-            className="w-full resize-none apply-fonts-normal text-gray-700 rounded-xl px-4 py-3 border-2 border-gray-200 focus:border-[#3D45EE] focus:outline-none transition-colors duration-200 min-h-[100px]"
+            className="w-full resize-none dark:bg-bodyDark apply-fonts-normal text-gray-700 dark:text-white rounded-xl px-4 py-3 border-2 border-gray-200 focus:border-[#3D45EE] focus:outline-none transition-colors duration-200 min-h-[100px]"
             disabled={loading}
           />
           <div className="absolute bottom-3 right-3 text-xs text-gray-400">

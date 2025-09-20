@@ -1,8 +1,7 @@
 "use client";
-import React, {  useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-//this search for (students , admins)
 const SearchCourse = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -22,9 +21,9 @@ const SearchCourse = () => {
       <form className="flex items-center flex-grow ">
         <label className="sr-only">Search</label>
         <div className="relative w-full ">
-          <div className="absolute  inset-y-0 start-0 flex items-center ps-3 pointer-events-none  ">
+          <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
             <svg
-              className="w-4 h-4 text-gray-400"
+              className="w-4 h-4 text-gray-400 dark:text-gray-500"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -42,7 +41,7 @@ const SearchCourse = () => {
           <input
             type="text"
             id="simple-search"
-            className="apply-fonts-normal bg-wygColor  block w-full ps-10 p-2.5  rounded-3xl   focus:border-red-400 "
+            className="apply-fonts-normal bg-wygColor block w-full ps-10 p-2.5 rounded-3xl text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-mainColor focus:border-mainColor dark:bg-[#1a1c3d] dark:border-gray-700 dark:text-gray-200 dark:placeholder-gray-500 dark:focus:ring-mainColor dark:focus:border-mainColor transition-colors duration-200"
             onChange={(e) => {
               setQuery(e.target.value);
             }}

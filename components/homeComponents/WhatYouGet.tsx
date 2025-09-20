@@ -1,8 +1,5 @@
 "use client";
 import React from "react";
-import Image from "next/image";
-import { CheckBox } from "@mui/icons-material";
-
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 
@@ -25,100 +22,66 @@ const WhatYouGet = () => {
   const { ref: refTitle, inView: inViewTitle } = useInView({
     triggerOnce: true,
   });
-  const { ref: refText, inView: inViewText } = useInView({ triggerOnce: true });
-  const { ref: refImage, inView: inViewImage } = useInView({
+  const { ref: refBoxes, inView: inViewBoxes } = useInView({
     triggerOnce: true,
+    threshold: 0.2,
   });
 
   return (
-    <div className=" my-24 flex items-center justify-between xs:flex-col  md:flex-row ">
-      <section>
-        <div className="lg:w-[600px] ">
-          <motion.h1
-            ref={refTitle}
-            initial="hidden"
-            animate={inViewTitle ? "visible" : "hidden"}
-            variants={fadeLeft}
-            className="lg:text-[74px] sm:text-[40px] xs:text-[40px] apply-fonts-medium"
-          >
-            فوائد الاشتراك
-          </motion.h1>
-        </div>
+    <div className="my-44 flex flex-col items-center justify-center p-4 text-white">
+      <motion.h1
+        ref={refTitle}
+        initial="hidden"
+        animate={inViewTitle ? "visible" : "hidden"}
+        variants={fadeUp}
+        className="lg:text-[74px] sm:text-[40px] xs:text-[40px] apply-fonts-medium text-center mb-12"
+      >
+        هناك طريقان فقط
+      </motion.h1>
 
+      <div
+        ref={refBoxes}
+        className="flex lg:flex-row-reverse xs:flex-col items-stretch justify-center gap-8 w-full"
+      >
+        {/* Box 1: Traditional Way */}
         <motion.div
-          ref={refText}
           initial="hidden"
-          animate={inViewText ? "visible" : "hidden"}
-          variants={fadeUp}
-          className="my-4 apply-fonts-normal"
+          animate={inViewBoxes ? "visible" : "hidden"}
+          variants={fadeLeft}
+          style={{
+            boxShadow: "0px -10px 40px 0px #101636 inset",
+          }}
+          className="lg:w-1/2 xs:w-full p-16 rounded-3xl border border-[#1C244C] bg-gray-900 bg-opacity-50 backdrop-filter backdrop-blur-sm shadow-xl flex flex-col justify-start"
         >
-          <h2 className="text-lg font-light">
-            استفد من باقتنا الشاملة التي تتيح لك الوصول إلى دورات متخصصة بإشراف
-            خبراء، وأدوات تعليمية تفاعلية، ودعم مستمر يساعدك على تحقيق أهدافك
-            بكل ثقة. حسّن مهاراتك، ووسع معرفتك وانطلق في تجربة تعليمية متميزة.
+          <h2 className="text-4xl  mb-4 text-center  apply-fonts-bold">
+            الطريق التقليدي
           </h2>
+          <p className="text-base leading-relaxed apply-fonts-normal text-gray-300">
+            في التعليم التقليدي، يقضي الأستاذ سنوات طويلة في القسم برواتب محدودة
+            لا تكافئ الجهد المبذول. نفس الروتين يتكرر يومًا بعد يوم، دون فرص
+            حقيقية للتوسع أو تحقيق دخل إضافي. النتيجة هي مستقبل مهني غير مضمون
+            وتعب بلا مقابل.
+          </p>
         </motion.div>
 
-        <div className="flex flex-col gap-8  apply-fonts-normal">
-          {[
-            {
-              title: "تجربة تعليمية تفاعلية:",
-              text: "احصل على تجربة تعلم فريدة من خلال منصتنا التفاعلية التي تتكيف مع مستوى أدائك واحتياجاتك التعليمية.",
-            },
-            {
-              title: "خطة دراسية مخصصة:",
-              text: "احصل على خطة دراسية مصممة خصيصًا لك بناءً على نقاط قوتك وضعفك لضمان التفوق في امتحانات البكالوريا.",
-            },
-            {
-              title: "اختبارات تقييمية دورية:",
-              text: "استفد من الاختبارات التقييمية الدورية التي تساعدك على قياس تقدمك وتحسين أدائك.",
-            },
-          ].map((item, index) => (
-            <motion.div
-              key={index}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeUp}
-              className="bg-wygColor rounded-3xl py-2 px-9 flex items-center gap-1 drop-shadow-xl"
-            >
-              <CheckBox className="text text-mainColor" fontSize="large" />
-              <div>
-                <h1 className="apply-fonts-medium text-lg">{item.title}</h1>
-                <p className="apply-fonts-normal text-sm text-gray-400 font-extralight">
-                  {item.text}
-                </p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-      <section className=" w-full flex md:justify-end sm:justify-center ">
+        {/* Box 2: Digital Ustad */}
         <motion.div
-          ref={refImage}
           initial="hidden"
-          animate={inViewImage ? "visible" : "hidden"}
+          animate={inViewBoxes ? "visible" : "hidden"}
           variants={fadeRight}
-          className="xl:w-[500px] xl:h-[500px] lg:w-[410px] lg:h-[410px] md:w-[350px] md:h-[350px]  xs:w-[300px] xs:h-[300px] "
-          // animate={{
-          //   y: [0, 25],
-          // }}
-          // transition={{
-          //   duration: 1, // مدة الحركة (2 ثانية)
-          //   ease: "easeInOut",
-          //   repeat: Infinity, // اجعل الحركة تتكرر باستمرار
-          //   repeatType: "reverse", // حركة ذهاب وعودة
-          // }}
+          className="lg:w-1/2 xs:w-full p-16 rounded-3xl border border-mainColor bg-mainColor bg-opacity-20 backdrop-filter backdrop-blur-sm shadow-xl flex flex-col justify-start"
         >
-          <Image
-            src={"/imgs/whatYouGetImg.png"}
-            width={500}
-            height={500}
-            alt="whatYouGetImg"
-            className="w-full h-full"
-          />
+          <h2 className="text-4xl  mb-4 text-center font-bold">
+            Digital Ustad
+          </h2>
+          <p className="text-base leading-relaxed apply-fonts-normal">
+            مع Digital Ustad، يتحول التدريس إلى فرصة لبناء مسيرة رقمية مربحة.
+            ستتعلم كيف تنشئ حضورًا قويًا على الإنترنت، تجذب طلابًا من مختلف
+            الدول، وتبيع دوراتك الخاصة لتنشئ دخلًا مستدامًا. برنامج متكامل يفتح
+            لك الطريق نحو الحرية المالية والاستقلالية المهنية.
+          </p>
         </motion.div>
-      </section>
+      </div>
     </div>
   );
 };

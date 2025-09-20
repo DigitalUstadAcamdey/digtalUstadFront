@@ -59,53 +59,60 @@ const CourseCard = ({
 
   return (
     <>
-      <div className="my-3 drop-shadow-md border   flex flex-col max-h-[80vh]  justify-between px-3 py-4 rounded-lg">
+      <div className="my-3 drop-shadow-md border flex flex-col max-h-[80vh] justify-between px-3 py-4 rounded-lg bg-white dark:bg-[#1a1c3d] dark:border-gray-700 dark:shadow-none transition-colors duration-300">
         <Link href={`/course/${courseId}`}>
-          <div className="relative min-w-full max-w-sm ">
+          <div className="relative min-w-full max-w-sm">
             <Image
               src={courseImg}
               alt="Course-imageCover"
               layout="responsive"
               width={705}
               height={397}
-              className="rounded-lg object-cover " // تأكد من أن الصورة تغطي الحاوية بدون تشويه
+              className="rounded-lg object-cover"
             />
           </div>
         </Link>
 
         <div className="mt-3">
-          <h1 className="apply-fonts-medium text-[16px] line-clamp-1">
-            {courseName}{" "}
+          <h1 className="apply-fonts-medium text-[16px] line-clamp-1 text-gray-800 dark:text-gray-100">
+            {courseName}
           </h1>
         </div>
         <div className="">
-          <h1 className="apply-fonts-normal text-[12px] line-clamp-1 text-courseTextSection">
+          <h1 className="apply-fonts-normal text-[12px] line-clamp-1 text-courseTextSection dark:text-gray-400">
             {courseDescription}
           </h1>
         </div>
 
-        <div className="flex flex-wrap items-center justify-between  ">
+        <div className="flex flex-wrap items-center justify-between ">
           <div className="flex gap-1 items-center">
-            <div className="text-mainColor">
+            <div className="text-mainColor dark:text-blue-400">
               <PlayLesson />
             </div>
             <div className="flex items-center">
-              <p className="font-semibold">{numberOfVideo}</p>
+              <p className="font-semibold text-gray-800 dark:text-gray-200">
+                {numberOfVideo}
+              </p>
             </div>
           </div>
           <div className="flex gap-1 items-center">
-            <div className="text-mainColor">
+            <div className="text-mainColor dark:text-blue-400">
               <PeopleOutlineOutlined />
             </div>
             <div className="flex items-center">
-              <p className="font-semibold">{students}</p>
+              <p className="font-semibold text-gray-800 dark:text-gray-200">
+                {students}
+              </p>
             </div>
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center justify-between  my-2">
+        <div className="flex flex-wrap items-center justify-between my-2">
           <div className="py-1">
-            <p className="font-medium " dir="ltr">
+            <p
+              className="font-medium text-gray-800 dark:text-gray-100"
+              dir="ltr"
+            >
               {coursePrice === 0 ? "مجانا" : coursePrice + "DA"}
             </p>
           </div>
@@ -116,7 +123,7 @@ const CourseCard = ({
               value={courseRating}
               precision={0.5}
               dir="ltr"
-              className="text-courseIconsSection"
+              className="text-courseIconsSection dark:text-yellow-400"
             />
           </div>
         </div>
@@ -126,38 +133,40 @@ const CourseCard = ({
             onClick={() => {
               setisOpen(!isOpen);
             }}
-            className="xs:text-[12px] flex-1 xl:text-lg apply-fonts-normal bg-redColor hoverEle hover:bg-redColorHoverLight py-2 px-4 rounded-lg text-white"
+            className="xs:text-[12px] flex-1 xl:text-lg apply-fonts-normal bg-redColor hoverEle hover:bg-redColorHoverLight py-2 px-4 rounded-lg text-white dark:bg-red-700 dark:hover:bg-red-800 transition-colors"
           >
             حذف
           </button>
           <Link
             href={`/edit-course/${courseId}`}
-            className="text-center xs:text-[12px] flex-1 xl:text-lg apply-fonts-normal bg-mainColor hoverEle hover:bg-mainColorHoverLight py-2 px-4 rounded-lg text-white"
+            className="text-center xs:text-[12px] flex-1 xl:text-lg apply-fonts-normal bg-mainColor hoverEle hover:bg-mainColorHoverLight py-2 px-4 rounded-lg text-white dark:bg-blue-700 dark:hover:bg-blue-800 transition-colors"
           >
             تعديل
           </Link>
         </div>
       </div>
       {isOpen && (
-        <div className="fixed top-0 left-0 w-full rounded-xl h-[100vh] px-4 my-3  z-10 bg-black/50 flex items-center justify-center">
-          <div className=" py-2 apply-fonts-normal bg-white w-80 z-10 rounded-lg">
-            <p className="text-center">هل أنت متأكد من حذف هذه الدورة</p>
+        <div className="fixed top-0 left-0 w-full rounded-xl h-[100vh] px-4 my-3 z-10 bg-black/50 flex items-center justify-center dark:bg-black/80">
+          <div className="py-2 apply-fonts-normal bg-white w-80 z-10 rounded-lg dark:bg-[#1a1c3d] transition-colors">
+            <p className="text-center text-gray-800 dark:text-gray-200">
+              هل أنت متأكد من حذف هذه الدورة
+            </p>
             <div className="flex justify-center gap-4 mt-4 mb-2">
               <button
                 onClick={() => {
                   setisOpen(false);
                 }}
-                className="apply-fonts-normal  py-2 px-4 rounded-lg bg-mainColor hover:bg-mainColorHoverLight text-white hoverEle"
+                className="apply-fonts-normal py-2 px-4 rounded-lg bg-mainColor hover:bg-mainColorHoverLight text-white hoverEle dark:bg-blue-700 dark:hover:bg-blue-800 transition-colors"
               >
                 إلغاء
               </button>
               <button
                 onClick={handleDeleteCourse}
-                className={`apply-fonts-normal  py-2 px-4 rounded-lg ${
+                className={`apply-fonts-normal py-2 px-4 rounded-lg ${
                   loading
-                    ? "cursor-not-allowed bg-redColorHoverLight "
-                    : "bg-redColor hover:bg-redColorHoverLight"
-                } text-white hoverEle`}
+                    ? "cursor-not-allowed bg-redColorHoverLight dark:bg-red-800"
+                    : "bg-redColor hover:bg-redColorHoverLight dark:bg-red-700 dark:hover:bg-red-800"
+                } text-white hoverEle transition-colors`}
               >
                 {loading ? "جاري الحذف..." : "حذف الدورة"}
               </button>

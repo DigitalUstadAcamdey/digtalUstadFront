@@ -16,14 +16,11 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const user = await fetchUserServer();
-  console.log("currnet user", user);
-  // if (!user) {
-  //   redirect("/login");
-  // }
+
   
   return (
     <>
-      <div className="flex gap-3 p-[20px] h-screen">
+      <div className="flex gap-3 h-screen">
         <SideBar />
         <ToastContainer />
         <main className="flex-1">

@@ -1,5 +1,5 @@
 "use client";
-import React, {  useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   AccessTimeOutlined,
   ArrowBackIos,
@@ -17,11 +17,12 @@ import {
 } from "@mui/icons-material";
 import Link from "next/link";
 import { useLesson } from "@/store/lessonStore";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import showToast from "@/utils/showToast";
 import axios from "axios";
 import { useUserStore } from "@/store/userStore";
 import { Section } from "@/types/course";
+import Image from "next/image";
 
 type Props = {
   courseId: string | undefined;
@@ -31,6 +32,12 @@ type Props = {
 
 const CourseCardDetails = ({ courseId, userId, sections }: Props) => {
   const pathname = usePathname();
+
+  // get section and lesson index
+  const searchParams = useSearchParams();
+  const sectionIndex = searchParams.get("section");
+  const videoIndex = searchParams.get("video");
+
   const { user } = useUserStore();
 
   const courseUrl = encodeURIComponent(
@@ -62,7 +69,7 @@ const CourseCardDetails = ({ courseId, userId, sections }: Props) => {
     }[]
   >(
     sections.map((_, index) => {
-      return { i: index, value: index === 0 }; // فتح القسم الأول افتراضياً
+      return { i: index, value: index === 0 };
     })
   );
   const [loadingVideoId, setLoadingVideoId] = useState<string | null>(null);
@@ -81,7 +88,19 @@ const CourseCardDetails = ({ courseId, userId, sections }: Props) => {
   const handelOpenAndColsed = () => {
     setIsOpen(!isOpen);
   };
+  useEffect(() => {
+    if (!sectionIndex) return;
 
+    const idx = Number(sectionIndex);
+    if (!Number.isNaN(idx) && idx < sections.length) {
+      setIsOpenAccordion((prev) =>
+        prev.map((item) => ({
+          ...item,
+          value: item.i === idx, // نخلي فقط هذا مفتوح
+        }))
+      );
+    }
+  }, [sectionIndex, sections.length]);
   const handleCompleteVideo = async (videoId: string) => {
     try {
       setLoadingVideoId(videoId);
@@ -94,7 +113,7 @@ const CourseCardDetails = ({ courseId, userId, sections }: Props) => {
       );
       const updatedLesson = res.data.lesson;
       setLesson(updatedLesson);
-      //
+
       numberOfCompletedVideo++;
       setCompletedVideos((prev) =>
         prev.includes(videoId)
@@ -128,11 +147,11 @@ const CourseCardDetails = ({ courseId, userId, sections }: Props) => {
       {/* Toggle Button */}
       <button
         onClick={handelOpenAndColsed}
-        className={`fixed lg:hidden z-50 top-20 transition-all duration-500 ease-in-out
+        className={`fixed xl:hidden z-50 top-20 transition-all duration-500 ease-in-out
           ${
             isOpen
-              ? "right-4 bg-gradient-to-r from-blue-600 to-purple-600"
-              : "right-[320px] bg-gradient-to-r from-purple-600 to-blue-600"
+              ? "left-4  bg-gradient-to-r from-blue-600 to-purple-600"
+              : "left-[320px] bg-gradient-to-r from-purple-600 to-blue-600"
           } 
           p-3 rounded-full shadow-2xl text-white hover:shadow-3xl transform hover:scale-110
           backdrop-blur-sm border border-white/20`}
@@ -149,36 +168,37 @@ const CourseCardDetails = ({ courseId, userId, sections }: Props) => {
       {/* Main Sidebar */}
       <div
         className={`transition-all duration-500 ease-in-out transform
-          ${isOpen ? "xs:translate-x-full lg:translate-x-0" : "translate-x-0"}
-          lg:w-[420px] xs:w-[320px] max-h-[90vh] lg:sticky lg:top-[80px]
-          xs:fixed xs:top-16 xs:right-0 z-40 xs:bg-white/95 lg:bg-transparent
+          ${isOpen ? "xs:-translate-x-full xl:translate-x-0" : "translate-x-0"}
+          xl:w-[420px] xs:w-[320px] max-h-[88vh] xl:sticky xl:top-0
+          xs:fixed xs:top-16 xs:left-0 z-40 xs:bg-white/95 xl:bg-transparent
           backdrop-blur-xl border border-gray-200/50 rounded-2xl shadow-2xl
+          dark:xs:bg-transparent dark:border-gray-800 dark:shadow-none
           flex flex-col overflow-hidden`}
       >
         {/* Header with Progress */}
-        <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-6 border-b border-gray-200/50">
+        <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-6 border-b border-gray-200/50 dark:from-[#1a1c3d] dark:to-[#1a1c3d] dark:border-gray-700">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-bold text-gray-800 apply-fonts-medium">
+            <h2 className="text-xl font-bold text-gray-800 apply-fonts-medium dark:text-gray-200">
               محتوى الدورة
             </h2>
             <button
               onClick={() => setShowShareModal(true)}
-              className="p-2 hover:bg-white/80 rounded-lg transition-colors"
+              className="p-2 hover:bg-white/80 rounded-lg transition-colors dark:hover:bg-gray-800"
             >
-              <Share className="text-gray-600" />
+              <Share className="text-gray-600 dark:text-gray-300" />
             </button>
           </div>
 
           {/* Progress Bar */}
           {user.role === "student" && (
             <div className="space-y-2">
-              <div className="flex justify-between text-sm text-gray-600">
+              <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
                 <span>
                   {numberOfCompletedVideo} من {getTotalVideos()} فيديو
                 </span>
                 <span>{getCompletionPercentage()}%</span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+              <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden dark:bg-gray-700">
                 <div
                   className="bg-gradient-to-r from-green-400 to-blue-500 h-2 rounded-full transition-all duration-700 ease-out"
                   style={{ width: `${getCompletionPercentage()}%` }}
@@ -189,7 +209,7 @@ const CourseCardDetails = ({ courseId, userId, sections }: Props) => {
         </div>
 
         {/* Sections Content */}
-        <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
+        <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent dark:scrollbar-thumb-gray-600">
           {sections.length > 0 ? (
             <div className="p-4 space-y-3">
               {sections.map((section, index) => {
@@ -200,28 +220,28 @@ const CourseCardDetails = ({ courseId, userId, sections }: Props) => {
                 return (
                   <div
                     key={section._id}
-                    className="bg-white/70 backdrop-blur-sm border border-gray-200/50 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
+                    className="bg-white/70 backdrop-blur-sm border border-gray-200/50 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 dark:bg-[#101235] dark:border-gray-800"
                   >
                     {/* Section Header */}
                     <button
                       onClick={() => toggleAccordion(index)}
-                      className="w-full p-4 flex items-center justify-between hover:bg-gray-50/80 transition-colors group"
+                      className="w-full p-4 flex items-center justify-between hover:bg-gray-50/80 transition-colors group dark:hover:bg-[#1a1c3d]"
                     >
                       <div className="flex items-center gap-3">
                         <div
                           className={`p-2 rounded-lg transition-colors ${
                             isOpenAccordion[index]?.value
                               ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white"
-                              : "bg-gray-100 text-gray-600"
+                              : "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300"
                           }`}
                         >
                           <PlayCircleOutlined className="text-lg" />
                         </div>
                         <div className="text-right">
-                          <h3 className="font-semibold text-gray-800 apply-fonts-normal text-sm">
+                          <h3 className="font-semibold text-gray-800 apply-fonts-normal text-sm dark:text-gray-200">
                             {section.title}
                           </h3>
-                          <p className="text-xs text-gray-500">
+                          <p className="text-xs text-gray-500 dark:text-gray-400">
                             {section.videos.length} فيديو
                           </p>
                         </div>
@@ -229,21 +249,21 @@ const CourseCardDetails = ({ courseId, userId, sections }: Props) => {
 
                       <div className="flex items-center gap-3">
                         <div className="text-center">
-                          <div className="text-sm font-semibold text-green-500">
+                          <div className="text-sm font-semibold text-green-500 dark:text-green-400">
                             {sectionCompletedVideos}/{section.videos.length}
                           </div>
                         </div>
                         <ExpandMore
                           className={`text-gray-400 transition-transform duration-300 ${
                             isOpenAccordion[index]?.value ? "rotate-180" : ""
-                          }`}
+                          } dark:text-gray-500`}
                         />
                       </div>
                     </button>
 
                     {/* Section Content */}
                     {isOpenAccordion[index]?.value && (
-                      <div className="border-t border-gray-200/50">
+                      <div className="border-t border-gray-200/50 dark:border-gray-700">
                         {section.videos?.length ? (
                           <div className="p-2 space-y-1 max-h-80 overflow-y-auto">
                             {section.videos.map((video, videoIndex) => {
@@ -258,24 +278,38 @@ const CourseCardDetails = ({ courseId, userId, sections }: Props) => {
                                   className={`group rounded-lg transition-all duration-200 ${
                                     isActive
                                       ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-md"
-                                      : "hover:bg-gray-50 hover:shadow-sm"
+                                      : "hover:bg-gray-50 hover:shadow-sm dark:hover:bg-[#1a1c3d]"
                                   }`}
                                 >
                                   <div
                                     className="p-3 cursor-pointer flex items-center justify-between"
-                                    onClick={() => setLesson(video)}
+                                    onClick={() => {
+                                      setLesson(video);
+                                      localStorage.setItem(
+                                        "currentLessonName",
+                                        video.lessonTitle
+                                      );
+                                      localStorage.setItem(
+                                        "currentLessonIndex",
+                                        videoIndex.toString()
+                                      );
+                                      localStorage.setItem(
+                                        "currentSectionIndex",
+                                        index.toString()
+                                      );
+                                    }}
                                   >
                                     <div className="flex items-center gap-3 flex-1">
                                       <div className="flex items-center">
-                                        <span
-                                          className={`text-xs font-medium px-2 py-1 rounded-full ${
-                                            isActive
-                                              ? "bg-white/20 text-white"
-                                              : "bg-gray-100 text-gray-600"
-                                          }`}
-                                        >
-                                          {videoIndex + 1}
-                                        </span>
+                                        <div className="flex-shrink-0 w-12 h-12">
+                                          <Image
+                                            src="/imgs/lessonImg.png"
+                                            alt="Digital Ustadh Academy Logo"
+                                            className="object-contain w-full h-full"
+                                            width={50}
+                                            height={50}
+                                          />
+                                        </div>
                                       </div>
 
                                       {user.role !== "teacher" &&
@@ -288,13 +322,13 @@ const CourseCardDetails = ({ courseId, userId, sections }: Props) => {
                                             className="flex-shrink-0"
                                           >
                                             {loadingVideoId === video._id ? (
-                                              <div className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                                              <div className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin dark:border-gray-300" />
                                             ) : isCompleted ? (
                                               <CheckCircle
                                                 className={`w-5 h-5 ${
                                                   isActive
                                                     ? "text-white"
-                                                    : "text-green-500"
+                                                    : "text-green-500 dark:text-green-400"
                                                 }`}
                                               />
                                             ) : (
@@ -302,7 +336,7 @@ const CourseCardDetails = ({ courseId, userId, sections }: Props) => {
                                                 className={`w-5 h-5 ${
                                                   isActive
                                                     ? "text-white/70"
-                                                    : "text-gray-400"
+                                                    : "text-gray-400 dark:text-gray-500"
                                                 }`}
                                               />
                                             )}
@@ -314,7 +348,7 @@ const CourseCardDetails = ({ courseId, userId, sections }: Props) => {
                                           className={`font-medium text-sm truncate ${
                                             isActive
                                               ? "text-white"
-                                              : "text-gray-800"
+                                              : "text-gray-800 dark:text-gray-200"
                                           }`}
                                         >
                                           {video.lessonTitle}
@@ -326,7 +360,7 @@ const CourseCardDetails = ({ courseId, userId, sections }: Props) => {
                                       className={`flex items-center gap-1 text-xs ${
                                         isActive
                                           ? "text-white/80"
-                                          : "text-gray-500"
+                                          : "text-gray-500 dark:text-gray-400"
                                       }`}
                                     >
                                       <AccessTimeOutlined className="w-4 h-4" />
@@ -338,7 +372,7 @@ const CourseCardDetails = ({ courseId, userId, sections }: Props) => {
                             })}
                           </div>
                         ) : (
-                          <div className="p-4 text-center text-gray-500 apply-fonts-normal">
+                          <div className="p-4 text-center text-gray-500 apply-fonts-normal dark:text-gray-400">
                             لا توجد فيديوهات في هذا القسم
                           </div>
                         )}
@@ -349,7 +383,7 @@ const CourseCardDetails = ({ courseId, userId, sections }: Props) => {
               })}
             </div>
           ) : (
-            <div className="p-6 text-center text-gray-500">
+            <div className="p-6 text-center text-gray-500 dark:text-gray-400">
               لا توجد أقسام متاحة حالياً
             </div>
           )}
@@ -358,67 +392,71 @@ const CourseCardDetails = ({ courseId, userId, sections }: Props) => {
 
       {/* Share Modal */}
       {showShareModal && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl transform transition-all">
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 dark:bg-black/80">
+          <div className="bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl transform transition-all dark:bg-[#101235] dark:border-gray-800">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-bold text-gray-800">شارك الدورة</h3>
+              <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200">
+                شارك الدورة
+              </h3>
               <button
                 onClick={() => setShowShareModal(false)}
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors dark:hover:bg-gray-800"
               >
-                <Close className="text-gray-500" />
+                <Close className="text-gray-500 dark:text-gray-400" />
               </button>
             </div>
 
             <div className="grid grid-cols-2 gap-3 mb-4">
               <Link
                 href={`https://www.facebook.com/sharer/sharer.php?u=${courseUrl}`}
-                className="flex flex-col items-center gap-2 p-4 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors group"
+                className="flex flex-col items-center gap-2 p-4 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors group dark:bg-blue-900/20 dark:hover:bg-blue-900/40"
                 target="_blank"
               >
-                <Facebook className="text-blue-600 group-hover:scale-110 transition-transform" />
-                <span className="text-sm font-medium text-blue-800">
+                <Facebook className="text-blue-600 group-hover:scale-110 transition-transform dark:text-blue-400" />
+                <span className="text-sm font-medium text-blue-800 dark:text-blue-300">
                   فيسبوك
                 </span>
               </Link>
 
               <Link
                 href={`https://twitter.com/intent/tweet?url=${courseUrl}`}
-                className="flex flex-col items-center gap-2 p-4 bg-sky-50 hover:bg-sky-100 rounded-lg transition-colors group"
+                className="flex flex-col items-center gap-2 p-4 bg-sky-50 hover:bg-sky-100 rounded-lg transition-colors group dark:bg-sky-900/20 dark:hover:bg-sky-900/40"
                 target="_blank"
               >
-                <Twitter className="text-sky-600 group-hover:scale-110 transition-transform" />
-                <span className="text-sm font-medium text-sky-800">تويتر</span>
+                <Twitter className="text-sky-600 group-hover:scale-110 transition-transform dark:text-sky-400" />
+                <span className="text-sm font-medium text-sky-800 dark:text-sky-300">
+                  تويتر
+                </span>
               </Link>
 
               <Link
                 href="#"
-                className="flex flex-col items-center gap-2 p-4 bg-pink-50 hover:bg-pink-100 rounded-lg transition-colors group"
+                className="flex flex-col items-center gap-2 p-4 bg-pink-50 hover:bg-pink-100 rounded-lg transition-colors group dark:bg-pink-900/20 dark:hover:bg-pink-900/40"
               >
-                <Instagram className="text-pink-600 group-hover:scale-110 transition-transform" />
-                <span className="text-sm font-medium text-pink-800">
+                <Instagram className="text-pink-600 group-hover:scale-110 transition-transform dark:text-pink-400" />
+                <span className="text-sm font-medium text-pink-800 dark:text-pink-300">
                   إنستجرام
                 </span>
               </Link>
 
               <button
                 onClick={copyLink}
-                className="flex flex-col items-center gap-2 p-4 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors group"
+                className="flex flex-col items-center gap-2 p-4 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors group dark:bg-gray-800 dark:hover:bg-gray-700"
               >
-                <ContentCopyOutlined className="text-gray-600 group-hover:scale-110 transition-transform" />
-                <span className="text-sm font-medium text-gray-800">
+                <ContentCopyOutlined className="text-gray-600 group-hover:scale-110 transition-transform dark:text-gray-400" />
+                <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
                   نسخ الرابط
                 </span>
               </button>
             </div>
 
-            <div className="pt-4 border-t border-gray-200">
-              <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg">
+            <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
+              <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg dark:bg-gray-800">
                 <input
                   type="text"
                   value={`${process.env.NEXT_PUBLIC_BASE_URL}${pathname}`}
                   readOnly
-                  className="flex-1 bg-transparent text-sm text-gray-600 outline-none"
+                  className="flex-1 bg-transparent text-sm text-gray-600 outline-none dark:text-gray-300"
                 />
                 <button
                   onClick={copyLink}

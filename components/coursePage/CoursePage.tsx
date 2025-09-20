@@ -1,13 +1,11 @@
 "use client";
 import {
-  DescriptionOutlined,
-  People,
-  Star,
   Download,
   FilePresent,
   Comment,
-  Schedule,
+  ReplyRounded,
 } from "@mui/icons-material";
+import { Edit, Loader2, Trash2 } from "lucide-react";
 
 import Image from "next/image";
 import React, { useEffect, useMemo, useState } from "react";
@@ -17,11 +15,18 @@ import { useUserStore } from "@/store/userStore";
 import Spinner from "../spinner/Spinner";
 import { useLesson } from "@/store/lessonStore";
 import "react-toastify/dist/ReactToastify.css";
-import { redirect } from "next/navigation";
 import { Reply } from "./comments and replies/Reply";
 import AddComment from "./comments and replies/AddComment";
+import EditCommentModal from "./comments and replies/EditComment";
+import DeleteCommentModal from "./comments and replies/DeleteComment";
+
 import AddReply from "./comments and replies/AddReply";
-import VideoPlayer from "./VideoPlayer";
+import DynamicVideoPlyr from "../utlisComponenets/DynamicVideoPlyr";
+import { CheckCircle2, Circle } from "lucide-react";
+import axios, { AxiosError } from "axios";
+import showToast from "@/utils/showToast";
+import { useSearchParams } from "next/navigation";
+import ScrollToTopButton from "../utlisComponenets/ScrollToTopButton";
 
 type Props = {
   course: Course;
@@ -29,12 +34,27 @@ type Props = {
 
 const CoursePage = ({ course }: Props) => {
   const { lesson, setLesson } = useLesson();
+  // get section and lesson index
+  const searchParams = useSearchParams();
+  const sectionIndex = searchParams.get("section");
+  const videoIndex = searchParams.get("video");
 
-  // const [isEnrolled, setIsEnrolled] = useState<boolean | undefined>(undefined);
-  // const [isPublichedCourse, setIsPublichedCourse] = useState<
-  //   boolean | undefined
-  // >(undefined);
   const [showAllFiles, setShowAllFiles] = useState(false);
+  const [replyingToCommentId, setReplyingToCommentId] = useState<string | null>(
+    null
+  );
+  const [isDeleting, setIsDeleting] = useState<string | null>(null); // State for delete loading
+  const [isEditing, setIsEditing] = useState<string | null>(null);
+  const [isShowDeletingModal, setIsShowDeletingModal] =
+    useState<boolean>(false); // State for delete loading
+  const [isShowEditingModal, setIsShowEditingModal] = useState<boolean>(false);
+  const [commentObj, setCommentObj] = useState<{
+    commentTitle: string | null;
+    commentId: string | null;
+  }>({
+    commentTitle: null,
+    commentId: null,
+  });
 
   const checkIsEnrolledCourse = (
     userId: string,
@@ -45,27 +65,46 @@ const CoursePage = ({ course }: Props) => {
 
   const { user } = useUserStore();
 
-  //set first lesson from first section
+  //set first lesson from first section or set section index and lesson index from query ex : /course/courseId/section=0&video=1
   useEffect(() => {
-    if (course?.sections && course.sections.length > 0) {
-      const firstSection = course.sections[0];
-      if (firstSection.videos && firstSection.videos.length > 0) {
-        setLesson(
-          firstSection.videos[0] || {
-            _id: "",
-            lessonTitle: "",
-            url: "",
-            duration: "0",
-            isCompleted: false,
-            completedBy: [],
-            comments: [],
-            description: "",
-            files: [],
-          }
-        );
+    if (!course?.sections?.length) return;
+
+    let selectedLesson = null;
+
+    const sectionIdx = Number(sectionIndex);
+    const videoIdx = Number(videoIndex);
+
+    // إذا كاين indices صحيحة
+    if (!Number.isNaN(sectionIdx) && !Number.isNaN(videoIdx)) {
+      const section = course.sections[sectionIdx];
+      if (section?.videos?.[videoIdx]) {
+        selectedLesson = section.videos[videoIdx];
       }
     }
-  }, [setLesson, course]);
+
+    // إذا ماكانش indices أو ماكانوش valid → رجع أول فيديو من أول سكشن
+    if (!selectedLesson) {
+      const firstSection = course.sections[0];
+      if (firstSection?.videos?.[0]) {
+        selectedLesson = firstSection.videos[0];
+      }
+    }
+
+    // fallback object إذا ماكان حتى فيديو
+    setLesson(
+      selectedLesson || {
+        _id: "",
+        lessonTitle: "",
+        url: "",
+        duration: "0",
+        isCompleted: false,
+        completedBy: [],
+        comments: [],
+        description: "",
+        files: [],
+      }
+    );
+  }, [course, sectionIndex, videoIndex, setLesson]);
 
   // useEffect(() => {
   //   const checkIsPublichedCourse = (
@@ -147,50 +186,96 @@ const CoursePage = ({ course }: Props) => {
     return <Spinner />;
   }
 
-  //check is user logged in
-  // if (!user._id) {
-  //   return (
-  //     <div className="min-h-screen flex items-center justify-center p-4">
-  //       <div className="max-w-md w-full">
-  //         <div className="bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 border border-amber-200 rounded-2xl p-8 shadow-2xl backdrop-blur-sm">
-  //           <div className="text-center mb-6">
-  //             <div className="w-20 h-20 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full mx-auto mb-4 flex items-center justify-center shadow-lg">
-  //               <LoginOutlined className="text-white text-3xl" />
-  //             </div>
-  //             <h2 className="apply-fonts-medium text-2xl text-amber-800 mb-2">
-  //               مرحباً بك!
-  //             </h2>
-  //             <p className="apply-fonts-normal text-amber-700 leading-relaxed">
-  //               يرجى تسجيل الدخول للاستمتاع بمحتوى الدورة التدريبية والاستفادة
-  //               من جميع المميزات المتاحة.
-  //             </p>
-  //           </div>
-  //           <Link
-  //             href={"/login"}
-  //             className="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-medium px-6 py-3 rounded-xl shadow-lg flex items-center justify-center gap-3 transition-all duration-300 transform hover:scale-105 hover:shadow-xl"
-  //           >
-  //             <LoginOutlined />
-  //             <span>تسجيل الدخول</span>
-  //           </Link>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   );
-  // }
+  // replace check to middleware.ts
+  const userIsCompeletedLesson = useMemo(() => {
+    return lesson.completedBy.includes(user._id);
+  }, [lesson.completedBy, user._id]);
 
-  //check is user buying course
-  if (user.role === "student" && !isEnrolledMemo) {
-    redirect(`/course-overview/${course._id}`);
-  }
+  // Comments Functions
+  const showEditingModal = (commentTitle: string, commentId: string) => {
+    setIsShowEditingModal(true);
+    setCommentObj({
+      commentTitle,
+      commentId,
+    });
+  };
+  const showDeleteingModal = (commentTitle: string, commentId: string) => {
+    setIsShowDeletingModal(true);
+    setCommentObj({
+      commentTitle,
+      commentId,
+    });
+  };
+  const closeEditingModal = () => {
+    setIsShowEditingModal(false);
+  };
+  const closeDeleteingModal = () => {
+    setIsShowDeletingModal(false);
+  };
 
-  // check is the course uploaded by teacher
-  if (user.role === "teacher" && !isPublichedCourseMemo) {
-    redirect(`/dashboard-teacher/courses`);
-  }
+  const handleDeleteComment = async (commentId: string | null) => {
+    setIsDeleting(commentId);
+    try {
+      await axios.delete(
+        `${process.env.NEXT_PUBLIC_BACK_URL}/api/comments/${commentId}/lessons/${lesson._id}`,
+        {
+          withCredentials: true,
+        }
+      );
+      showToast("success", "تم حذف تعليقك بنجاح");
+      setLesson({
+        ...lesson,
+        comments: lesson.comments.filter((comment) => {
+          return comment._id !== commentId;
+        }),
+      });
+      closeDeleteingModal();
+    } catch (error) {
+      console.error(error);
+      showToast("error", "حدث خطأ أثناء الحذف، حاول مجددًا");
+    } finally {
+      setIsDeleting(null);
+    }
+  };
 
+  const handleEditComment = async (
+    commentId: string | null,
+    newText: string
+  ) => {
+
+    setIsEditing(commentId);
+
+    try {
+      const res = await axios.patch(
+        `${process.env.NEXT_PUBLIC_BACK_URL}/api/comments/${commentId}/lessons/${lesson._id}`,
+        {
+          text: newText,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      const updatedComments = lesson.comments.map((comment: any) =>
+        comment._id === commentId ? res.data.comment : comment
+      );
+
+      setLesson({
+        ...lesson,
+        comments: updatedComments,
+      });
+      showToast("success", "تم تعديل تعليقك بنجاح");
+    } catch (error) {
+      const err = error as AxiosError<{ message: string }>; // 👈 نعمل cast
+      const message =
+        err.response?.data?.message || err.message || "خطأ غير متوقع";
+      showToast("error", message);
+    } finally {
+      setIsEditing(null);
+    }
+  };
   return (
-    <div className="min-h-screen relative">
-      <div className="flex flex-row-reverse justify-between gap-8 p-4 max-w-[2000px] mx-auto">
+    <div className="h-[93vh] xs:px-4 xl:px-0  relative overflow-y-scroll  ">
+      <div className="flex flex-row-reverse gap-4 mx-auto">
         {/* Course Details Sidebar */}
         <CourseCardDetails
           courseId={course?._id}
@@ -200,109 +285,69 @@ const CoursePage = ({ course }: Props) => {
 
         {/* Main Content */}
         <div className="flex-1 lg:max-w-4xl mx-auto space-y-8">
-          {/* Video Player Section */}
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden border border-white/50">
+          {/* Video Player Section And Some Info of Lesson and Course */}
+          <div className="bg-white/80 dark:bg-bodyDark dark:bg-opacity-100 backdrop-blur-sm rounded-2xl shadow-xl dark:shadow-none p-6 border border-white/50 dark:border-gray-700">
             <div className="relative">
-              <VideoPlayer videoId={lesson?.url} />
-              {/* Video Overlay Info */}
-              {/* <div className="absolute top-4 left-4 bg-black/50 backdrop-blur-sm text-white px-3 py-1 rounded-lg flex items-center gap-2">
-                <PlayCircleFilledWhite className="text-sm" />
-                <span className="text-sm font-medium">جاري التشغيل</span>
-              </div> */}
+              <DynamicVideoPlyr videoId={lesson?.url} />
             </div>
 
-            {/* Video Title & Meta */}
-            <div className="p-6">
-              <h1 className="apply-fonts-medium text-2xl lg:text-3xl text-gray-800 mb-4 leading-tight">
-                {lesson?.lessonTitle}
-              </h1>
-
-              {/* Stats Row */}
-              <div className="flex items-center justify-between bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-4">
-                {/* Students Count */}
-                <div className="flex items-center gap-4">
-                  {/* <div className="flex -space-x-2">
-                    {[1, 2, 3, 4].map((i) => (
-                      <div
-                        key={i}
-                        className="w-5 h-5 rounded-full border-3 border-white bg-gradient-to-br from-blue-400 to-purple-500 shadow-lg"
-                      ></div>
-                    ))}
-                  </div> */}
-                  <div className="text-center">
-                    <div className="flex items-center gap-2">
-                      <People className="text-blue-600" />
-                      <span className="font-bold text-xl text-gray-800">
-                        {course?.enrolledStudents.length}
-                      </span>
-                    </div>
-                    <span className="apply-fonts-normal text-sm text-gray-600">
-                      طالب مسجل
-                    </span>
-                  </div>
-                </div>
-
-                {/* Reviews Count */}
-                <div className="text-center">
-                  <div className="flex items-center gap-2 justify-center">
-                    <Star className="text-amber-500" />
-                    <span className="font-bold text-xl text-gray-800">
-                      {course?.reviews.length}
-                    </span>
-                  </div>
-                  <span className="apply-fonts-normal text-sm text-gray-600">
-                    تقييم
-                  </span>
-                </div>
-
-                {/* Duration */}
-                <div className="text-center">
-                  <div className="flex items-center gap-2 justify-center">
-                    <Schedule className="text-green-500" />
-                    <span className="font-bold text-xl text-gray-800">
-                      {lesson.duration}
-                    </span>
-                  </div>
-                  <span className="apply-fonts-normal text-sm text-gray-600">
-                    دقيقة
-                  </span>
-                </div>
+            {/* Lesson Info Card - Inspired by the provided image */}
+            <div className=" p-6 rounded-2xl flex flex-row-reverse items-start gap-6">
+              {/* Status Indicator: "مكتمل" or "غير مكتمل" */}
+              <div
+                className={`
+      ${userIsCompeletedLesson ? "bg-[#3f51b5]" : "bg-gray-700"}
+      flex items-center justify-center gap-2
+      px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap
+    `}
+              >
+                {userIsCompeletedLesson ? (
+                  <>
+                    <span className="text-white">مكتمل</span>
+                    <CheckCircle2 size={18} className="text-white" />
+                  </>
+                ) : (
+                  <>
+                    <span className="text-gray-400">غير مكتمل</span>
+                    <Circle size={18} className="text-gray-400" />
+                  </>
+                )}
               </div>
-            </div>
-          </div>
 
-          {/* Lesson Description */}
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 border border-white/50">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
-                <DescriptionOutlined className="text-white text-lg" />
+              {/* Content Section: Title and Description */}
+              <div className="flex-1">
+                {/* Main Title from the Image */}
+                <h3 className="apply-fonts-medium text-lg text-gray-400 leading-tight mb-1">
+                  {course?.title}
+                </h3>
+                {/* Secondary Title from the Image */}
+                <h2 className="apply-fonts-medium text-xl lg:text-2xl text-white leading-tight mb-4">
+                  {lesson?.lessonTitle}
+                </h2>
+
+                {/* Description from the Image */}
+                <p className="apply-fonts-normal text-gray-300 leading-relaxed text-base">
+                  {lesson?.description}
+                </p>
               </div>
-              <h2 className="apply-fonts-medium text-xl lg:text-2xl text-gray-800">
-                وصف الدرس
-              </h2>
-            </div>
-            <div className="bg-gradient-to-r from-gray-50 to-blue-50/50 rounded-xl p-6 border-r-4 border-blue-500">
-              <p className="apply-fonts-normal text-gray-700 leading-relaxed text-lg">
-                {lesson.description || "لا يوجد وصف متاح لهذا الدرس حالياً."}
-              </p>
             </div>
           </div>
 
           {/* Lesson Files */}
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 border border-white/50">
+          <div className="bg-white/80 dark:bg-bodyDark dark:bg-opacity-100 backdrop-blur-sm rounded-2xl shadow-xl dark:shadow-none p-6 border border-white/50 dark:border-gray-800">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-teal-500 rounded-lg flex items-center justify-center">
                   <FilePresent className="text-white text-lg" />
                 </div>
-                <h2 className="apply-fonts-medium text-xl lg:text-2xl text-gray-800">
+                <h2 className="apply-fonts-medium dark:text-white text-xl lg:text-2xl text-gray-800">
                   ملفات الدرس
                 </h2>
               </div>
               {lesson?.files && lesson.files.length > 3 && (
                 <button
                   onClick={() => setShowAllFiles(!showAllFiles)}
-                  className="text-blue-600 hover:text-blue-800 font-medium transition-colors"
+                  className="text-blue-600 hover:text-blue-800 font-medium transition-colors dark:text-blue-400 dark:hover:text-blue-300"
                 >
                   {showAllFiles
                     ? "إظهار أقل"
@@ -318,7 +363,7 @@ const CoursePage = ({ course }: Props) => {
                     (file, index) => (
                       <div
                         key={file._id}
-                        className="group bg-gradient-to-r from-gray-50 to-blue-50/30 hover:from-blue-50 hover:to-purple-50/50 rounded-xl p-4 border border-gray-200/50 hover:border-blue-300/50 transition-all duration-300 hover:shadow-lg"
+                        className="group bg-gradient-to-r from-gray-50 to-blue-50/30 hover:from-blue-50 hover:to-purple-50/50 rounded-xl p-4 border border-gray-200/50 hover:border-blue-300/50 transition-all duration-300 hover:shadow-lg dark:from-[#1a1c3d] dark:to-[#1a1c3d] dark:border-gray-700 dark:hover:from-[#21235a] dark:hover:to-[#21235a]"
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-4 flex-1 min-w-0">
@@ -326,14 +371,14 @@ const CoursePage = ({ course }: Props) => {
                               {getFileIcon(file.filename)}
                             </div>
                             <div className="flex-1 min-w-0">
-                              <h3 className="font-semibold text-gray-800 truncate group-hover:text-blue-800 transition-colors">
+                              <h3 className="font-semibold text-gray-800 truncate group-hover:text-blue-800 transition-colors dark:text-gray-200 dark:group-hover:text-blue-400">
                                 {file.filename}
                               </h3>
                               <div className="flex items-center gap-4 mt-1">
-                                <span className="text-sm text-gray-500">
+                                <span className="text-sm text-gray-500 dark:text-gray-400">
                                   {formatFileSize(Number(file.size))}
                                 </span>
-                                <span className="text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded-full">
+                                <span className="text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded-full dark:bg-gray-700 dark:text-gray-300">
                                   ملف {index + 1}
                                 </span>
                               </div>
@@ -347,7 +392,9 @@ const CoursePage = ({ course }: Props) => {
                             className="flex-shrink-0 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300 hover:shadow-lg transform hover:scale-105 flex items-center gap-2"
                           >
                             <Download className="text-sm" />
-                            <span className="apply-fonts-normal">تحميل</span>
+                            <span className="apply-fonts-normal xs:hidden sm:inline">
+                              تحميل
+                            </span>
                           </a>
                         </div>
                       </div>
@@ -356,13 +403,13 @@ const CoursePage = ({ course }: Props) => {
                 </>
               ) : (
                 <div className="text-center py-12">
-                  <div className="w-16 h-16 bg-gray-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                  <div className="w-16 h-16 bg-gray-100 rounded-full mx-auto mb-4 flex items-center justify-center dark:bg-gray-800">
                     <FilePresent className="text-gray-400 text-2xl" />
                   </div>
-                  <h3 className="apply-fonts-normal text-gray-600 font-medium">
+                  <h3 className="apply-fonts-normal text-gray-600 font-medium dark:text-gray-400">
                     لا توجد ملفات متاحة
                   </h3>
-                  <p className="apply-fonts-normal text-gray-400 text-sm mt-1">
+                  <p className="apply-fonts-normal text-gray-400 text-sm mt-1 dark:text-gray-500">
                     لم يتم رفع أي ملفات لهذا الدرس بعد
                   </p>
                 </div>
@@ -371,15 +418,15 @@ const CoursePage = ({ course }: Props) => {
           </div>
 
           {/* Comments Section */}
-          <div className="bg-white/80   rounded-2xl shadow-xl p-6 border border-white/50 ">
+          <div className="bg-white/80 dark:bg-bodyDark dark:bg-opacity-100 backdrop-blur-sm rounded-2xl shadow-xl dark:shadow-none p-6 border border-white/50 dark:border-gray-800 relative">
             <div className="flex items-center gap-3 mb-8">
               <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
                 <Comment className="text-white text-lg" />
               </div>
-              <h2 className="apply-fonts-medium text-xl lg:text-2xl text-gray-800">
+              <h2 className="apply-fonts-medium text-xl lg:text-2xl text-gray-800 dark:text-white">
                 التعليقات
               </h2>
-              <div className="bg-gradient-to-r from-purple-100 to-pink-100 text-purple-800 px-3 py-1 rounded-full text-sm font-bold">
+              <div className="bg-gradient-to-r from-purple-100 to-pink-100 text-purple-800 px-3 py-1 rounded-full text-sm font-bold dark:from-purple-900/30 dark:to-pink-900/30 dark:text-purple-300">
                 {lesson?.comments.length}
               </div>
             </div>
@@ -391,10 +438,10 @@ const CoursePage = ({ course }: Props) => {
                     <div
                       key={comment._id}
                       id={comment._id}
-                      className="group bg-gradient-to-r from-white to-gray-50/50 rounded-2xl border border-gray-200/50 hover:border-purple-300/50 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden "
+                      className="group bg-gradient-to-r from-white to-gray-50/50 rounded-2xl border border-gray-200/50 hover:border-purple-300/50 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden dark:from-[#1a1c3d] dark:to-[#1a1c3d] dark:border-gray-700 dark:hover:border-purple-500/50"
                     >
                       {/* Comment Header */}
-                      <div className="bg-gradient-to-r from-gray-50 to-purple-50/30 p-4 border-b border-gray-200/50">
+                      <div className="bg-gradient-to-r from-gray-50 to-purple-50/30 p-4 border-b border-gray-200/50 dark:from-[#21235a] dark:to-[#21235a] dark:border-gray-700">
                         <div className="flex items-center gap-4">
                           <div className="relative">
                             <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-400 to-pink-500 p-0.5">
@@ -408,22 +455,22 @@ const CoursePage = ({ course }: Props) => {
                                 className="w-full h-full rounded-full object-cover bg-white"
                               />
                             </div>
-                            <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full border-2 border-white shadow-sm"></div>
+                            <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full border-2 border-white shadow-sm dark:border-[#1a1c3d]"></div>
                           </div>
 
                           <div className="flex-1">
                             <div className="flex items-center gap-3 mb-1">
-                              <h3 className="font-bold text-gray-800">
+                              <h3 className="font-bold text-gray-800 dark:text-gray-200">
                                 {comment.user.username}
                               </h3>
-                              <span className="bg-gradient-to-r from-purple-100 to-pink-100 text-purple-800 text-xs px-3 py-1 rounded-full font-medium">
+                              <span className="bg-gradient-to-r from-purple-100 to-pink-100 text-purple-800 text-xs px-3 py-1 rounded-full font-medium dark:from-purple-900/30 dark:to-pink-900/30 dark:text-purple-300">
                                 طالب
                               </span>
-                              <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
+                              <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full dark:bg-gray-800 dark:text-gray-300">
                                 تعليق #{index + 1}
                               </span>
                             </div>
-                            <div className="flex items-center gap-2 text-xs text-gray-500">
+                            <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
                               <svg
                                 className="w-4 h-4"
                                 fill="currentColor"
@@ -437,19 +484,52 @@ const CoursePage = ({ course }: Props) => {
                               </svg>
                               <span>
                                 {new Date(comment.createdAt).toLocaleDateString(
-                                  "ar-SA"
+                                  "en-SA"
                                 )}
                               </span>
                             </div>
                           </div>
+                          {/* Edit and Delete Buttons - NEW SECTION */}
+                          {user._id === comment.user._id && (
+                            <div className="flex items-center gap-2">
+                              {/* Edit Button */}
+                              <button
+                                onClick={() => {
+                                  showEditingModal(comment.text, comment._id);
+                                }}
+                                className="text-gray-500 hover:text-blue-500 transition-colors duration-200 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
+                                disabled={isEditing === comment._id}
+                              >
+                                {isEditing === comment._id ? (
+                                  <Loader2 className="animate-spin" size={16} />
+                                ) : (
+                                  <Edit size={16} />
+                                )}
+                              </button>
+                              {/* Delete Button */}
+                              <button
+                                onClick={() => {
+                                  showDeleteingModal(comment.text, comment._id);
+                                }}
+                                className="text-gray-500 hover:text-red-500 transition-colors duration-200 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
+                                disabled={isDeleting === comment._id}
+                              >
+                                {isDeleting === comment._id ? (
+                                  <Loader2 className="animate-spin" size={16} />
+                                ) : (
+                                  <Trash2 size={16} />
+                                )}
+                              </button>
+                            </div>
+                          )}
                         </div>
                       </div>
 
                       {/* Comment Content */}
                       <div className="p-4">
-                        <div className=" rounded-xl p-4 border-r-4 border-gradient-to-b ">
+                        <div className="rounded-xl p-4  ">
                           <p
-                            className="apply-fonts-normal text-gray-700 leading-relaxed"
+                            className="apply-fonts-normal text-gray-700 leading-relaxed dark:text-gray-300"
                             dir="rtl"
                           >
                             {comment.text}
@@ -460,13 +540,23 @@ const CoursePage = ({ course }: Props) => {
                       {/* Reply Section */}
                       <div className="px-4 pb-4  ">
                         {user.role !== "student" && (
-                          <div className="mb-3 relative">
-                            <AddReply commentId={comment._id} />
+                          <div className="mb-3">
+                            <button
+                              onClick={() =>
+                                setReplyingToCommentId(comment._id)
+                              }
+                              className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#B9BCFF]/20 to-[#B9BCFF]/10 hover:from-[#B9BCFF]/30 hover:to-[#B9BCFF]/20 text-[#3D45EE] rounded-xl font-medium text-sm transition-all duration-200 hover:shadow-md dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-300"
+                            >
+                              <ReplyRounded className="text-lg" />
+                              <span className="apply-fonts-normal">
+                                رد على التعليق
+                              </span>
+                            </button>
                           </div>
                         )}
 
                         {comment.replies && comment.replies.length > 0 && (
-                          <div className="bg-gray-50/50 rounded-xl p-3 mt-3">
+                          <div className="bg-gray-50/50 rounded-xl p-3 mt-3 dark:bg-[#1a1c3d]">
                             <Reply replys={comment.replies} />
                           </div>
                         )}
@@ -476,13 +566,13 @@ const CoursePage = ({ course }: Props) => {
                 </>
               ) : (
                 <div className="text-center py-16">
-                  <div className="w-20 h-20 bg-gradient-to-br from-purple-100 to-pink-100 rounded-full mx-auto mb-6 flex items-center justify-center">
-                    <Comment className="text-purple-400 text-3xl" />
+                  <div className="w-20 h-20 bg-gradient-to-br from-purple-100 to-pink-100 rounded-full mx-auto mb-6 flex items-center justify-center dark:from-purple-900/30 dark:to-pink-900/30">
+                    <Comment className="text-purple-400 text-3xl dark:text-purple-500" />
                   </div>
-                  <h3 className="apply-fonts-normal text-gray-600 text-xl font-medium mb-2">
+                  <h3 className="apply-fonts-normal text-gray-600 text-xl font-medium mb-2 dark:text-gray-400">
                     لا توجد تعليقات بعد
                   </h3>
-                  <p className="apply-fonts-normal text-gray-400">
+                  <p className="apply-fonts-normal text-gray-400 dark:text-gray-500">
                     كن أول من يشارك رأيه حول هذا الدرس الرائع
                   </p>
                 </div>
@@ -491,377 +581,48 @@ const CoursePage = ({ course }: Props) => {
 
             {/* Add Comment Section */}
             {user.role === "student" && (
-              <div className="mt-8 pt-6 border-t border-gray-200/50">
+              <div className="mt-8 pt-6 border-t border-gray-200/50 dark:border-gray-700">
                 <AddComment courseId={course._id} />
               </div>
             )}
           </div>
         </div>
       </div>
+      <ScrollToTopButton />
+      {replyingToCommentId && (
+        <AddReply
+          commentId={replyingToCommentId}
+          onClose={() => setReplyingToCommentId(null)}
+        />
+      )}
+      {isShowEditingModal && (
+        <EditCommentModal
+          commentTitle={commentObj.commentTitle}
+          onClose={closeEditingModal}
+          onConfirm={async (newComment: string) => {
+            try {
+              await handleEditComment(commentObj.commentId, newComment);
+              closeEditingModal(); // إخفاء المودل عند النجاح
+            } catch (error) {
+              console.error("خطأ في تعديل التعليق:", error);
+              // المودل سيبقى مفتوحاً في حالة الخطأ
+            }
+          }}
+          isLoading={commentObj.commentId === isEditing}
+        />
+      )}
+      {isShowDeletingModal && (
+        <DeleteCommentModal
+          commentTitle={commentObj.commentTitle}
+          onClose={closeDeleteingModal}
+          onConfirm={async () => {
+            await handleDeleteComment(commentObj.commentId);
+          }}
+          isLoading={commentObj.commentId === isDeleting}
+        />
+      )}
     </div>
   );
 };
 
 export default CoursePage;
-
-// the old component
-// "use client";
-// import { DescriptionOutlined, LoginOutlined } from "@mui/icons-material";
-
-// import Image from "next/image";
-// import React, { useEffect, useState } from "react";
-// import CourseCardDetails from "./CourseCardDetails";
-// import { Course } from "@/types/course";
-// import { useUserStore } from "@/store/userStore";
-// import Link from "next/link";
-// import Spinner from "../spinner/Spinner";
-// import { useLesson } from "@/store/lessonStore";
-// import "react-toastify/dist/ReactToastify.css";
-// import { redirect, usePathname } from "next/navigation";
-// import { Reply } from "./comments and replies/Reply";
-// import AddComment from "./comments and replies/AddComment";
-// import AddReply from "./comments and replies/AddReply";
-// import VideoPlayer from "./VideoPlayer";
-// type Props = {
-//   course: Course;
-// };
-// const CoursePage = ({ course }: Props) => {
-//   const { lesson, setLesson } = useLesson();
-
-//   const [isEnrolled, setIsEnrolled] = useState<boolean | undefined>(undefined);
-//   const [isPublichedCourse, setIsPublichedCourse] = useState<
-//     boolean | undefined
-//   >(undefined);
-
-//   const checkIsEnrolledCourse = (
-//     userId: string,
-//     course: Course | undefined
-//   ) => {
-//     return course?.enrolledStudents.some((s) => s === userId);
-//   };
-
-//   const { user } = useUserStore();
-
-//   //set first lesson from first section
-//   useEffect(() => {
-//     if (course?.sections && course.sections.length > 0) {
-//       const firstSection = course.sections[0];
-//       if (firstSection.videos && firstSection.videos.length > 0) {
-//         setLesson(
-//           firstSection.videos[0] || {
-//             _id: "",
-//             lessonTitle: "",
-//             url: "",
-//             duration: 0,
-//             isCompleted: false,
-//             completedBy: [],
-//             comments: [],
-//           }
-//         );
-//       }
-//     }
-//   }, [setLesson, course]);
-
-//   useEffect(() => {
-//     const checkIsPublichedCourse = (
-//       userId: string,
-//       course: Course | undefined
-//     ) => {
-//       return (
-//         course?.instructor._id === userId &&
-//         user.publishedCourses.some((c) => c._id === course?._id)
-//       );
-//     };
-//     if (user._id && course) {
-//       const enrollmentStatus = checkIsEnrolledCourse(user._id, course);
-//       setIsEnrolled(enrollmentStatus);
-//       const publichedStatus = checkIsPublichedCourse(user._id, course);
-//       setIsPublichedCourse(publichedStatus);
-//     }
-//   }, [user, course]);
-
-//   //add spinner
-//   if (isEnrolled === undefined || isPublichedCourse === undefined) {
-//     return <Spinner />;
-//   }
-//   //check is user logged in
-//   if (!user._id) {
-//     return (
-//       <div className="my-5 flex flex-col items-center justify-center min-h-screen text-center bg-yellow-50 border border-yellow-300 rounded-lg p-6">
-//         <h2 className="apply-fonts-medium text-xl text-yellow-600">
-//           يرجى تسجيل الدخول للوصول إلى الدورة!
-//         </h2>
-//         <p className="apply-fonts-normal text-gray-700 mt-2">
-//           يجب تسجيل الدخول حتى تتمكن من مشاهدة محتوى الدورة.
-//         </p>
-//         <Link
-//           href={"/login"}
-//           className="mt-4 bg-yellow-500 hover:bg-yellow-600 text-white font-medium px-6 py-2 rounded-lg shadow-md flex items-center gap-2 transition duration-300"
-//         >
-//           <LoginOutlined />
-//           تسجيل الدخول
-//         </Link>
-//       </div>
-//     );
-//   }
-//   //check is user buying course
-//   if (user.role === "student" && !isEnrolled) {
-//     redirect(`/course-overview/${course._id}`);
-//   }
-//   // check is the course uploaded by teacher
-//   if (user.role === "teacher" && !isPublichedCourse) {
-//     redirect(`/dashboard-teacher/courses`);
-//   }
-
-//   //section comments
-//   return (
-//     <div className="  flex  flex-row-reverse justify-between gap-7 sm:px-3  ">
-//       {/* Course Details */}
-
-//       <CourseCardDetails
-//         courseId={course?._id}
-//         userId={user._id}
-//         sections={course?.sections}
-//       />
-
-//       {/* Show Course */}
-//       <div className="lg:custom-width-Course mx-auto">
-//         {/* first  video */}
-//         <VideoPlayer videoId={lesson?.url} />
-//         {/* Video Title */}
-//         <div className="my-4">
-//           <h1 className="apply-fonts-medium  xs:text-lg lg:text-2xl mb-2">
-//             {lesson?.lessonTitle}
-//           </h1>
-//         </div>
-//         {/* student number and  number of reviews */}
-//         <div className="my-4 flex justify-between">
-//           <div className="flex items-center gap-3">
-//             <div className="flex flex-row-reverse -space-x-4 ">
-//               <Image
-//                 width={150}
-//                 height={150}
-//                 className="w-10 h-10 border-2 rounded-full border-white"
-//                 src="/imgs/personImg.png"
-//                 alt="personImg"
-//               />
-//               <Image
-//                 width={150}
-//                 height={150}
-//                 className="w-10 h-10 border-2 rounded-full border-white"
-//                 src="/imgs/personImg.png"
-//                 alt="personImg"
-//               />
-//               <Image
-//                 width={150}
-//                 height={150}
-//                 className="w-10 h-10 border-2 rounded-full border-white"
-//                 src="/imgs/personImg.png"
-//                 alt="personImg"
-//               />
-//               <Image
-//                 width={150}
-//                 height={150}
-//                 className="w-10 h-10 border-2 rounded-full border-white"
-//                 src="/imgs/personImg.png"
-//                 alt="personImg"
-//               />
-//             </div>
-//             <h2 className="flex flex-col -gap-2">
-//               <p className="font-semibold">{course?.enrolledStudents.length}</p>
-//               <span className="apply-fonts-normal text-[13px] text-courseTextSection">
-//                 تلميذ
-//               </span>
-//             </h2>
-//           </div>
-//           <div>
-//             <h2 className="flex flex-col -gap-2">
-//               <p className="font-semibold">{course?.reviews.length}</p>
-//               <span className="apply-fonts-normal text-[13px] text-courseTextSection">
-//                 تقييم
-//               </span>
-//             </h2>
-//           </div>
-//         </div>
-//         {/* description Course */}
-//         <div className="my-4">
-//           <h1 className="apply-fonts-medium xs:text-lg lg:text-2xl mb-2">
-//             وصف الدرس
-//           </h1>
-//           <p className="apply-fonts-normal text-[14px] text-courseTextSection leading-8 pl-5 xs:line-clamp-4  md:line-clamp-6">
-//             {lesson.description}
-//           </p>
-//         </div>
-//         {/* Course Fiels */}
-//         <div className="my-4">
-//           <h1 className="apply-fonts-medium  xs:text-lg lg:text-2xl mb-2">
-//             ملفات الدرس
-//           </h1>
-//           <div className="flex flex-col gap-3">
-//             {lesson?.files.length > 0 ? (
-//               lesson?.files.map((file) => {
-//                 return (
-//                   <div
-//                     key={file._id}
-//                     className="bg-wygColor py-4 px-3 flex items-center justify-between"
-//                   >
-//                     <div className="flex items-center gap-4">
-//                       <DescriptionOutlined
-//                         sx={{ fontSize: "44px" }}
-//                         className="text-courseIconsSection"
-//                       />
-//                       <div>
-//                         <h1 className="text-md font-medium line-clamp-2">
-//                           {file.filename}
-//                         </h1>
-//                         <p className="text-courseTextSection" dir="">
-//                           {(Number(file.size) / 1024 / 1024).toFixed(2)}MB
-//                         </p>
-//                       </div>
-//                     </div>
-
-//                     <div>
-//                       <a
-//                         href={file.url}
-//                         target="_blank"
-//                         download={true}
-//                         className="apply-fonts-normal py-2 px-3 bg-mainColor hover:bg-mainColorHoverLight hoverEle text-white xs:text-sm"
-//                       >
-//                         تحميل
-//                       </a>
-//                     </div>
-//                   </div>
-//                 );
-//               })
-//             ) : (
-//               <h1 className="text-center">لا توجد اي ملفات</h1>
-//             )}
-//           </div>
-//         </div>
-//         {/* stduents comments */}
-//         <div className="mt-5">
-//           <h1 className="mb-8 flex items-center gap-1">
-//             <span className="apply-fonts-medium  xs:text-lg lg:text-2xl">
-//               التعليقات
-//             </span>
-//             <p className="font-bold text-courseTextSection">
-//               ({lesson?.comments.length})
-//             </p>
-//           </h1>
-
-//           <div className="flex flex-col gap-5">
-//             {lesson?.comments.length > 0 ? (
-//               <div className="space-y-6">
-//                 {lesson?.comments.map((comment) => {
-//                   return (
-//                     <div
-//                       key={comment._id}
-//                       id={comment._id}
-//                       className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden"
-//                     >
-//                       {/* Comment Header */}
-//                       <div className="flex items-center gap-3 p-4 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
-//                         <div className="relative">
-//                           <Image
-//                             src={comment.user.thumbnail || "/imgs/logoImg.png"}
-//                             alt="user-username"
-//                             width={48}
-//                             height={48}
-//                             className="rounded-full ring-2 ring-[#B9BCFF]/20"
-//                           />
-//                           <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-[#45DA10] rounded-full border-2 border-white"></div>
-//                         </div>
-
-//                         <div className="flex-1">
-//                           <div className="flex items-center gap-2">
-//                             <h3 className="font-bold text-gray-800 text-sm">
-//                               {comment.user.username}
-//                             </h3>
-//                             <span className="px-2 py-1 bg-[#B9BCFF]/20 text-[#3D45EE] text-xs rounded-full font-medium">
-//                               طالب
-//                             </span>
-//                           </div>
-//                           <div className="flex items-center gap-2 mt-1">
-//                             <svg
-//                               className="w-4 h-4 text-gray-400"
-//                               fill="currentColor"
-//                               viewBox="0 0 20 20"
-//                             >
-//                               <path
-//                                 fillRule="evenodd"
-//                                 d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-//                                 clipRule="evenodd"
-//                               />
-//                             </svg>
-//                             <span className="text-xs text-gray-500 font-medium">
-//                               {comment.createdAt.split("T")[0]}
-//                             </span>
-//                           </div>
-//                         </div>
-//                       </div>
-
-//                       {/* Comment Content */}
-//                       <div dir="rtl" className="p-4">
-//                         <div className="bg-gray-50 rounded-xl p-4 border-r-4 border-[#3D45EE]">
-//                           <p className="apply-fonts-normal text-gray-700 leading-relaxed text-sm">
-//                             {comment.text}
-//                           </p>
-//                         </div>
-//                       </div>
-
-//                       {/* Reply Section */}
-//                       <div className="px-4 pb-4">
-//                         {user.role !== "student" && (
-//                           <div className="mb-3">
-//                             <AddReply commentId={comment._id} />
-//                           </div>
-//                         )}
-
-//                         {comment.replies && comment.replies.length > 0 && (
-//                           <Reply replys={comment.replies} />
-//                         )}
-//                       </div>
-//                     </div>
-//                   );
-//                 })}
-//               </div>
-//             ) : (
-//               <div className="text-center py-12">
-//                 <div className="inline-flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full mb-4">
-//                   <svg
-//                     className="w-8 h-8 text-gray-400"
-//                     fill="none"
-//                     stroke="currentColor"
-//                     viewBox="0 0 24 24"
-//                   >
-//                     <path
-//                       strokeLinecap="round"
-//                       strokeLinejoin="round"
-//                       strokeWidth={1.5}
-//                       d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-//                     />
-//                   </svg>
-//                 </div>
-//                 <h3 className="apply-fonts-normal text-gray-600 text-lg font-medium">
-//                   لا توجد تعليقات بعد
-//                 </h3>
-//                 <p className="apply-fonts-normal text-gray-400 text-sm mt-1">
-//                   كن أول من يشارك رأيه حول هذا الدرس
-//                 </p>
-//               </div>
-//             )}
-//           </div>
-
-//           {/* add comment  */}
-//           {user.role === "teacher" || user.role === "admin" ? (
-//             <></>
-//           ) : (
-//             <AddComment courseId={course._id} />
-//           )}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default CoursePage;

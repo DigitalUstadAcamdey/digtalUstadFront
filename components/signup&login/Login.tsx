@@ -81,7 +81,6 @@ const Login = () => {
           withCredentials: true,
         }
       );
-      
 
       const role =
         res.data.user.role === "student" ? "user" : res.data.user.role;
@@ -103,15 +102,12 @@ const Login = () => {
         className="flex items-center flex-row-reverse  md:gap-3 mb-4"
       >
         <Image
-          src="/imgs/logoImg.png"
+          src="/imgs/dashboard-user-imgs/logoDashUser.png"
           alt="logoImg"
-          className="md:w-14 md:h-14 xs:w-12 xs:h-12 "
-          width={150}
-          height={150}
+          className="w-44 "
+          width={200}
+          height={200}
         />
-        <h1 className="md:text-xl xs:text-base font-semibold xs:hidden lg:block">
-          Sience Academie
-        </h1>
       </Link>
 
       <form
@@ -124,7 +120,7 @@ const Login = () => {
           onChange={handleEmailChange}
           required
           placeholder="البريد الإلكتروني"
-          className={`w-full px-4 py-3 bg-gray-100 text-md outline-none border-b-2 rounded ${
+          className={`bg-gray-50 px-3 py-4 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-mainColor focus:border-mainColor block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 ${
             errors.email ? "border-red-700" : "border-green-400"
           }`}
         />
@@ -139,7 +135,7 @@ const Login = () => {
             onChange={handlePasswordChange}
             placeholder="كلمة المرور"
             required
-            className={` w-full px-4 py-3 bg-gray-100 text-md outline-none border-b-2 rounded
+            className={`bg-gray-50 px-3 py-4 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-mainColor focus:border-mainColor block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500
             ${errors.password ? "border-red-700" : "border-green-400"}`}
           />
           {errors.password && (

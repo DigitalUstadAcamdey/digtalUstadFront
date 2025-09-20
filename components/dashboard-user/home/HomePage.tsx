@@ -1,11 +1,12 @@
 import React from "react";
 import CardCourse from "./CardCourse";
-import Image from "next/image";
-import { Person, PlayLesson } from "@mui/icons-material";
+
 import Link from "next/link";
 import { User } from "@/types/user";
 import { cookies } from "next/headers";
 import { Course } from "@/types/course";
+import Image from "next/image";
+import Notifications from "./Notifications";
 
 const HomePage = async () => {
   const cookiesStore = await cookies();
@@ -38,38 +39,32 @@ const HomePage = async () => {
     }
   };
   await fetchMyEnrolledCourses();
-  const courses: Course[] | null = myEnrolledCourses;
+  const courses: Course[] | null = [myEnrolledCourses[0]];
 
   return (
-    <div className=" lg:custom-width rounded-xl px-4 py-5 h-[93vh] overflow-y-scroll ">
-      <div className="mb-5">
-        <h1 className="apply-fonts-normal text-2xl font-semibold "> دوراتك</h1>
-      </div>
+    <div className=" lg:custom-width rounded-xl  py-5 h-[93vh] overflow-y-scroll ">
       {/* My Courses */}
       <div className="container mx-auto px-8 py-4 ">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-4  gap-6">
-          {courses?.length > 0 ? (
+        <div className="w-full h-full">
+          {myEnrolledCourses?.length > 0 ? (
             courses?.map((course: Course) => {
-              const videoNumber = course.sections.reduce((acc, section) => {
+              const videoNumber = course?.sections.reduce((acc, section) => {
                 return acc + (section.videos?.length || 0);
               }, 0);
 
               return (
-                <div
-                  key={course._id}
-                  className="w-full max-w-sm mx-auto h-auto min-h-[400px] flex-shrink-0"
-                >
+                <div key={course?._id} className="w-full  h-full ">
                   <CardCourse
-                    key={course._id}
+                    key={course?._id}
                     progresBar={
                       user?.progress.find((p) => p.course === course._id)
                         ?.percentage || 0
                     }
-                    studentsNumber={course.enrolledStudents.length}
+                    studentsNumber={course?.enrolledStudents.length}
                     numberOfVideo={videoNumber}
-                    courseImg={course.imageCover}
-                    courseUrl={`/course/${course._id}`}
-                    courseName={course.title}
+                    courseImg={course?.imageCover}
+                    courseUrl={`/course/${course?._id}`}
+                    courseName={course?.title}
                   />
                 </div>
               );
@@ -89,74 +84,37 @@ const HomePage = async () => {
         </div>
       </div>
 
-      {/* Other Courses */}
-      <div className="my-5">
-        <h1 className="apply-fonts-normal text-2xl font-semibold ">
-          دورات أخرى
-        </h1>
-      </div>
-      <div className="container mx-auto px-8 py-4 ">
-        <div className="flex  flex-col gap-5">
-          <div className="w-full  drop-shadow-md border rounded-md flex md:flex-row xs:flex-col xs:gap-3 items-center justify-between p-3  ">
-            <div className="flex  md:flex-row xs:flex-col items-center gap-3">
-              <div className="md:w-28 md:h-20 flex ">
-                <Image
-                  src={`/imgs/course1.png`}
-                  alt="course1"
-                  width={300}
-                  height={200}
-                  className="rounded-lg w-full h-full"
-                />
-              </div>
+      {/* Telegram & Notfications */}
+      <div className="w-full container mx-auto px-8 py-4 ">
+        <div className="grid lg:grid-cols-2 xs:grid-cols-1 gap-4 ">
+          <div className="rounded-3xl overflow-scroll w-full border border-gray-500 p-4 sm:p-6 lg:p-8 text-white relative  h-[300px] sm:h-[350px] lg:h-[400px] mx-auto">
+            <Notifications />
+          </div>
+          <div className="rounded-3xl w-full border border-gray-500 text-white relative overflow-hidden h-[300px] sm:h-[350px] lg:h-[400px] mx-auto ">
+            {/* Background Overlay */}
+            <div className="absolute inset-0 bg-black/10"></div>
 
-              <div className="flex flex-col justify-between">
-                <h1 className="apply-fonts-normal text-md">
-                  الوحدة الثالثة : دور البروتينات في التحفيز الإنزيمي
-                </h1>
-                <div className="flex items-center gap-5 my-3 ">
-                  <div className="flex gap-1 items-center">
-                    <div className="text-mainColor">
-                      <PlayLesson fontSize="small" />
-                    </div>
-                    <div className="flex items-center">
-                      <span className="apply-fonts-normal">دروس</span>
-                      <p>:12</p>
-                    </div>
-                  </div>
-                  <div className="flex gap-1 items-center">
-                    <div className="text-mainColor">
-                      <Person fontSize="small" />
-                    </div>
-                    <div className="flex items-center">
-                      <span className="apply-fonts-normal">تلاميذ</span>
-                      <p>:1200</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            {/* Image Container */}
+            <div className="w-full h-full flex items-center justify-center ">
+              <Image
+                src="/imgs/telgramAction.png"
+                alt="Telegram"
+                className="w-full h-full object-cover"
+                loading="lazy"
+                width={1200}
+                height={1200}
+              />
             </div>
 
-            <div className="flex flex-row-reverse  -space-x-4 rtl:space-x">
-              <Image
-                width={150}
-                height={150}
-                className="w-10 h-10 border-2 rounded-full border-white"
-                src="/imgs/personImg.png"
-                alt="personImg"
-              />
-              <Image
-                width={150}
-                height={150}
-                className="w-10 h-10 border-2 rounded-full border-white"
-                src="/imgs/personImg.png"
-                alt="personImg"
-              />
-              <Link
-                className="flex items-center justify-center w-10 h-10 z-50 text-xs font-medium text-white bg-mainColor border-2  rounded-full hoverEle hover:bg-mainColor/95 "
-                href="/"
+            {/* Absolute Button */}
+            <div className="absolute bottom-9  right-9 flex justify-center">
+              <a
+                href={"/"}
+                className="bg-white/10 backdrop-blur-none border border-white/30 text-white px-4 sm:px-6 lg:px-8 py-2 sm:py-2.5 lg:py-3 rounded-lg lg:rounded-xl hover:bg-white/30 transition-all duration-300 font-medium text-center inline-flex items-center gap-2 text-sm sm:text-base"
+                dir="rtl"
               >
-                99+
-              </Link>
+                الإنضمام الآن
+              </a>
             </div>
           </div>
         </div>

@@ -1,23 +1,30 @@
 import Footer from "@/components/footer/Footer";
-import CourseSection from "@/components/homeComponents/course-section/CourseSection";
+import CallToAction from "@/components/homeComponents/CallToAction";
+import Faq from "@/components/homeComponents/Faq";
+import FeaturesSection from "@/components/homeComponents/FeaturesSection";
+import GetMoreTechs from "@/components/homeComponents/GetMoreTechs";
 import HeaderHome from "@/components/homeComponents/HeaderHome";
 import NavBarHome from "@/components/homeComponents/NavBarHome";
-import TestimonialsHome from "@/components/homeComponents/testmonials/TestimonialsHome";
 import WhatYouGet from "@/components/homeComponents/WhatYouGet";
 import WhyUs from "@/components/homeComponents/WhyUs";
+import ScrollToTopButton from "@/components/utlisComponenets/ScrollToTopButton";
 import { ToastContainer } from "react-toastify";
 
 export default function Home() {
   return (
     <>
-      <div className="lg:px-10  ">
+      <NavBarHome />
+      <div className="lg:px-10 container mx-auto ">
         <ToastContainer />
-        <NavBarHome />
         <HeaderHome />
-        <TestimonialsHome />
         <WhyUs />
         <WhatYouGet />
-        <CourseSection />
+        <GetMoreTechs />
+        <FeaturesSection />
+        <Faq />
+        <CallToAction />
+        {/* btn to scroll to top */}
+        <ScrollToTopButton />
       </div>
       <div>
         <Footer />

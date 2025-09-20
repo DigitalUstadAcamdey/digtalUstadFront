@@ -44,14 +44,14 @@ const Notifications = () => {
     <div className=" lg:custom-width rounded-xl px-6 py-8 h-[93vh] overflow-hidden flex flex-col shadow-sm">
       {/* Header */}
       <div className="mb-8 flex items-center gap-3">
-        <div className="p-3 bg-blue-50 rounded-full">
-          <Bell className="w-6 h-6 text-mainColor" />
+        <div className="p-3 bg-blue-50 rounded-full dark:bg-blue-900/30">
+          <Bell className="w-6 h-6 text-mainColor dark:text-blue-400" />
         </div>
         <div>
-          <h1 className="apply-fonts-medium text-2xl font-bold text-gray-800">
+          <h1 className="apply-fonts-medium text-2xl font-bold text-gray-800 dark:text-gray-100">
             إشعاراتك
           </h1>
-          <p className="text-gray-500 text-sm mt-1">
+          <p className="text-gray-500 text-sm mt-1 dark:text-gray-400">
             {hasNotifications
               ? `لديك ${allNotifications.length} إشعار${
                   allNotifications.length > 1 ? "ات" : ""

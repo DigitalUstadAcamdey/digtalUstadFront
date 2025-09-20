@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { Course } from "./types/course";
 
 export async function middleware(req: NextRequest) {
   const token = req.cookies.get("token")?.value;
-
+  const { pathname } = req.nextUrl;
   // لو مافي حتى توكن → رجّع المستخدم للـ login
   if (!token) {
     return NextResponse.redirect(new URL("/login", req.url));
@@ -77,6 +78,35 @@ export async function middleware(req: NextRequest) {
         )
       );
     }
+    // protected /course/courseId
+    const parts = pathname.split("/");
+    const courseId = parts[2];
+
+    if (pathname.startsWith("/course/")) {
+      
+      if (user.role === "student") {
+        const isEnrolled = user.enrolledCourses.some(
+          (c: Course) => c._id === courseId
+        );
+        console.log(!isEnrolled , 'is Enrolled')
+        if (!isEnrolled) {
+          return NextResponse.redirect(new URL(`/course-overview/${courseId}`, req.url));
+        }
+      } else if (user.role === "teacher") {
+        const isPublished = user.publishedCourses.some(
+          (c: Course) => c._id === courseId
+        );
+        if (!isPublished) {
+          return NextResponse.redirect(new URL(`/course-overview/${courseId}`, req.url));
+        }
+      } else if (user.role === "admin") {
+        // يدخل بدون قيد
+        return NextResponse.next();
+      } else {
+        return NextResponse.redirect(new URL(`/`, req.url));
+      }
+    }
+
     return NextResponse.next();
   } catch (error) {
     console.error("Middleware error:", error);
@@ -92,6 +122,6 @@ export const config = {
     "/dashboard-admin/:path*", // يحمي صفحات الـ admin dashboard
     "/add-course", // يحمي صفحات الـ add-course
     "/edit-course/:path*", // يحمي صفحات الـ edit-course
-    // "/course/:courseId", // يحمي صفحات الـ edit-course
+    "/course/:path*", // يحمي صفحات الـ /course/:courseId
   ],
 };

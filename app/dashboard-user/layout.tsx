@@ -22,14 +22,12 @@ export default async function RootLayout({
   //   redirect("/login");
   // }
 
-
-
   return (
     <>
-      <div className="flex gap-4 p-[20px] h-screen bg-gray-50/50">
+      <div className="flex gap-4  h-screen bg-white dark:bg-bodyDark">
         <SideBar />
         <ToastContainer />
-        <main className="flex-1 ">
+        <main className="flex-1  ">
           <UserProvider user={user}>{children}</UserProvider>
         </main>
       </div>

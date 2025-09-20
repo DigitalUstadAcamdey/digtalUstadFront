@@ -1,7 +1,6 @@
-import { User, Play } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
+"use client";
+import { User, Play, Rocket } from "lucide-react";
+import React, { useEffect, useState } from "react";
 
 type Props = {
   courseImg: string;
@@ -12,81 +11,68 @@ type Props = {
   progresBar: number;
 };
 
-const CardCourse = ({
-  courseName,
-  studentsNumber,
-  numberOfVideo,
-  courseUrl,
-  courseImg,
-  progresBar,
-}: Props) => {
+const CardCourse = ({ courseName, courseUrl, courseImg }: Props) => {
+  const [currentLessonName, setCurrentLessonName] = useState(courseName);
+  const [currentLessonIndex, setCurrentLessonIndex] = useState<number | null>(
+    null
+  );
+  const [currentSectionIndex, setCurrentSectionIndex] = useState<number | null>(
+    null
+  );
+
+  useEffect(() => {
+    const lesson = localStorage.getItem("currentLessonName");
+    const lessonIndex = localStorage.getItem("currentLessonIndex");
+    const lessonSection = localStorage.getItem("currentSectionIndex");
+
+    if (lesson) setCurrentLessonName(lesson);
+    if (lessonIndex) setCurrentLessonIndex(parseInt(lessonIndex) || 0);
+    if (lessonSection) setCurrentSectionIndex(parseInt(lessonSection) || 0);
+  }, [setCurrentLessonName]);
+
   return (
-    <div className="my-1 drop-shadow-md border border-gray-200 rounded-xl bg-white hover:shadow-lg transition-shadow duration-300 w-full h-full flex flex-col justify-between px-4 py-5">
-      {/* صورة الكورس */}
-      <div className="w-full flex mb-4">
-        <Image
-          src={courseImg}
-          alt={courseName}
-          width={300}
-          height={200}
-          className="rounded-lg w-full h-48 object-cover"
-        />
-      </div>
+    <div
+      className="rounded-3xl border border-gray-500  p-4 sm:p-6 lg:p-8 text-white relative overflow-hidden h-[300px] sm:h-[350px] lg:h-[400px] mx-auto bg-cover bg-center bg-no-repeat"
+      style={{
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url('${courseImg}')`,
+      }}
+    >
+      {/* Liquid Glass Container */}
+      <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 lg:bottom-6 lg:right-6 lg:left-auto lg:w-[350px]">
+        <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl lg:rounded-2xl p-4 sm:p-5 lg:p-6 shadow-2xl">
+          {/* Glass effect overlay */}
+          <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-white/0 rounded-xl lg:rounded-2xl"></div>
 
-      {/* عنوان الكورس */}
-      <div className="mb-4">
-        <h1 className="apply-fonts-medium text-lg text-gray-800 line-clamp-2">
-          {courseName}
-        </h1>
-      </div>
+          <div className="relative z-10">
+            {/* Course Information */}
+            <div className="mb-3 sm:mb-4 text-right">
+              <h2
+                className="text-sm sm:text-base lg:text-lg font-medium text-white/80 mb-1 sm:mb-2 line-clamp-2"
+                dir="rtl"
+              >
+                {courseName}
+              </h2>
+              <h3
+                className="text-base sm:text-lg lg:text-xl font-bold text-white mb-3 sm:mb-4 line-clamp-2"
+                dir="rtl"
+              >
+                {currentLessonName}
+              </h3>
+            </div>
 
-      {/* إحصائيات الكورس */}
-      <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
-        <div className="flex gap-2 items-center">
-          <div className="text-mainColor p-1 bg-blue-50 rounded-full">
-            <Play size={16} />
-          </div>
-          <div className="flex items-center gap-1">
-            <span className="apply-fonts-normal text-gray-600">دروس</span>
-            <span className="text-gray-800 font-medium">{numberOfVideo}</span>
+            {/* Continue Watching Button */}
+            <div className="flex justify-center ">
+              <a
+                href={`${courseUrl}?section=${currentSectionIndex}&video=${currentLessonIndex}`}
+                className="bg-white/10 backdrop-blur-sm border border-white/30 text-white px-4 sm:px-6 lg:px-8 py-2 sm:py-2.5 lg:py-3 rounded-lg lg:rounded-xl hover:bg-white/30 transition-all duration-300 font-medium text-center inline-flex items-center gap-2 text-sm sm:text-base"
+                dir="rtl"
+              >
+                <Play className="w-3 h-3 sm:w-4 sm:h-4" fill="currentColor" />
+                متابعة المشاهدة
+              </a>
+            </div>
           </div>
         </div>
-
-        <div className="flex gap-2 items-center">
-          <div className="text-mainColor p-1 bg-blue-50 rounded-full">
-            <User size={16} />
-          </div>
-          <div className="flex items-center gap-1">
-            <span className="apply-fonts-normal text-gray-600">تلاميذ</span>
-            <span className="text-gray-800 font-medium">{studentsNumber}</span>
-          </div>
-        </div>
-      </div>
-
-      {/* شريط التقدم */}
-      <div className="w-full mt-auto">
-        <div className="mb-3">
-          <div className="flex justify-between items-center mb-2">
-            <span className="text-sm text-gray-600 apply-fonts-normal">
-              التقدم
-            </span>
-            <span className="text-sm font-medium text-mainColor">
-              {progresBar}%
-            </span>
-          </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
-            <div
-              className="bg-progressBarCourseColor h-2 rounded-full transition-all duration-300"
-              style={{ width: `${progresBar}%` }}
-            ></div>
-          </div>
-        </div>
-        <Link
-          href={courseUrl}
-          className="w-full block border-0 apply-fonts-normal bg-mainColor hoverEle hover:bg-mainColorHoverLight transition-colors duration-300 text-base text-center py-3 px-4 rounded-lg text-white font-medium shadow-sm hover:shadow-md"
-        >
-          متابعة الكورس
-        </Link>
       </div>
     </div>
   );

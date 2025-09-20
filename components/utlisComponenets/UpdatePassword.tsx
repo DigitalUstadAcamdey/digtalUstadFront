@@ -12,6 +12,7 @@ const UpdatePassword = () => {
   const [currentPassword, setCurrentPassword] = useState<string>("");
   const [password, setPassword] = useState<string>(""); // this is new Password
   const [passwordConfirm, setPasswordConfirm] = useState<string>("");
+
   const handleUpdatePassword = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setloadingUpdatePassword(true);
@@ -44,19 +45,21 @@ const UpdatePassword = () => {
   const toggleShowPassword = (label: keyof typeof showPassword) => {
     setShowPassword((prev) => ({
       ...prev,
-      [label]: !prev[label], // قلب القيمة بدل ما تثبتها true دائمًا
+      [label]: !prev[label],
     }));
   };
 
   return (
     <>
-      <h2 className="apply-fonts-medium  my-5">تحديث كلمة المرور</h2>
+      <h2 className="apply-fonts-medium my-5 text-gray-800 dark:text-gray-100">
+        تحديث كلمة المرور
+      </h2>
       <form className="space-y-4" onSubmit={handleUpdatePassword}>
         {/* current password */}
         <div>
           <label
             htmlFor="currentPassword"
-            className="apply-fonts-normal block text-sm font-medium text-gray-700"
+            className="apply-fonts-normal block text-sm font-medium text-gray-700 dark:text-gray-300"
           >
             كلمة المرور القديمة
           </label>
@@ -65,14 +68,14 @@ const UpdatePassword = () => {
               id="currentPassword"
               type={showPassword.currentPassword ? "text" : "password"}
               placeholder="*********"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 pr-10"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-mainColor focus:border-mainColor  bg-white text-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:focus:ring-blue-500 dark:focus:border-blue-500"
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
               required
             />
             <button
               type="button"
-              className="absolute inset-y-0 left-3 flex items-center text-gray-500"
+              className="absolute inset-y-0 left-3 flex items-center text-gray-500 dark:text-gray-400"
               onClick={() => toggleShowPassword("currentPassword")}
             >
               {showPassword.currentPassword ? (
@@ -88,7 +91,7 @@ const UpdatePassword = () => {
         <div>
           <label
             htmlFor="password"
-            className="apply-fonts-normal block text-sm font-medium text-gray-700"
+            className="apply-fonts-normal block text-sm font-medium text-gray-700 dark:text-gray-300"
           >
             كلمة المرور الجديدة
           </label>
@@ -97,14 +100,14 @@ const UpdatePassword = () => {
               id="password"
               type={showPassword.password ? "text" : "password"}
               placeholder="*********"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 pr-10"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-mainColor focus:border-mainColor  bg-white text-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:focus:ring-blue-500 dark:focus:border-blue-500"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
             <button
               type="button"
-              className="absolute inset-y-0 left-3 flex items-center text-gray-500"
+              className="absolute inset-y-0 left-3 flex items-center text-gray-500 dark:text-gray-400"
               onClick={() => toggleShowPassword("password")}
             >
               {showPassword.password ? <EyeOff size={20} /> : <Eye size={20} />}
@@ -116,7 +119,7 @@ const UpdatePassword = () => {
         <div>
           <label
             htmlFor="passwordConfirm"
-            className="apply-fonts-normal block text-sm font-medium text-gray-700"
+            className="apply-fonts-normal block text-sm font-medium text-gray-700 dark:text-gray-300"
           >
             تأكيد كلمة المرور الجديدة
           </label>
@@ -125,14 +128,14 @@ const UpdatePassword = () => {
               id="passwordConfirm"
               type={showPassword.passwordConfirm ? "text" : "password"}
               placeholder="*********"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 pr-10"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-mainColor focus:border-mainColor  bg-white text-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:focus:ring-blue-500 dark:focus:border-blue-500"
               value={passwordConfirm}
               onChange={(e) => setPasswordConfirm(e.target.value)}
               required
             />
             <button
               type="button"
-              className="absolute inset-y-0 left-3 flex items-center text-gray-500"
+              className="absolute inset-y-0 left-3 flex items-center text-gray-500 dark:text-gray-400"
               onClick={() => toggleShowPassword("passwordConfirm")}
             >
               {showPassword.passwordConfirm ? (
@@ -146,11 +149,11 @@ const UpdatePassword = () => {
 
         <button
           type="submit"
-          className={`py-2 px-4  text-white font-medium rounded-md shadow-sm ${
+          className={`py-2 px-4 text-white font-medium rounded-md shadow-sm ${
             loadingUpdatePassword
-              ? "bg-mainColorHoverLight cursor-not-allowed "
-              : "bg-mainColor hoverEle hover:bg-mainColorHoverLight "
-          } focus:outline-none focus:ring-4 focus:ring-mainColor focus:ring-offset-4`}
+              ? "bg-mainColorHoverLight cursor-not-allowed dark:bg-blue-900/50"
+              : "bg-mainColor hoverEle hover:bg-mainColorHoverLight dark:bg-blue-700 dark:hover:bg-blue-800"
+          } focus:outline-none focus:ring-4 focus:ring-mainColor focus:ring-offset-4 dark:focus:ring-blue-800`}
         >
           {loadingUpdatePassword
             ? "جاري تحديث كلمة السر ..."
