@@ -13,14 +13,12 @@ export async function fetchUserServer() {
         cache: "no-store",
       }
     );
-    console.log("Fetch status:", res.status);
 
     if (!res.ok) {
       return null;
     }
     const data = await res.json();
 
-    console.log("Fetch User:", data.user);
     return data.user;
   } catch (error) {
     console.log("error", error);

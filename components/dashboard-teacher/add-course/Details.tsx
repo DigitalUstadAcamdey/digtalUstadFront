@@ -294,7 +294,6 @@ export default function CourseUploader() {
     formData.append("file", file);
     formData.append("duration", String(duration));
     formData.append("description", description);
-    console.log(duration, description);
 
     try {
       const res = await axios.post(
@@ -315,7 +314,6 @@ export default function CourseUploader() {
             : sec
         )
       );
-      console.log(res.data.video);
     } catch (error) {
       console.error("Error uploading video:", error);
       showToast("error", "حدث خطأ أثناء رفع الفيديو");
@@ -677,7 +675,6 @@ export default function CourseUploader() {
                   {/* Publish Button */}
                   <button
                     onClick={() => {
-                      console.log(currentCourse);
                       showToast("success", "تم نشر الكورس بنجاح!");
                       router.push(`/course/${currentCourse._id}`);
                     }}

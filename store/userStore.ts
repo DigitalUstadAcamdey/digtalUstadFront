@@ -39,7 +39,6 @@ export const useUserStore = create<{
           },
         }
       );
-      console.log("Fetch user in userStore :", res.data.user);
       set({ user: res.data.user });
     } catch (error) {
       console.log("Error when Fetching user in userStore", error);

@@ -28,7 +28,6 @@ const GoogleCallback = () => {
         error.response.data.message ===
         "الحساب غير مفعل حاليا، الرجاء التواصل مع الدعم لتفعيله"
       ) {
-        console.log('true')
         router.push("/?inactive=true");
         return;
       }

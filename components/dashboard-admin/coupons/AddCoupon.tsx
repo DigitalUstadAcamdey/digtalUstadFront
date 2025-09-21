@@ -77,7 +77,6 @@ const AddCoupon = ({
       // إعداد البيانات للإرسال
 
       formData.discountValue = Number(formData.discountValue);
-      console.log(formData);
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BACK_URL}/api/coupons`,
         {
