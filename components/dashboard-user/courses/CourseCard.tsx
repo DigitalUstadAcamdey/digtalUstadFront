@@ -30,7 +30,7 @@ const CourseCard = ({
           src={courseImg}
           alt="course1"
           loading="lazy"
-          className="rounded-lg w-full h-full object-cover"
+          className="rounded-lg w-full h-full object-contain bg-red-400"
         />
       </div>
 
