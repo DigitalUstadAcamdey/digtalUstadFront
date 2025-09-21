@@ -51,7 +51,15 @@ const HomePage = ({ data }: { data: TeacherData }) => {
 
       {/* الدورة الأفضل والإنجازات */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <TopCourseCard course={data.topCourse} isAdmin={false} />
+        {data.topCourse ? (
+          <TopCourseCard course={data.topCourse} isAdmin={false} />
+        ) : (
+          <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100 dark:bg-cardBgDark dark:border-gray-700 dark:shadow-none flex items-center justify-center">
+            <p className="text-gray-500 dark:text-gray-400">
+              لا توجد دورات لعرضها حالياً
+            </p>
+          </div>
+        )}
 
         {/* بطاقة الإنجازات */}
         <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100 dark:bg-cardBgDark dark:border-gray-700 dark:shadow-none">

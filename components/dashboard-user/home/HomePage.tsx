@@ -70,7 +70,7 @@ const HomePage = async () => {
               );
             })
           ) : (
-            <div className="flex flex-col items-center justify-center py-16 px-4">
+            <div className="flex flex-col items-center justify-center py-16 px-4 ">
               {/* الأيقونة الرئيسية */}
               <div className="relative mb-8">
                 <div className="w-32 h-32 bg-gradient-to-br from-mainColor/10 to-mainColor/5 rounded-full flex items-center justify-center mb-4">
