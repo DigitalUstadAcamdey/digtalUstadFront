@@ -4,7 +4,6 @@ import { X, Edit3, Trash2, CheckCircle, XCircle, Wallet } from "lucide-react";
 import axios from "axios";
 import Image from "next/image";
 import React, { FormEvent, useState } from "react";
-import { useSearchUser } from "@/store/searchUser";
 
 type Props = {
   studentName: string;
@@ -23,7 +22,6 @@ const StudentCard = ({
   studentImg,
   studentStatus,
 }: Props) => {
-  const { setUsers } = useSearchUser();
 
   const [showEdit, setShowEdit] = useState<boolean>(false);
   const [showDelete, setShowDelete] = useState<boolean>(false);
@@ -101,7 +99,7 @@ const StudentCard = ({
         { credentials: "include" }
       );
       const data = await res.json();
-      setUsers(data.users);
+     
       showToast("success", "تم حذف الحساب بنجاح");
       setShowDelete(false);
     } catch (error) {
