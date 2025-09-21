@@ -22,13 +22,15 @@ const GoogleCallback = () => {
 
       setUserData(response.data.user);
     } catch (error) {
+      // @ts-expect-error: fix after time
+      const msg = error?.response?.data?.message;
       // console.error("Error fetching user data:", error);
-      if (
-        // @ts-expect-error: fix after time
-        error.response.data.message ===
-        "الحساب غير مفعل حاليا، الرجاء التواصل مع الدعم لتفعيله"
-      ) {
+      if (msg === "الحساب غير مفعل حاليا، الرجاء التواصل مع الدعم لتفعيله") {
         router.push("/?inactive=true");
+        return;
+      }
+      if (msg.startsWiths('قيمة مكررة')) {
+        router.push("/?duplicate=true");
         return;
       }
       router.push("/signup");

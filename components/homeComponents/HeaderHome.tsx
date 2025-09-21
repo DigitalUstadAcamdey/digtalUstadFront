@@ -18,6 +18,12 @@ const HeaderHome = () => {
         "الحساب غير مفعل حاليا، الرجاء التواصل مع الدعم لتفعيله"
       );
     }
+    if (searchParams.get("duplicate") === "true") {
+      showToast(
+        "error",
+        "قيمة مكررة: يبدو أن حسابًا مرتبطًا بهذا البريد الإلكتروني موجود بالفعل. الرجاء تسجيل الدخول بدلاً من ذلك"
+      );
+    }
   }, [searchParams]);
 
   useEffect(() => {
@@ -35,7 +41,9 @@ const HeaderHome = () => {
         >
           {/* Badge */}
 
-          <h1 className="textHeader apply-fonts-bold text-xl">ابدأ مسيرتك التعليمية اون لاين</h1>
+          <h1 className="textHeader apply-fonts-bold text-xl">
+            ابدأ مسيرتك التعليمية اون لاين
+          </h1>
 
           {/* Main Title */}
           <div className="space-y-6">

@@ -153,7 +153,7 @@ const SignUp = () => {
       router.replace(`/dashboard-${role}`);
     } catch (error) {
       // @ts-expect-error: fix after time
-      showToast("error", error.response.data.message);
+      showToast("error", error.response.data.message || "حصل خطأ غير متوقع");
     } finally {
       setLoading(false);
     }
