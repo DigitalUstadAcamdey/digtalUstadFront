@@ -125,13 +125,18 @@ const SideBar = () => {
   }) => (
     <Link
       href={href}
-      className={`flex items-center gap-4 py-3 px-4 rounded-xl transition-all duration-200 hover:bg-mainColor/50 hover:scale-[1.02] ${
-        isActiveLink(href, exact)
-          ? "bg-mainColor/50 shadow-sm"
-          : "hover:shadow-sm"
+      className={`flex items-center gap-4 py-3 px-4 rounded-xl transition-all duration-200 hover:bg-[#1E1E2E] hover:scale-[1.02] ${
+        isActiveLink(href, exact) ? "bg-[#1E1E2E] shadow-sm" : "hover:shadow-sm"
       } my-2`}
     >
-      <Icon size={20} className="flex-shrink-0" />
+      <Icon
+        size={20}
+        className={`flex-shrink-0 group-hover:text-[#227BCF] ${
+          isActiveLink(href, exact)
+            ? "text-[#227BCF] shadow-sm"
+            : "hover:shadow-sm"
+        } `}
+      />
       <span className="text-sm font-medium">{label}</span>
     </Link>
   );
@@ -161,7 +166,11 @@ const SideBar = () => {
         </div>
 
         {/* Logo Section */}
-        <div className={`${toggleSidebar ? "block" : "hidden"} flex-1 `}>
+        <div
+          className={`${
+            toggleSidebar ? "block" : "hidden"
+          } flex-1  flex flex-col justify-evenly`}
+        >
           <div className="w-full flex justify-center mb-6 ">
             <Link
               href="/"
@@ -236,7 +245,7 @@ const SideBar = () => {
       {/* Desktop Sidebar */}
       <div className="dark:bg-bodyDark bg-sideBarBgColo text-white py-6 px-4 border-l  h-full w-[300px] xs:hidden lg:flex flex-col justify-between shadow-lg">
         {/* Logo Section */}
-        <div>
+        <div className="flex-1  flex flex-col justify-evenly">
           <div className="w-full flex justify-center mb-8">
             <Link
               href="/"
