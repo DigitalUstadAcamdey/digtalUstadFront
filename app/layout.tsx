@@ -2,18 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Digital Ustad Academy | منصة التعليم الإلكتروني للأساتذة",
+  title: "Digital Ustad Academy | المنصة الأولى لتعليم الأساتذة عبر الإنترنت",
   description:
-    "Digital Ustad Academy منصة تعليمية متميزة تهدف إلى تمكين الأساتذة من التعلم الرقمي عن طريق دورات متخصصة، محتوى عملي، واختبارات تقييمية دورية لتعزيز المهارات وضمان التفوق.",
-  keywords: [
-    "التعليم الإلكتروني",
-    "دورات الأساتذة",
-    "Digital Ustad Academy",
-    "منصة تعليمية عربية",
-    "تطوير المعلمين",
-    "تعلم عن بعد",
-    "استراتيجيات التعليم الرقمي",
-  ],
+    "انضم إلى Digital Ustad Academy لتطوير مهاراتك في التعليم الرقمي عبر دورات تدريبية عملية، مجتمع داعم للأساتذة، وتحديثات مستمرة تساعدك على النجاح في التدريس الإلكتروني.",
 };
 
 export default async function RootLayout({
