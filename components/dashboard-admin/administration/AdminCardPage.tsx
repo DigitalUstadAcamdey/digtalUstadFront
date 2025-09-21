@@ -60,9 +60,7 @@ const AdminCardPage = ({
           withCredentials: true,
         }
       );
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACK_URL}/api/users`, {
-        credentials: "include",
-      });
+     
 
       showToast("success", "تم تغيير حالة الحساب بنجاح");
       setShowEditModal(false);

@@ -44,9 +44,7 @@ const AddUser = () => {
         }
       );
       showToast("success", "تمت الإضافة بنجاح");
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACK_URL}/api/users`, {
-        credentials: "include",
-      });
+     
       setUserData({
         username: "",
         email: "",
