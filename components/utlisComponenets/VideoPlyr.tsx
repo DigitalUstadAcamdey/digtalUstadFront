@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import "plyr/dist/plyr.css";
 type Props = {
   videoSrc: string;
 };
