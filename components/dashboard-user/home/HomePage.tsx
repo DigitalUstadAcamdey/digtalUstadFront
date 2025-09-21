@@ -149,7 +149,7 @@ const HomePage = async () => {
             {/* Absolute Button */}
             <div className="absolute bottom-9  right-9 flex justify-center">
               <a
-                href={"/"}
+                href={process.env.TELEGRAM_LINK ? process.env.TELEGRAM_LINK : "https://www.telegram.com/digtalustad/holder"}
                 className="bg-white/10 backdrop-blur-none border border-white/30 text-white px-4 sm:px-6 lg:px-8 py-2 sm:py-2.5 lg:py-3 rounded-lg lg:rounded-xl hover:bg-white/30 transition-all duration-300 font-medium text-center inline-flex items-center gap-2 text-sm sm:text-base"
                 dir="rtl"
               >
