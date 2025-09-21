@@ -47,7 +47,6 @@ const AddUser = () => {
       const res = await fetch(`${process.env.NEXT_PUBLIC_BACK_URL}/api/users`, {
         credentials: "include",
       });
-      const data = await res.json();
       setUserData({
         username: "",
         email: "",

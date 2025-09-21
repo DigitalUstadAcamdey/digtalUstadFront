@@ -94,11 +94,7 @@ const StudentCard = ({
         `${process.env.NEXT_PUBLIC_BACK_URL}/api/users/${studentId}`,
         { withCredentials: true }
       );
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACK_URL}/api/users?page=1&limit=5`,
-        { credentials: "include" }
-      );
-      const data = await res.json();
+     
      
       showToast("success", "تم حذف الحساب بنجاح");
       setShowDelete(false);
