@@ -39,7 +39,7 @@ const WhatYouGet = () => {
         initial="hidden"
         animate={inViewTitle ? "visible" : "hidden"}
         variants={fadeUp}
-        className="lg:text-[74px] sm:text-[40px] xs:text-[40px] apply-fonts-medium text-center mb-12"
+        className="lg:text-[74px] sm:text-[40px] xs:text-[40px] apply-fonts-bold text-center mb-12"
       >
         ماذا ستحصل عليه داخل البرنامج؟
       </motion.h1>

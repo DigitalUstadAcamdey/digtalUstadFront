@@ -15,7 +15,6 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import React from "react";
-import ScrollToTopButton from "@/components/utlisComponenets/ScrollToTopButton";
 export const dynamic = "force-dynamic";
 interface Props {
   params: Promise<{ courseId: string }>;

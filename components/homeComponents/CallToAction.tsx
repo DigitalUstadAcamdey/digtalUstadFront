@@ -29,7 +29,7 @@ const CallToAction = () => {
       variants={variants}
       className="my-24 flex flex-col items-center justify-center text-center p-6 sm:p-12"
     >
-      <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold apply-fonts-medium text-white mb-8">
+      <h2 className="text-3xl md:text-4xl lg:text-5xl  apply-fonts-bold text-white mb-8">
         ابدأ مسيرتك التعليمية اون لاين
       </h2>
       <button className=" bg-mainColor  hover:bg-mainColorHoverLight  text-white  font-semibold  py-4 px-16 rounded-xl shadow-lg transition-all duration-300 transform hover:scale-105">

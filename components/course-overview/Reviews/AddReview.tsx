@@ -2,7 +2,6 @@
 import { useCourse } from "@/store/courseStore";
 import { useUserStore } from "@/store/userStore";
 import showToast from "@/utils/showToast";
-import { ChatBubbleOutlineOutlined } from "@mui/icons-material";
 import { Rating } from "@mui/material";
 import axios from "axios";
 import { MessageCircle } from "lucide-react";

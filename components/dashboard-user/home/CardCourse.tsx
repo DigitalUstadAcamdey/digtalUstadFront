@@ -1,5 +1,5 @@
 "use client";
-import { User, Play, Rocket } from "lucide-react";
+import {Play } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
 type Props = {

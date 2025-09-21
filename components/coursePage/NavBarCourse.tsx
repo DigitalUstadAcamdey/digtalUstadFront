@@ -4,8 +4,7 @@ import {
   Book,
   Home,
   Bell,
-  Menu,
-  X,
+
   ChevronRight,
   ChevronLeft,
 } from "lucide-react";

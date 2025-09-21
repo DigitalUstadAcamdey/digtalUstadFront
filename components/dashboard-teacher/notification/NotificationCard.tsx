@@ -4,7 +4,6 @@ import React from "react";
 import { Play, Calendar, ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { colors } from "@/constants/colors";
 
 type Props = {
   notificationImg: string;

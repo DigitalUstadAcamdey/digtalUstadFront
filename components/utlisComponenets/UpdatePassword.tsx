@@ -15,6 +15,22 @@ const UpdatePassword = () => {
 
   const handleUpdatePassword = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!currentPassword.trim()) {
+      showToast("info", "كلمة المرور الحالية مطلوبة");
+      return;
+    }
+    if (!password.trim()) {
+      showToast("info", "كلمة المرور الجديدة مطلوبة");
+      return;
+    }
+    if (password !== passwordConfirm) {
+      showToast("info", "كلمة المرور الجديدة غير متطابقة");
+      return;
+    }
+    if (password.length < 6) {
+      showToast("info", "يجب أن تكون كلمة المرور الجديدة 6 أحرف على الأقل");
+      return;
+    }
     setloadingUpdatePassword(true);
     try {
       await axios.patch(

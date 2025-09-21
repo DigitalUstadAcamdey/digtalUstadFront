@@ -21,7 +21,7 @@ const WhyUs = () => {
         initial="hidden"
         animate={inView ? "visible" : "hidden"}
         variants={fadeUp}
-        className="max-w-4xl text-center text-white apply-fonts-normal" // Changed text color to white
+        className="max-w-4xl text-center text-white apply-fonts-bold" // Changed text color to white
       >
         <p className="lg:text-3xl  sm:text-xl xs:text-lg leading-relaxed">
           ليس مجرد برنامج تعليمي، بل هو منصة انطلاقتك نحو بناء مسيرتك الرقمية.

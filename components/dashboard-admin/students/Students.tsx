@@ -48,19 +48,19 @@ const Students = async ({ searchParams }: StudentsProps) => {
   const users: User[] = await fetchAllUsers();
 
   return (
-    <div className="  rounded-xl px-4 py-5 h-[94vh] overflow-y-scroll ">
+    <div className="rounded-xl px-4 py-5 h-[93vh] overflow-y-scroll ">
       {/* Header Section */}
-      <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 mb-8">
+      <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 p-6 mb-8">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           <div className="flex items-center gap-4">
             <div className="bg-mainColor rounded-xl p-3">
               <Users className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="apply-fonts-normal text-3xl font-bold text-gray-800">
+              <h1 className="apply-fonts-normal text-3xl font-bold text-gray-800 dark:text-gray-100">
                 الطلاب
               </h1>
-              <p className="text-gray-500 mt-1">
+              <p className="text-gray-500 dark:text-gray-400 mt-1">
                 إدارة حسابات الطلاب ({users?.length || 0} طالب)
               </p>
             </div>
@@ -72,19 +72,19 @@ const Students = async ({ searchParams }: StudentsProps) => {
       </div>
       {/* Statistics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
-        <div className="bg-white rounded-xl shadow-md border border-gray-100 p-6">
+        <div className="bg-white dark:bg-gray-900 rounded-xl shadow-md border border-gray-100 dark:border-gray-700 p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="apply-fonts-normal text-sm text-gray-500 mb-1">
+              <p className="apply-fonts-normal text-sm text-gray-500 dark:text-gray-400 mb-1">
                 إجمالي الطلاب
               </p>
-              <p className="text-2xl font-bold text-gray-800">
+              <p className="text-2xl font-bold text-gray-800 dark:text-gray-100">
                 {users?.length || 0}
               </p>
             </div>
-            <div className="bg-blue-100 rounded-lg p-3">
+            <div className="bg-blue-100 dark:bg-blue-900/30 rounded-lg p-3">
               <svg
-                className="w-6 h-6 text-blue-600"
+                className="w-6 h-6 text-blue-600 dark:text-blue-400"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -100,19 +100,19 @@ const Students = async ({ searchParams }: StudentsProps) => {
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-md border border-gray-100 p-6">
+        <div className="bg-white dark:bg-gray-900 rounded-xl shadow-md border border-gray-100 dark:border-gray-700 p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="apply-fonts-normal text-sm text-gray-500 mb-1">
+              <p className="apply-fonts-normal text-sm text-gray-500 dark:text-gray-400 mb-1">
                 الطلاب النشطون
               </p>
-              <p className="text-2xl font-bold text-green-600">
+              <p className="text-2xl font-bold text-green-600 dark:text-green-400">
                 {users?.filter((user) => user.active).length || 0}
               </p>
             </div>
-            <div className="bg-green-100 rounded-lg p-3">
+            <div className="bg-green-100 dark:bg-green-900/30 rounded-lg p-3">
               <svg
-                className="w-6 h-6 text-green-600"
+                className="w-6 h-6 text-green-600 dark:text-green-400"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -128,19 +128,19 @@ const Students = async ({ searchParams }: StudentsProps) => {
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-md border border-gray-100 p-6">
+        <div className="bg-white dark:bg-gray-900 rounded-xl shadow-md border border-gray-100 dark:border-gray-700 p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="apply-fonts-normal text-sm text-gray-500 mb-1">
+              <p className="apply-fonts-normal text-sm text-gray-500 dark:text-gray-400 mb-1">
                 الطلاب غير النشطين
               </p>
-              <p className="text-2xl font-bold text-red-600">
+              <p className="text-2xl font-bold text-red-600 dark:text-red-400">
                 {users?.filter((user) => !user.active).length || 0}
               </p>
             </div>
-            <div className="bg-red-100 rounded-lg p-3">
+            <div className="bg-red-100 dark:bg-red-900/30 rounded-lg p-3">
               <svg
-                className="w-6 h-6 text-red-600"
+                className="w-6 h-6 text-red-600 dark:text-red-400"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -157,11 +157,11 @@ const Students = async ({ searchParams }: StudentsProps) => {
         </div>
       </div>
       {/* Content Section */}
-      <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+      <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 overflow-hidden">
         {users?.length > 0 ? (
           <>
             {/* Desktop Table Header */}
-            <div className="hidden md:block bg-mainColor text-white">
+            <div className="hidden md:block bg-mainColor dark:bg-gray-800 text-white dark:text-gray-100">
               <div className="grid grid-cols-12 gap-4 px-6 py-4">
                 <div className="col-span-4">
                   <h3 className="apply-fonts-normal font-semibold text-lg">
@@ -187,11 +187,11 @@ const Students = async ({ searchParams }: StudentsProps) => {
             </div>
 
             {/* Students List */}
-            <div className="divide-y divide-gray-100">
+            <div className="divide-y divide-gray-100 dark:divide-gray-700">
               {users.map((user) => (
                 <div
                   key={user._id}
-                  className="hover:bg-gray-50 transition-colors duration-200"
+                  className="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200"
                 >
                   <StudentCard
                     studentImg={user.thumbnail || "/imgs/logoImg.png"}
@@ -207,13 +207,13 @@ const Students = async ({ searchParams }: StudentsProps) => {
           </>
         ) : (
           <div className="flex flex-col items-center justify-center py-20 px-6">
-            <div className="bg-gray-100 rounded-full p-6 mb-6">
-              <Users className="w-12 h-12 text-gray-400" />
+            <div className="bg-gray-100 dark:bg-gray-800 rounded-full p-6 mb-6">
+              <Users className="w-12 h-12 text-gray-400 dark:text-gray-500" />
             </div>
-            <h3 className="apply-fonts-normal text-xl font-semibold text-gray-600 mb-2">
+            <h3 className="apply-fonts-normal text-xl font-semibold text-gray-600 dark:text-gray-300 mb-2">
               لا توجد نتائج
             </h3>
-            <p className="apply-fonts-normal text-gray-500 text-center max-w-md">
+            <p className="apply-fonts-normal text-gray-500 dark:text-gray-400 text-center max-w-md">
               {filter
                 ? `لم يتم العثور على أي طلاب يطابقون "${filter}"`
                 : "لا يوجد أي طلاب مسجلين في النظام حالياً"}

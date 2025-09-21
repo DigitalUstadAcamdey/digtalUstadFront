@@ -14,7 +14,7 @@ import { AdminCharts } from "@/components/charts/AdminCharts";
 import { colors } from "@/constants/colors";
 import { AdminData } from "@/types/dashboard";
 
-const HomePage =  ({ data }: { data: AdminData }) => {
+const HomePage = ({ data }: { data: AdminData }) => {
   return (
     <div className="lg:custom-width rounded-xl px-4 py-5 h-[94vh] overflow-y-scroll space-y-6">
       {/* العنوان والترحيب */}
@@ -28,7 +28,7 @@ const HomePage =  ({ data }: { data: AdminData }) => {
         <StatCard
           icon={Users}
           title="إجمالي المستخدمين"
-          value={data.users}
+          value={data.users || 0}
           bgColor={colors.lightBlue}
           iconColor={colors.mainColor}
           trend={12}
@@ -36,7 +36,7 @@ const HomePage =  ({ data }: { data: AdminData }) => {
         <StatCard
           icon={BookOpen}
           title="عدد الدورات"
-          value={data.courses}
+          value={data.courses || 0}
           bgColor={colors.lightOrange}
           iconColor={colors.courseIconsSection}
           trend={8}
@@ -44,7 +44,7 @@ const HomePage =  ({ data }: { data: AdminData }) => {
         <StatCard
           icon={UserCheck}
           title="إجمالي التسجيلات"
-          value={data.totalEnrollments}
+          value={data.totalEnrollments || 0}
           bgColor={colors.lightGreen}
           iconColor={colors.successColor}
           trend={15}
@@ -52,7 +52,7 @@ const HomePage =  ({ data }: { data: AdminData }) => {
         <StatCard
           icon={GraduationCap}
           title="عدد المعلمين"
-          value={data.teachers}
+          value={data.teachers || 0}
           bgColor={colors.lightPurple}
           iconColor={colors.mainColorHoverDark}
           trend={5}
@@ -88,7 +88,7 @@ const HomePage =  ({ data }: { data: AdminData }) => {
             className="text-3xl font-bold"
             style={{ color: colors.successColor }}
           >
-            {data.totalRevenue} DZD
+            {data.totalRevenue || 0} DZD
           </p>
           <div className="flex items-center gap-2 mt-2">
             <TrendingUp size={16} style={{ color: colors.successColor }} />
@@ -98,7 +98,7 @@ const HomePage =  ({ data }: { data: AdminData }) => {
           </div>
         </div>
 
-        <TopCourseCard course={data.topCourse} isAdmin={true} />
+        <TopCourseCard course={data.topCourse || 0} isAdmin={true} />
       </div>
 
       {/* المخططات */}

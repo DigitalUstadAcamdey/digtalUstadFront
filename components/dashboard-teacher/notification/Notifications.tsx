@@ -5,7 +5,6 @@ import { useUserStore } from "@/store/userStore";
 import { io } from "socket.io-client";
 import { Notifcation } from "@/types/notification";
 import Spinner from "@/components/spinner/Spinner";
-import { colors } from "@/constants/colors";
 
 const socket = io(process.env.NEXT_PUBLIC_BACK_URL as string);
 

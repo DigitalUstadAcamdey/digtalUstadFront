@@ -92,7 +92,7 @@ const DeleteCommentModal = ({
                   className="text-gray-700 dark:text-gray-300 text-sm font-medium"
                   dir="rtl"
                 >
-                  "{commentTitle}"
+                  {commentTitle}
                 </p>
               </div>
             )}

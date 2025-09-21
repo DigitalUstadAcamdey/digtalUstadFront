@@ -151,7 +151,10 @@ const Settings = ({ userFetcher }: Props) => {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <div className="bg-green-100 p-3 rounded-full dark:bg-green-900/50">
-                  <Wallet className="text-green-600 dark:text-green-400" size={24} />
+                  <Wallet
+                    className="text-green-600 dark:text-green-400"
+                    size={24}
+                  />
                 </div>
                 <div>
                   <h3 className="apply-fonts-normal text-lg font-semibold text-gray-800 mb-1 dark:text-gray-100">
@@ -165,7 +168,10 @@ const Settings = ({ userFetcher }: Props) => {
 
               <div className="text-left">
                 <div className="flex items-center gap-2 mb-1">
-                  <DollarSign className="text-green-600 dark:text-green-400" size={20} />
+                  <DollarSign
+                    className="text-green-600 dark:text-green-400"
+                    size={20}
+                  />
                   <span className="text-2xl font-bold text-green-700 dark:text-green-500">
                     {user.balance ? user.balance.toLocaleString("ar-DZ") : "0"}
                   </span>
@@ -219,13 +225,14 @@ const Settings = ({ userFetcher }: Props) => {
                 src={user.thumbnail ? user.thumbnail : "/imgs/personImg.png"}
                 width={150}
                 height={150}
+                loading="lazy"
                 alt="personImg"
                 className="w-36 h-36 rounded-xl object-cover"
               />
               <div className="flex flex-col items-start w-36">
                 <label
                   htmlFor="image"
-                  className="cursor-pointer text-sm w-full text-center font-medium text-white bg-mainColor hover:bg-mainColorHoverLight rounded-lg px-4 py-2 hoverEle dark:bg-blue-700 dark:hover:bg-blue-800"
+                  className="cursor-pointer text-sm w-full text-center apply-fonts-normal text-white bg-mainColor hover:bg-mainColorHoverLight rounded-lg px-4 py-2 hoverEle dark:bg-blue-700 dark:hover:bg-blue-800"
                 >
                   اختر صورة
                 </label>
@@ -347,11 +354,11 @@ const Settings = ({ userFetcher }: Props) => {
             <div className="p-6">
               {/* وقت الاستجابة */}
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 dark:bg-blue-900/30 dark:border-blue-800">
-                <div
-                  className="flex items-center gap-3"
-                  dir="rtl"
-                >
-                  <Clock className="text-blue-600 dark:text-blue-400" size={20} />
+                <div className="flex items-center gap-3" dir="rtl">
+                  <Clock
+                    className="text-blue-600 dark:text-blue-400"
+                    size={20}
+                  />
                   <div>
                     <h4 className="font-semibold text-blue-800 apply-fonts-normal dark:text-blue-300">
                       وقت الاستجابة
@@ -380,10 +387,7 @@ const Settings = ({ userFetcher }: Props) => {
                       onClick={() => handleContactClick(method)}
                       className={`${method.bgColor} ${method.borderColor} border-2 rounded-xl p-4 cursor-pointer transition-all duration-300 ${method.hoverColor} hover:shadow-md hover:border-opacity-60 transform hover:scale-[1.02] ${method.darkBgColor} ${method.darkBorderColor} ${method.darkHoverColor}`}
                     >
-                      <div
-                        className="flex items-center gap-4"
-                        dir="rtl"
-                      >
+                      <div className="flex items-center gap-4" dir="rtl">
                         <div
                           className={`${method.bgColor} p-3 rounded-full border ${method.borderColor} ${method.darkBgColor} ${method.darkBorderColor}`}
                         >
@@ -407,7 +411,9 @@ const Settings = ({ userFetcher }: Props) => {
                           </p>
                         </div>
 
-                        <div className={`${method.textColor} opacity-60 dark:text-gray-500`}>
+                        <div
+                          className={`${method.textColor} opacity-60 dark:text-gray-500`}
+                        >
                           <svg
                             width="20"
                             height="20"
@@ -429,10 +435,7 @@ const Settings = ({ userFetcher }: Props) => {
 
               {/* ملاحظة إضافية */}
               <div className="mt-6 bg-amber-50 border border-amber-200 rounded-lg p-4 dark:bg-amber-900/30 dark:border-amber-800">
-                <div
-                  className="apply-fonts-normal"
-                  dir="rtl"
-                >
+                <div className="apply-fonts-normal" dir="rtl">
                   <h4 className="font-semibold text-amber-800 mb-2 dark:text-amber-400">
                     ملاحظة مهمة:
                   </h4>

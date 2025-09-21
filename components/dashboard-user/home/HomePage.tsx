@@ -1,12 +1,12 @@
 import React from "react";
 import CardCourse from "./CardCourse";
 
-import Link from "next/link";
 import { User } from "@/types/user";
 import { cookies } from "next/headers";
 import { Course } from "@/types/course";
 import Image from "next/image";
 import Notifications from "./Notifications";
+import { BookOpen } from "lucide-react";
 
 const HomePage = async () => {
   const cookiesStore = await cookies();
@@ -70,16 +70,56 @@ const HomePage = async () => {
               );
             })
           ) : (
-            <h1 className="apply-fonts-normal text-center  col-span-3">
-              <p>
-                <span className="text-mainColor text-xl ">
-                  لاتوجد أي كورسات ،
-                </span>
-                <span className="mr-2 text-mainColor text-xl hover:text-mainColorHoverLight hoverEle">
-                  <Link href={"/dashboard-user/courses"}>تصفح الكورسات</Link>
-                </span>
-              </p>
-            </h1>
+            <div className="flex flex-col items-center justify-center py-16 px-4">
+              {/* الأيقونة الرئيسية */}
+              <div className="relative mb-8">
+                <div className="w-32 h-32 bg-gradient-to-br from-mainColor/10 to-mainColor/5 rounded-full flex items-center justify-center mb-4">
+                  <BookOpen className="w-16 h-16 text-mainColor/60" />
+                </div>
+                {/* دائرة متحركة */}
+                <div className="absolute -top-2 -right-2 w-8 h-8 bg-mainColor/20 rounded-full animate-pulse"></div>
+                <div className="absolute -bottom-2 -left-2 w-6 h-6 bg-mainColor/30 rounded-full animate-bounce"></div>
+              </div>
+
+              {/* النص الرئيسي */}
+              <div className="text-center mb-8 max-w-md">
+                <h2 className="apply-fonts-normal text-2xl font-bold text-gray-800 dark:text-gray-200 mb-3">
+                  لم تشترك في أي كورس بعد
+                </h2>
+                <p className="apply-fonts-normal text-gray-600 dark:text-gray-400 text-base leading-relaxed">
+                  ابدأ رحلتك التعليمية واكتشف مجموعة متنوعة من الكورسات المتاحة
+                  لتطوير مهاراتك
+                </p>
+              </div>
+
+              {/* الأزرار */}
+              {/* <div className="flex flex-col justify-center sm:flex-row gap-4 w-full max-w-sm">
+                <Link
+                  href="/dashboard-user/courses"
+                  className="apply-fonts-normal flex items-center justify-center gap-2 px-6 py-3 bg-mainColor text-white font-medium rounded-lg hover:bg-mainColorHoverLight transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                >
+                  <Search className="w-5 h-5" />
+                  تصفح الكورسات
+                </Link>
+
+               
+              </div> */}
+
+              {/* عناصر تزيينية */}
+              <div className="mt-12 grid grid-cols-3 gap-4 opacity-30">
+                <div className="h-2 bg-mainColor/20 rounded-full animate-pulse"></div>
+                <div
+                  className="h-2 bg-mainColor/30 rounded-full animate-pulse"
+                  style={{ animationDelay: "0.5s" }}
+                ></div>
+                <div
+                  className="h-2 bg-mainColor/20 rounded-full animate-pulse"
+                  style={{ animationDelay: "1s" }}
+                ></div>
+              </div>
+
+             
+            </div>
           )}
         </div>
       </div>

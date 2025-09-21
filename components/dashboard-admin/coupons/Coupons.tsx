@@ -22,21 +22,23 @@ const Coupons = ({ couponsData }: CouponsProps) => {
   return (
     <>
       <div
-        className=" rounded-xl px-4 py-5 h-[94vh] overflow-y-scroll"
+        className="rounded-xl px-4 py-5 h-[93vh] overflow-y-scroll "
         dir="rtl"
       >
         {/* رأس الصفحة */}
-        <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 mb-8">
+        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 p-6 mb-8">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div className="flex items-center gap-4">
               <div className="bg-mainColor rounded-xl p-3">
                 <Tickets className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h1 className="apply-fonts-normal text-3xl font-bold text-gray-800">
+                <h1 className="apply-fonts-normal text-3xl font-bold text-gray-800 dark:text-gray-100">
                   الكوبونات
                 </h1>
-                <p className="text-gray-500 mt-1">إدارة الكوبونات</p>
+                <p className="text-gray-500 dark:text-gray-400 mt-1">
+                  إدارة الكوبونات
+                </p>
               </div>
             </div>
 
@@ -56,44 +58,52 @@ const Coupons = ({ couponsData }: CouponsProps) => {
 
         {/* الإحصائيات السريعة */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-          <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
+          <div className="bg-white dark:bg-gray-900 rounded-lg p-4 shadow-sm border border-gray-100 dark:border-gray-700">
             <div
               className="text-2xl font-bold"
               style={{ color: colors.mainColor }}
             >
               {totalCoupons}
             </div>
-            <div className="text-sm text-gray-600">إجمالي الكوبونات</div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">
+              إجمالي الكوبونات
+            </div>
           </div>
 
-          <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
+          <div className="bg-white dark:bg-gray-900 rounded-lg p-4 shadow-sm border border-gray-100 dark:border-gray-700">
             <div
               className="text-2xl font-bold"
               style={{ color: colors.successColor }}
             >
               {activeCoupons}
             </div>
-            <div className="text-sm text-gray-600">كوبونات نشطة</div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">
+              كوبونات نشطة
+            </div>
           </div>
 
-          <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
+          <div className="bg-white dark:bg-gray-900 rounded-lg p-4 shadow-sm border border-gray-100 dark:border-gray-700">
             <div
               className="text-2xl font-bold"
               style={{ color: colors.redColor }}
             >
               {expiredCoupons}
             </div>
-            <div className="text-sm text-gray-600">كوبونات منتهية</div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">
+              كوبونات منتهية
+            </div>
           </div>
 
-          <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
+          <div className="bg-white dark:bg-gray-900 rounded-lg p-4 shadow-sm border border-gray-100 dark:border-gray-700">
             <div
               className="text-2xl font-bold"
               style={{ color: colors.startTextColor }}
             >
               {totalUsage}
             </div>
-            <div className="text-sm text-gray-600">إجمالي الاستخدامات</div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">
+              إجمالي الاستخدامات
+            </div>
           </div>
         </div>
 
@@ -120,10 +130,12 @@ const Coupons = ({ couponsData }: CouponsProps) => {
                 style={{ color: colors.mainColor }}
               />
             </div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
+            <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
               لا توجد كوبونات حتى الآن
             </h3>
-            <p className="text-gray-500 mb-6">ابدأ بإنشاء أول كوبون خصم</p>
+            <p className="text-gray-500 dark:text-gray-400 mb-6">
+              ابدأ بإنشاء أول كوبون خصم
+            </p>
             <button
               onClick={() => setIsAddModalOpen(true)}
               className="flex items-center gap-2 px-6 py-3 text-white rounded-xl font-medium transition-all hover:shadow-lg"

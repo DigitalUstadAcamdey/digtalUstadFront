@@ -2,7 +2,6 @@
 
 import React from "react";
 import { Trophy, Users } from "lucide-react";
-import { colors } from "@/constants/colors";
 
 interface TopCourseCardProps {
   course: {
@@ -44,7 +43,7 @@ export const TopCourseCard: React.FC<TopCourseCardProps> = ({
               السعر:
             </span>
             <span className="font-bold text-[#45DA10] dark:text-successDark">
-              {course.price.toLocaleString()} DZD
+              {course.price?.toLocaleString()} DZD
             </span>
           </div>
           <div className="flex items-center justify-between text-sm mt-2">

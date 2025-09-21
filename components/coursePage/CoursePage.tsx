@@ -106,25 +106,6 @@ const CoursePage = ({ course }: Props) => {
     );
   }, [course, sectionIndex, videoIndex, setLesson]);
 
-  // useEffect(() => {
-  //   const checkIsPublichedCourse = (
-  //     userId: string,
-  //     course: Course | undefined
-  //   ) => {
-  //     return (
-  //       course?.instructor._id === userId &&
-  //       user.publishedCourses.some((c) => c._id === course?._id)
-  //     );
-  //   };
-  //   if (user._id && course) {
-  //     const enrollmentStatus = checkIsEnrolledCourse(user._id, course);
-  //     setIsEnrolled(enrollmentStatus);
-  //     const publichedStatus = checkIsPublichedCourse(user._id, course);
-  //     setIsPublichedCourse(publichedStatus);
-  //   }
-  //   console.log("isEnrolled :", isEnrolled);
-  //   console.log("isPublichedCourse :", isPublichedCourse);
-  // }, [user, course]);
   const isEnrolledMemo = useMemo(() => {
     if (!user._id || !course) return false;
     return checkIsEnrolledCourse(user._id, course);
@@ -137,7 +118,10 @@ const CoursePage = ({ course }: Props) => {
       user.publishedCourses.some((c) => c._id === course?._id)
     );
   }, [user._id, course, user.publishedCourses]);
-
+  // replace check to middleware.ts
+  const userIsCompeletedLesson = useMemo(() => {
+    return lesson.completedBy.includes(user._id);
+  }, [lesson.completedBy, user._id]);
   const formatFileSize = (bytes: number) => {
     if (bytes === 0) return "0 Bytes";
     const k = 1024;
@@ -185,11 +169,6 @@ const CoursePage = ({ course }: Props) => {
   if (isEnrolledMemo === null || isPublichedCourseMemo === null) {
     return <Spinner />;
   }
-
-  // replace check to middleware.ts
-  const userIsCompeletedLesson = useMemo(() => {
-    return lesson.completedBy.includes(user._id);
-  }, [lesson.completedBy, user._id]);
 
   // Comments Functions
   const showEditingModal = (commentTitle: string, commentId: string) => {
@@ -242,7 +221,6 @@ const CoursePage = ({ course }: Props) => {
     commentId: string | null,
     newText: string
   ) => {
-
     setIsEditing(commentId);
 
     try {
@@ -255,7 +233,7 @@ const CoursePage = ({ course }: Props) => {
           withCredentials: true,
         }
       );
-      const updatedComments = lesson.comments.map((comment: any) =>
+      const updatedComments = lesson.comments.map((comment) =>
         comment._id === commentId ? res.data.comment : comment
       );
 

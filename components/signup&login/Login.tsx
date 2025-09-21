@@ -96,7 +96,7 @@ const Login = () => {
   };
 
   return (
-    <div className="container mx-auto py-4  h-[70vh] w-full flex items-center justify-center flex-col">
+    <div className="container mx-auto py-4  h-full w-full flex items-center justify-center flex-col">
       <Link
         href={"/"}
         className="flex items-center flex-row-reverse  md:gap-3 mb-4"

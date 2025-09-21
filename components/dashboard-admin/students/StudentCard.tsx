@@ -126,7 +126,7 @@ const StudentCard = ({
     <>
       {/* Desktop Layout */}
       <div className="hidden md:block">
-        <div className="grid grid-cols-12 gap-4 items-center px-6 py-6 hover:bg-gray-50/50 transition-colors duration-200 overflow-auto">
+        <div className="grid grid-cols-12 gap-4 items-center px-6 py-6 hover:bg-gray-50/50 dark:hover:bg-gray-800 transition-colors duration-200 overflow-auto">
           {/* Student Info */}
           <div className="col-span-4 flex items-center gap-4">
             <div className="relative">
@@ -135,25 +135,27 @@ const StudentCard = ({
                 width={60}
                 height={60}
                 alt="Student Avatar"
-                className="w-15 h-15 rounded-full border-3 border-white shadow-lg object-cover"
+                className="w-15 h-15 rounded-full border-3 border-white dark:border-gray-800 shadow-lg object-cover"
               />
               <div
-                className={`absolute -bottom-1 -right-1 w-5 h-5 rounded-full border-2 border-white ${
+                className={`absolute -bottom-1 -right-1 w-5 h-5 rounded-full border-2 border-white dark:border-gray-800 ${
                   studentStatus ? "bg-green-500" : "bg-red-500"
                 }`}
               ></div>
             </div>
             <div className="flex-1 min-w-0">
-              <h3 className="apply-fonts-normal text-lg font-semibold text-gray-800 truncate">
+              <h3 className="apply-fonts-normal text-lg font-semibold text-gray-800 dark:text-gray-100 truncate">
                 {studentName}
               </h3>
-              <p className="text-sm text-gray-500 truncate">{studentEmail}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
+                {studentEmail}
+              </p>
             </div>
           </div>
 
           {/* Join Date */}
           <div className="col-span-2 text-center">
-            <p className=" text-gray-700 font-medium text-sm">
+            <p className=" text-gray-700 dark:text-gray-300 font-medium text-sm">
               {formatDate(studentJoinDate)}
             </p>
           </div>
@@ -163,8 +165,8 @@ const StudentCard = ({
             <span
               className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
                 studentStatus
-                  ? "bg-green-100 text-green-800 border border-green-200"
-                  : "bg-red-100 text-red-800 border border-red-200"
+                  ? "bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400 border border-green-200 dark:border-green-700"
+                  : "bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400 border border-red-200 dark:border-red-700"
               }`}
             >
               {studentStatus ? (
@@ -185,7 +187,7 @@ const StudentCard = ({
           <div className="col-span-4 flex justify-center gap-2">
             <button
               onClick={() => setShowAddBalance(true)}
-              className="inline-flex items-center px-3 py-2 text-sm font-medium text-green-600 bg-green-50 border border-green-200 rounded-lg hover:bg-green-100 hover:text-green-700 transition-colors duration-200"
+              className="inline-flex items-center px-3 py-2 text-sm font-medium text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg hover:bg-green-100 dark:hover:bg-green-900/40 hover:text-green-700 dark:hover:text-green-300 transition-colors duration-200"
               title="إضافة رصيد"
             >
               <Wallet className="w-4 h-4 mr-1" />
@@ -193,7 +195,7 @@ const StudentCard = ({
             </button>
             <button
               onClick={() => setShowEdit(true)}
-              className="inline-flex items-center px-3 py-2 text-sm font-medium text-blue-600 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 hover:text-blue-700 transition-colors duration-200"
+              className="inline-flex items-center px-3 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/40 hover:text-blue-700 dark:hover:text-blue-300 transition-colors duration-200"
               title="تعديل الحساب"
             >
               <Edit3 className="w-4 h-4 mr-1" />
@@ -201,7 +203,7 @@ const StudentCard = ({
             </button>
             <button
               onClick={() => setShowDelete(true)}
-              className="inline-flex items-center px-3 py-2 text-sm font-medium text-red-600 bg-red-50 border border-red-200 rounded-lg hover:bg-red-100 hover:text-red-700 transition-colors duration-200"
+              className="inline-flex items-center px-3 py-2 text-sm font-medium text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/40 hover:text-red-700 dark:hover:text-red-300 transition-colors duration-200"
               title="حذف الطالب"
             >
               <Trash2 className="w-4 h-4 mr-1" />
@@ -213,7 +215,7 @@ const StudentCard = ({
 
       {/* Mobile Layout */}
       <div className="block md:hidden">
-        <div className="p-6 bg-white rounded-xl shadow-sm border border-gray-100 m-4">
+        <div className="p-6 bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 m-4">
           <div className="flex items-start gap-4">
             <div className="relative flex-shrink-0">
               <Image
@@ -221,10 +223,10 @@ const StudentCard = ({
                 width={50}
                 height={50}
                 alt="Student Avatar"
-                className="w-12 h-12 rounded-full border-2 border-white shadow-md object-cover"
+                className="w-12 h-12 rounded-full border-2 border-white dark:border-gray-800 shadow-md object-cover"
               />
               <div
-                className={`absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full border-2 border-white ${
+                className={`absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full border-2 border-white dark:border-gray-800 ${
                   studentStatus ? "bg-green-500" : "bg-red-500"
                 }`}
               ></div>
@@ -233,13 +235,13 @@ const StudentCard = ({
             <div className="flex-1 min-w-0">
               <div className="flex items-start justify-between">
                 <div className="flex-1">
-                  <h3 className="apply-fonts-normal text-lg font-semibold text-gray-800 truncate">
+                  <h3 className="apply-fonts-normal text-lg font-semibold text-gray-800 dark:text-gray-100 truncate">
                     {studentName}
                   </h3>
-                  <p className="text-sm text-gray-500 truncate mb-2">
+                  <p className="text-sm text-gray-500 dark:text-gray-400 truncate mb-2">
                     {studentEmail}
                   </p>
-                  <p className="text-sm text-gray-600 mb-2">
+                  <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">
                     انضم في: {formatDate(studentJoinDate)}
                   </p>
                 </div>
@@ -247,8 +249,8 @@ const StudentCard = ({
                 <span
                   className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
                     studentStatus
-                      ? "bg-green-100 text-green-800"
-                      : "bg-red-100 text-red-800"
+                      ? "bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400"
+                      : "bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400"
                   }`}
                 >
                   {studentStatus ? "نشط" : "غير نشط"}
@@ -258,21 +260,21 @@ const StudentCard = ({
               <div className="grid grid-cols-3 gap-2 mt-4">
                 <button
                   onClick={() => setShowAddBalance(true)}
-                  className="flex-1 inline-flex items-center justify-center px-3 py-2 text-sm font-medium text-green-600 bg-green-50 border border-green-200 rounded-lg hover:bg-green-100 transition-colors duration-200"
+                  className="flex-1 inline-flex items-center justify-center px-3 py-2 text-sm font-medium text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg hover:bg-green-100 dark:hover:bg-green-900/40 transition-colors duration-200"
                 >
                   <Wallet className="w-4 h-4 mr-1" />
                   رصيد
                 </button>
                 <button
                   onClick={() => setShowEdit(true)}
-                  className="flex-1 inline-flex items-center justify-center px-3 py-2 text-sm font-medium text-blue-600 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 transition-colors duration-200"
+                  className="flex-1 inline-flex items-center justify-center px-3 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors duration-200"
                 >
                   <Edit3 className="w-4 h-4 mr-1" />
                   تعديل
                 </button>
                 <button
                   onClick={() => setShowDelete(true)}
-                  className="flex-1 inline-flex items-center justify-center px-3 py-2 text-sm font-medium text-red-600 bg-red-50 border border-red-200 rounded-lg hover:bg-red-100 transition-colors duration-200"
+                  className="flex-1 inline-flex items-center justify-center px-3 py-2 text-sm font-medium text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors duration-200"
                 >
                   <Trash2 className="w-4 h-4 mr-1" />
                   حذف
@@ -286,9 +288,9 @@ const StudentCard = ({
       {/* Add Balance Modal */}
       {showAddBalance && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
+          <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
             {/* Modal Header */}
-            <div className="bg-gradient-to-r from-green-600 to-emerald-600 px-6 py-4">
+            <div className="bg-gradient-to-r from-green-600 to-emerald-600 dark:from-green-800 dark:to-emerald-800 px-6 py-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <Wallet className="w-6 h-6 text-white" />
@@ -311,7 +313,7 @@ const StudentCard = ({
             {/* Modal Body */}
             <div className="p-6">
               {/* Student Info */}
-              <div className="flex items-center gap-4 mb-6 p-4 bg-gray-50 rounded-xl">
+              <div className="flex items-center gap-4 mb-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-xl">
                 <Image
                   src={studentImg}
                   width={50}
@@ -320,16 +322,18 @@ const StudentCard = ({
                   className="w-12 h-12 rounded-full object-cover"
                 />
                 <div>
-                  <h3 className="apply-fonts-normal font-semibold text-gray-800">
+                  <h3 className="apply-fonts-normal font-semibold text-gray-800 dark:text-gray-100">
                     {studentName}
                   </h3>
-                  <p className="text-sm text-gray-500">{studentEmail}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    {studentEmail}
+                  </p>
                 </div>
               </div>
 
               {/* Quick Amount Options */}
               <div className="mb-6">
-                <label className="block apply-fonts-normal text-sm font-medium text-gray-700 mb-3">
+                <label className="block apply-fonts-normal text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                   اختيار سريع للمبلغ
                 </label>
                 <div className="grid grid-cols-3 gap-3">
@@ -340,7 +344,7 @@ const StudentCard = ({
                       className={`p-3 rounded-xl border-2 text-sm font-semibold transition-all duration-200 ${
                         balanceAmount === amount.toString()
                           ? "bg-green-500 text-white border-green-500 shadow-md"
-                          : "bg-white text-gray-700 border-gray-200 hover:border-green-300 hover:bg-green-50"
+                          : "bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:border-green-300 dark:hover:border-green-600 hover:bg-green-50 dark:hover:bg-green-900/20"
                       }`}
                     >
                       {amount.toLocaleString()} DZD
@@ -351,7 +355,7 @@ const StudentCard = ({
 
               {/* Custom Amount Input */}
               <div className="mb-6">
-                <label className="block apply-fonts-normal text-sm font-medium text-gray-700 mb-3">
+                <label className="block apply-fonts-normal text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                   أو أدخل مبلغ مخصص
                 </label>
                 <div className="relative">
@@ -362,30 +366,32 @@ const StudentCard = ({
                     placeholder="أدخل المبلغ"
                     value={balanceAmount}
                     onChange={(e) => setBalanceAmount(e.target.value)}
-                    className="w-full p-4 pr-16 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 text-lg transition-all duration-200"
+                    className="w-full p-4 pr-16 border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-xl focus:ring-2 focus:ring-green-500 dark:focus:ring-green-400 focus:border-green-500 dark:focus:border-green-400 text-lg transition-all duration-200"
                     dir="ltr"
                   />
                   <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
-                    <span className="text-gray-500 font-medium">DZD</span>
+                    <span className="text-gray-500 dark:text-gray-400 font-medium">
+                      DZD
+                    </span>
                   </div>
                 </div>
-                <p className="text-xs text-gray-500 mt-2">
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
                   الحد الأدنى: 1 DZD • سيتم إضافة هذا المبلغ إلى الرصيد الحالي
                 </p>
               </div>
 
               {/* Amount Preview */}
               {balanceAmount && parseFloat(balanceAmount) > 0 && (
-                <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl p-4 mb-6">
+                <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border border-green-200 dark:border-green-700 rounded-xl p-4 mb-6">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center">
+                    <div className="w-10 h-10 bg-green-500 dark:bg-green-700 rounded-full flex items-center justify-center">
                       <Wallet className="w-5 h-5 text-white" />
                     </div>
                     <div>
-                      <p className="text-green-800 font-semibold text-lg">
+                      <p className="text-green-800 dark:text-green-300 font-semibold text-lg">
                         {parseFloat(balanceAmount).toLocaleString()} DZD
                       </p>
-                      <p className="text-sm text-green-600">
+                      <p className="text-sm text-green-600 dark:text-green-400">
                         المبلغ الذي سيتم إضافته للطالب
                       </p>
                     </div>
@@ -400,7 +406,7 @@ const StudentCard = ({
                     setShowAddBalance(false);
                     setBalanceAmount("");
                   }}
-                  className="flex-1 px-4 py-3 text-gray-700 bg-gray-100 border border-gray-300 rounded-xl hover:bg-gray-200 transition-colors duration-200 apply-fonts-normal font-medium"
+                  className="flex-1 px-4 py-3 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200 apply-fonts-normal font-medium"
                 >
                   إلغاء
                 </button>
@@ -411,7 +417,7 @@ const StudentCard = ({
                     !balanceAmount ||
                     parseFloat(balanceAmount) <= 0
                   }
-                  className={`flex-1 px-4 py-3 text-white bg-green-600 rounded-xl hover:bg-green-700 transition-colors duration-200 apply-fonts-normal font-medium ${
+                  className={`flex-1 px-4 py-3 text-white bg-green-600 dark:bg-green-700 rounded-xl hover:bg-green-700 dark:hover:bg-green-800 transition-colors duration-200 apply-fonts-normal font-medium ${
                     (loadingBalance ||
                       !balanceAmount ||
                       parseFloat(balanceAmount) <= 0) &&
@@ -420,7 +426,7 @@ const StudentCard = ({
                 >
                   {loadingBalance ? (
                     <div className="flex items-center justify-center gap-2">
-                      <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                      <div className="animate-spin rounded-full h-4 w-4 border-2 border-white dark:border-gray-300 border-t-transparent"></div>
                       جاري الإضافة...
                     </div>
                   ) : (
@@ -436,9 +442,9 @@ const StudentCard = ({
       {/* Edit Modal */}
       {showEdit && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
+          <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
             {/* Modal Header */}
-            <div className="bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-4">
+            <div className="bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-800 dark:to-purple-800 px-6 py-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <Edit3 className="w-6 h-6 text-white" />
@@ -457,7 +463,7 @@ const StudentCard = ({
 
             {/* Modal Body */}
             <div className="p-6">
-              <div className="flex items-center gap-4 mb-6 p-4 bg-gray-50 rounded-xl">
+              <div className="flex items-center gap-4 mb-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-xl">
                 <Image
                   src={studentImg}
                   width={50}
@@ -466,19 +472,21 @@ const StudentCard = ({
                   className="w-12 h-12 rounded-full object-cover"
                 />
                 <div>
-                  <h3 className="apply-fonts-normal font-semibold text-gray-800">
+                  <h3 className="apply-fonts-normal font-semibold text-gray-800 dark:text-gray-100">
                     {studentName}
                   </h3>
-                  <p className="text-sm text-gray-500">{studentEmail}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    {studentEmail}
+                  </p>
                 </div>
               </div>
 
               <div className="mb-6">
-                <label className="block apply-fonts-normal text-sm font-medium text-gray-700 mb-3">
+                <label className="block apply-fonts-normal text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                   حالة الحساب
                 </label>
                 <select
-                  className="w-full p-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 apply-fonts-normal text-lg transition-all duration-200"
+                  className="w-full p-4 border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-xl focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-blue-500 dark:focus:border-blue-400 apply-fonts-normal text-lg transition-all duration-200"
                   value={isActive.toString()}
                   onChange={(e) => setIsActive(e.target.value === "true")}
                 >
@@ -494,20 +502,20 @@ const StudentCard = ({
               <div className="flex gap-3">
                 <button
                   onClick={() => setShowEdit(false)}
-                  className="flex-1 px-4 py-3 text-gray-700 bg-gray-100 border border-gray-300 rounded-xl hover:bg-gray-200 transition-colors duration-200 apply-fonts-normal font-medium"
+                  className="flex-1 px-4 py-3 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200 apply-fonts-normal font-medium"
                 >
                   إلغاء
                 </button>
                 <button
                   onClick={handleActiveAccount}
                   disabled={loading}
-                  className={`flex-1 px-4 py-3 text-white bg-blue-600 rounded-xl hover:bg-blue-700 transition-colors duration-200 apply-fonts-normal font-medium ${
+                  className={`flex-1 px-4 py-3 text-white bg-blue-600 dark:bg-blue-700 rounded-xl hover:bg-blue-700 dark:hover:bg-blue-800 transition-colors duration-200 apply-fonts-normal font-medium ${
                     loading && "opacity-50 cursor-not-allowed"
                   }`}
                 >
                   {loading ? (
                     <div className="flex items-center justify-center gap-2">
-                      <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                      <div className="animate-spin rounded-full h-4 w-4 border-2 border-white dark:border-gray-300 border-t-transparent"></div>
                       جاري التحديث...
                     </div>
                   ) : (
@@ -523,9 +531,9 @@ const StudentCard = ({
       {/* Delete Modal */}
       {showDelete && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
+          <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
             {/* Modal Header */}
-            <div className="bg-red-600 px-6 py-4">
+            <div className="bg-red-600 dark:bg-red-800 px-6 py-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <Trash2 className="w-6 h-6 text-white" />
@@ -545,26 +553,25 @@ const StudentCard = ({
             {/* Modal Body */}
             <div className="p-6">
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
-                  <Trash2 className="text-red-600 w-6 h-6" />
+                <div className="w-12 h-12 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center">
+                  <Trash2 className="text-red-600 dark:text-red-400 w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="apply-fonts-normal font-semibold text-gray-800 mb-1">
+                  <h3 className="apply-fonts-normal font-semibold text-gray-800 dark:text-gray-100 mb-1">
                     حذف الطالب نهائياً
                   </h3>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
                     هذا الإجراء لا يمكن التراجع عنه
                   </p>
                 </div>
               </div>
 
-              <div className="bg-red-50 border border-red-200 rounded-xl p-4 mb-6">
-                <p className="apply-fonts-normal text-red-800">
+              <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-xl p-4 mb-6">
+                <p className="apply-fonts-normal text-red-800 dark:text-red-300">
                   هل أنت متأكد من حذف الطالب{" "}
-                  <span className="font-semibold">{studentName}</span>{" "}
-                  نهائياً؟
+                  <span className="font-semibold">{studentName}</span> نهائياً؟
                 </p>
-                <p className="text-sm text-red-600 mt-2">
+                <p className="text-sm text-red-600 dark:text-red-400 mt-2">
                   سيتم حذف جميع البيانات والمعلومات المرتبطة بهذا الطالب
                 </p>
               </div>
@@ -572,20 +579,20 @@ const StudentCard = ({
               <div className="flex gap-3">
                 <button
                   onClick={() => setShowDelete(false)}
-                  className="flex-1 px-4 py-3 text-gray-700 bg-gray-100 border border-gray-300 rounded-xl hover:bg-gray-200 transition-colors duration-200 apply-fonts-normal font-medium"
+                  className="flex-1 px-4 py-3 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200 apply-fonts-normal font-medium"
                 >
                   إلغاء
                 </button>
                 <button
                   onClick={handleDeleteUser}
                   disabled={loadingDelete}
-                  className={`flex-1 px-4 py-3 text-white bg-red-600 rounded-xl hover:bg-red-700 transition-colors duration-200 apply-fonts-normal font-medium ${
+                  className={`flex-1 px-4 py-3 text-white bg-red-600 dark:bg-red-700 rounded-xl hover:bg-red-700 dark:hover:bg-red-800 transition-colors duration-200 apply-fonts-normal font-medium ${
                     loadingDelete && "opacity-50 cursor-not-allowed"
                   }`}
                 >
                   {loadingDelete ? (
                     <div className="flex items-center justify-center gap-2">
-                      <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                      <div className="animate-spin rounded-full h-4 w-4 border-2 border-white dark:border-gray-300 border-t-transparent"></div>
                       جاري الحذف...
                     </div>
                   ) : (

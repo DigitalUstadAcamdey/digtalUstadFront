@@ -10,12 +10,10 @@ const fetchingUser = async () => {
       headers: token ? { Authorization: `Bearer ${token}` } : {},
       cache: "no-store",
     });
-    console.log("res status", res.status);
     if (!res.ok) {
       return null;
     }
     const data = await res.json();
-    console.log("user settings", data.user);
     return data.user;
   } catch {
     return null;

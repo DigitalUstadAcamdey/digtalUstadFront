@@ -8,7 +8,7 @@ import React, { useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import showToast from "@/utils/showToast";
 import * as z from "zod";
-import { Loader2 } from "lucide-react";
+import { Camera, Loader2, Trash2, Upload } from "lucide-react";
 import { useUserStore } from "@/store/userStore";
 const UserSchema = z
   .object({
@@ -28,7 +28,7 @@ const SignUp = () => {
   const [email, setEmail] = useState<string>("");
   const [username, setUserName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [imageUrl, setImageUrl] = useState<string>("");
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [image, setImage] = useState<File | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -37,7 +37,6 @@ const SignUp = () => {
 
   const { fetchUser } = useUserStore();
 
-  const [isValid, setIsValid] = useState(false);
   // errors
   const [errors, setErrors] = useState<{
     email?: string;
@@ -73,8 +72,6 @@ const SignUp = () => {
       ...prev,
       email: result.success ? undefined : result.error.issues[0].message,
     }));
-    // تحقق من صحة البريد باستخدام تعبير منتظم بسيط
-    setIsValid(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value));
   };
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -168,25 +165,22 @@ const SignUp = () => {
   };
 
   return (
-    <div className="container mx-auto py-4   w-full flex items-center justify-center flex-col">
+    <div className="container mx-auto py-4 h-full  w-full flex items-center justify-center flex-col ">
       <Link
         href={"/"}
         className="flex items-center flex-row-reverse  md:gap-3 mb-4"
       >
         <Image
-          src="/imgs/logoImg.png"
+          src="/imgs/dashboard-user-imgs/logoDashUser.png"
           alt="logoImg"
-          className="md:w-14 md:h-14 xs:w-12 xs:h-12 "
-          width={150}
-          height={150}
+          className="w-44"
+          width={200}
+          height={200}
         />
-        <h1 className="md:text-xl xs:text-base font-semibold xs:hidden lg:block">
-          Sience Academie
-        </h1>
       </Link>
 
       <form
-        className="space-y-4 font-[sans-serif] max-w-md mx-auto  w-full "
+        className="space-y-4 apply-fonts-normal max-w-md mx-auto  w-full "
         onSubmit={handleSignUp}
       >
         {/* username */}
@@ -196,7 +190,7 @@ const SignUp = () => {
             value={username}
             onChange={handleUsernameChange}
             placeholder="إسم المستخدم"
-            className={`  w-full px-4 py-3 bg-gray-100 text-md outline-none border-b-2 border-transparent  rounded 
+            className={`  w-full px-4 py-3 bg-gray-100 text-md outline-none border-b-2 border-transparent  rounded dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500
             ${errors.username ? "border-red-700" : "border-green-400"} `}
           />
           {errors.username && (
@@ -210,7 +204,7 @@ const SignUp = () => {
             value={email}
             onChange={handleEmailChange}
             placeholder="البريد الإلكتروني"
-            className={`w-full px-4 py-3 bg-gray-100 text-md outline-none border-b-2 border-transparent rounded 
+            className={`w-full px-4 py-3 bg-gray-100 text-md outline-none border-b-2 border-transparent rounded dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500
   ${errors.email ? "border-red-700" : "border-green-400"}`}
           />
           {errors.email && (
@@ -218,27 +212,108 @@ const SignUp = () => {
           )}
         </div>
         {/* image */}
-        <div className="flex gap-4 ">
-          <input
-            type="file"
-            onChange={(e) => {
-              if (e.target.files) {
-                setImage(e.target.files[0]);
-                setImageUrl(URL.createObjectURL(e.target.files[0]));
-              }
-            }}
-            placeholder="البريد الإلكتروني"
-            required
-            className={`  w-full px-4 py-3 bg-gray-100 text-md outline-none border-b-2 border-transparent rounded 
-            ${isValid ? "border-green-400" : "border-red-700"}`}
-          />
-          <Image
-            src={imageUrl || "/imgs/logoImg.png"}
-            alt="user-image"
-            className="md:w-14 md:h-14 xs:w-12 xs:h-12 rounded-full "
-            width={150}
-            height={150}
-          />
+        {/* تحسين قسم اختيار الصورة */}
+        <div className="space-y-3">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            الصورة الشخصية
+          </label>
+
+          <div className="flex flex-col sm:flex-row gap-4 items-center">
+            {/* منطقة عرض الصورة المحسنة */}
+            <div className="relative group">
+              <div className="w-24 h-24 rounded-full border-4 border-gray-200 dark:border-gray-600 overflow-hidden bg-gray-50 dark:bg-gray-700 shadow-lg">
+                <Image
+                  src={imageUrl || "/imgs/avatar.png"}
+                  alt="الصورة الشخصية"
+                  className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-105"
+                  width={96}
+                  height={96}
+                />
+              </div>
+
+              {/* مؤشر التحديث عند التحويم */}
+              {imageUrl && (
+                <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 rounded-full transition-all duration-200 flex items-center justify-center">
+                  <Camera className="w-6 h-6 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                </div>
+              )}
+            </div>
+
+            {/* حقل اختيار الملف المحسن */}
+            <div className="flex-1 w-full sm:w-auto">
+              <label className="relative cursor-pointer">
+                <input
+                  type="file"
+                  onChange={(e) => {
+                    if (e.target.files && e.target.files[0]) {
+                      const file = e.target.files[0];
+
+                      // التحقق من نوع الملف
+                      if (file.type.startsWith("image/")) {
+                        setImage(file);
+                        setImageUrl(URL.createObjectURL(file));
+                      } else {
+                        alert("يرجى اختيار ملف صورة صالح");
+                      }
+                    }
+                  }}
+                  accept="image/*"
+                  required
+                  className="sr-only"
+                />
+
+                <div
+                  className={`
+          w-full px-4 py-3 border-2 border-dashed rounded-lg
+          transition-all duration-200 cursor-pointer
+          hover:border-mainColor hover:bg-mainColor hover:bg-opacity-5
+          ${
+            imageUrl
+              ? "border-green-400 bg-green-50 dark:bg-green-900 dark:bg-opacity-20"
+              : "border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700"
+          }
+        `}
+                >
+                  <div className="text-center">
+                    <Upload className="mx-auto h-8 w-8 text-gray-400 mb-2" />
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      {imageUrl ? "اضغط لتغيير الصورة" : "اضغط لاختيار صورة"}
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">
+                      PNG, JPG, JPEG حتى 10MB
+                    </p>
+                  </div>
+                </div>
+              </label>
+
+              {/* معلومات الصورة المختارة */}
+              {image && (
+                <div className="mt-2 p-2 bg-blue-50 dark:bg-blue-900 dark:bg-opacity-20 rounded text-xs">
+                  <p className="text-blue-700 dark:text-blue-300">
+                    📁 {image.name}
+                  </p>
+                  <p className="text-blue-600 dark:text-blue-400">
+                    📏 {(image.size / 1024 / 1024).toFixed(2)} MB
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* زر حذف الصورة */}
+          {imageUrl && imageUrl !== "/imgs/avatar.png" && (
+            <button
+              type="button"
+              onClick={() => {
+                setImage(null);
+                setImageUrl(null);
+              }}
+              className="text-red-600 hover:text-red-800 text-sm flex items-center gap-1 transition-colors"
+            >
+              <Trash2 className="w-4 h-4" />
+              حذف الصورة
+            </button>
+          )}
         </div>
         {/* password */}
         <div className="relative">
@@ -247,7 +322,7 @@ const SignUp = () => {
             value={password}
             onChange={handlePasswordChange}
             placeholder="كلمة المرور"
-            className={` w-full px-4 py-3 bg-gray-100 text-md outline-none border-b-2 border-transparent  rounded 
+            className={` w-full px-4 py-3 bg-gray-100 text-md outline-none border-b-2 border-transparent  rounded dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500
             ${errors.password ? "border-red-700" : "border-green-400"}`}
           />
           {errors.password && (
@@ -268,7 +343,7 @@ const SignUp = () => {
             value={passwordConfirm}
             onChange={handleConfirmPasswordChange}
             placeholder="تأكيد كلمة المرور "
-            className={` w-full px-4 py-3 bg-gray-100 text-md outline-none border-b-2 border-transparent  rounded 
+            className={` w-full px-4 py-3 bg-gray-100 text-md outline-none border-b-2 border-transparent  rounded dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500
             ${errors.confirmPassword ? "border-red-700" : "border-green-400"}`}
           />
           {errors.confirmPassword && (

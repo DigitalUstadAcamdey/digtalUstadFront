@@ -4,10 +4,10 @@ import { ToastContainer } from "react-toastify";
 
 const page = () => {
   return (
-    <>
+    <div className=" h-screen">
       <Login />
       <ToastContainer />
-    </>
+    </div>
   );
 };
 

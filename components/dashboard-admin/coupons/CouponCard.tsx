@@ -8,7 +8,6 @@ import {
   Calendar,
   Users,
   Trash2,
-
   AlertTriangle,
 } from "lucide-react";
 import axios from "axios";
@@ -39,7 +38,7 @@ const DeleteConfirmationModal = ({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-2xl p-6 w-full max-w-sm mx-4">
+      <div className="bg-white dark:bg-gray-900 rounded-2xl p-6 w-full max-w-sm mx-4">
         <div className="text-center">
           {/* أيقونة التحذير */}
           <div
@@ -53,10 +52,13 @@ const DeleteConfirmationModal = ({
           </div>
 
           {/* النص */}
-          <h3 className="text-lg font-bold text-gray-900 mb-2" dir="rtl">
+          <h3
+            className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-2"
+            dir="rtl"
+          >
             تأكيد الحذف
           </h3>
-          <p className="text-gray-600 mb-6" dir="rtl">
+          <p className="text-gray-600 dark:text-gray-400 mb-6" dir="rtl">
             هل أنت متأكد من حذف الكوبون{" "}
             <span className="font-bold" style={{ color: colors.mainColor }}>
               {couponCode}
@@ -77,7 +79,7 @@ const DeleteConfirmationModal = ({
             <button
               onClick={onClose}
               disabled={isLoading}
-              className="flex-1 px-4 py-2 bg-gray-200 text-gray-800 rounded-lg font-medium hover:bg-gray-300 transition-colors disabled:opacity-50"
+              className="flex-1 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg font-medium hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors disabled:opacity-50"
             >
               إلغاء
             </button>
@@ -126,8 +128,6 @@ export const CouponCard = ({
       showToast("success", response.data.message);
     } catch (error) {
       console.error("خطأ في الشبكة:", error);
-   
-
     } finally {
       setIsDeleting(false);
     }
@@ -222,7 +222,6 @@ export const CouponCard = ({
           {coupon.courseId && (
             <div className="text-sm text-gray-600">
               <span className="font-medium">مخصص لكورس معين</span>
-              
             </div>
           )}
 

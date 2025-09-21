@@ -26,7 +26,6 @@ const Settings = ({ userFetcher }: Props) => {
   const [email, setEmail] = useState(userFetcher?.email || "");
   const [numPhone, setNumPhone] = useState(userFetcher?.phoneNumber || "");
   const [image, setImage] = useState<File>();
-  const [imageUrl, setImageUrl] = useState<string>("");
   useEffect(() => {
     if (userFetcher) setUser(userFetcher);
   }, [userFetcher, setUser]);
@@ -96,7 +95,7 @@ const Settings = ({ userFetcher }: Props) => {
               الصورة
             </label>
             <Image
-              src={user.thumbnail ? user.thumbnail : "/imgs/personImg.png"}
+              src={user.thumbnail ? user.thumbnail : "/imgs/avatar.png"}
               width={150}
               height={150}
               alt="personImg"

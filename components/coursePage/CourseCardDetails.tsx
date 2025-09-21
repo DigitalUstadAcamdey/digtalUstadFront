@@ -36,7 +36,6 @@ const CourseCardDetails = ({ courseId, userId, sections }: Props) => {
   // get section and lesson index
   const searchParams = useSearchParams();
   const sectionIndex = searchParams.get("section");
-  const videoIndex = searchParams.get("video");
 
   const { user } = useUserStore();
 

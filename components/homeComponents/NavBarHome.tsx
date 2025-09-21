@@ -19,7 +19,6 @@ import {
   LoginOutlined,
 } from "@mui/icons-material";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link as ScrollLink } from "react-scroll";
 import { useUserStore } from "@/store/userStore";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
@@ -228,6 +227,7 @@ const NavBarHome = () => {
             <Image
               src="/imgs/dashboard-user-imgs/logoDashUser.png"
               alt="logoImg"
+              className="object-contain"
               loading="lazy"
               width={150}
               height={150}

@@ -5,39 +5,38 @@
 @import url("https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Cabin:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Zain:wght@200;300;400;700;800;900&display=swap");
 
 @font-face {
-  font-family: "ibm-sans-arabic";
+  font-family: "ibm-sans-arabic-regular";
   src: url("/fonts/IBMPlexSansArabic-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
-  font-family: "ibm-sans-arabic";
+  font-family: "ibm-sans-arabic-medium";
   src: url("/fonts/IBMPlexSansArabic-Medium.ttf") format("truetype");
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
-  font-family: "ibm-sans-arabic";
+  font-family: "ibm-sans-arabic-bold";
   src: url("/fonts/IBMPlexSansArabic-Bold.ttf") format("truetype");
-  font-weight: 700;
+  font-weight: 900;
   font-style: normal;
 }
 
 @layer components {
   .apply-fonts-normal {
     font-family: "ibm-sans-arabic-regular";
-    font-weight: 100;
+    
   }
   .apply-fonts-medium {
     font-family: "ibm-sans-arabic-medium";
-    font-weight: 400;
+    
   }
 
   .apply-fonts-bold {
     font-family: "ibm-sans-arabic-bold";
-    font-weight: 800;
   }
   .hoverEle {
     @apply transition duration-300 cursor-pointer;

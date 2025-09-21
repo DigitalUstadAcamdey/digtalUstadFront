@@ -40,7 +40,7 @@ const Faq = () => {
 
   return (
     <div className="my-24 px-4 text-white flex lg:flex-row xs:flex-col justify-between gap-8">
-      <h2 className="lg:text-[74px] md:text-[60px] sm:text-[40px] xs:text-[28px] apply-fonts-medium text-center mb-16">
+      <h2 className="lg:text-[74px] md:text-[60px] sm:text-[40px] xs:text-[28px] apply-fonts-bold text-center mb-16">
         الأسئلة الشائعة
       </h2>
       <div className="w-full flex-1 mx-auto flex flex-col gap-6">
