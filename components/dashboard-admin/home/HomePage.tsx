@@ -102,7 +102,15 @@ const HomePage = ({ data }: { data: AdminData }) => {
       </div>
 
       {/* المخططات */}
-      <AdminCharts data={data} />
+      {data ? (
+        <AdminCharts data={data} />
+      ) : (
+        <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100 dark:bg-cardBgDark dark:border-gray-700 dark:shadow-none flex items-center justify-center">
+          <p className="text-gray-500 dark:text-gray-400">
+            لا توجد أي بيانات لعرضها  لعرضها حالياً
+          </p>
+        </div>
+      )}
     </div>
   );
 };
