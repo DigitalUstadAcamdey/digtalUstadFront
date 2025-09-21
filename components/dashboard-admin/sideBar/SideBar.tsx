@@ -5,7 +5,6 @@ import {
   HelpCircle,
   Home,
   LogOut,
-  Bell,
   Play,
   Settings,
   UsersRound,
@@ -82,11 +81,6 @@ const SideBar = () => {
       href: "/dashboard-admin/coupons",
       icon: Tickets,
       label: "الكوبونات",
-    },
-    {
-      href: "/dashboard-admin/notification",
-      icon: Bell,
-      label: "الإشعارات",
     },
   ];
 
