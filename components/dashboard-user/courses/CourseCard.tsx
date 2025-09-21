@@ -25,12 +25,11 @@ const CourseCard = ({
 }: Props) => {
   return (
     <div className="my-1 drop-shadow-md border w-full border-gray-200 flex flex-col justify-between px-3 py-4 bg-white dark:bg-[#1a1c3d] dark:border-gray-700 rounded-xl transition-colors duration-300">
-      <div className="w-full flex">
+      <div className="w-full aspect-[3/2] flex">
         <Image
           src={courseImg}
           alt="course1"
-          width={300}
-          height={200}
+          loading="lazy"
           className="rounded-lg w-full h-full object-cover"
         />
       </div>
