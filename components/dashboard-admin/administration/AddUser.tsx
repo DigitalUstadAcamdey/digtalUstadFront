@@ -3,7 +3,6 @@ import showToast from "@/utils/showToast";
 import { CloseOutlined } from "@mui/icons-material";
 import axios, { AxiosError } from "axios";
 import React, { FormEvent, useState } from "react";
-import { useSearchUser } from "@/store/searchUser";
 
 type UserData = {
   username: string;
@@ -18,7 +17,6 @@ const AddUser = () => {
   const [showAdd, setshowAdd] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const { setUsers } = useSearchUser();
 
   const [userData, setUserData] = useState<UserData>({
     username: "",
@@ -50,7 +48,6 @@ const AddUser = () => {
         credentials: "include",
       });
       const data = await res.json();
-      setUsers(data.users);
       setUserData({
         username: "",
         email: "",

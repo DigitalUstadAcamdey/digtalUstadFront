@@ -4,7 +4,6 @@ import { CloseOutlined } from "@mui/icons-material";
 import Image from "next/image";
 import React, { FormEvent, useState } from "react";
 import axios from "axios";
-import { useSearchUser } from "@/store/searchUser";
 import { User } from "@/types/user";
 
 type Props = {
@@ -31,7 +30,6 @@ const AdminCardPage = ({
   const [loadingEdit, setLoadingEdit] = useState<boolean>(false);
   const [isActive, setisActive] = useState<boolean>();
 
-  const { setUsers } = useSearchUser();
 
   const handelDeleteUser = async (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -46,11 +44,7 @@ const AdminCardPage = ({
         credentials: "include",
       });
       const data = await res.json();
-      setUsers(
-        data.users.filter(
-          (user: User) => user.role === "admin" || user.role === "teacher"
-        )
-      );
+      
       setShowDeleteModal(false);
       showToast("success", "تم حذف هذا المستخدم بنجاح");
     } catch (error) {
@@ -76,11 +70,8 @@ const AdminCardPage = ({
         credentials: "include",
       });
       const data = await res.json();
-      setUsers(
-        data.users.filter(
-          (user: User) => user.role === "admin" || user.role === "teacher"
-        )
-      );
+      
+     
       showToast("success", "تم تغيير حالة الحساب بنجاح");
       setShowEditModal(false);
     } catch (error) {
