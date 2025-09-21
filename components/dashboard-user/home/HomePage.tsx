@@ -42,10 +42,10 @@ const HomePage = async () => {
   const courses: Course[] | null = [myEnrolledCourses[0]];
 
   return (
-    <div className=" lg:custom-width rounded-xl  py-5 h-[93vh] overflow-y-scroll ">
+    <div className=" lg:custom-width rounded-xl  py-5 h-[93vh]  ">
       {/* My Courses */}
       <div className="container mx-auto px-8 py-4 ">
-        <div className="w-full h-full">
+        <div className="w-full ">
           {myEnrolledCourses?.length > 0 ? (
             courses?.map((course: Course) => {
               const videoNumber = course?.sections.reduce((acc, section) => {
