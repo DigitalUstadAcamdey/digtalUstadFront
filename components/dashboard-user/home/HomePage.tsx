@@ -85,7 +85,7 @@ const HomePage = async () => {
                       numberOfVideo={videoNumber}
                       courseImg={"/imgs/courseDash.png"}
                       courseUrl={``}
-                      courseName={course?.title}
+                      courseName={'ديجيتال أستاذ'}
                     />
                   </div>
                 );
