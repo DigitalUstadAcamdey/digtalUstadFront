@@ -220,12 +220,12 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
 
   const [activeTab, setActiveTab] = useState("details");
   const [courseData, setCourseData] = useState<CourseDetails>({
-    title: "",
-    description: "",
-    price: 0,
-    category: "",
+    title: course.title,
+    description: course.description,
+    price: course.price,
+    category: course.category,
     imageCover: null,
-    concepts: [],
+    concepts: course.concepts,
   });
 
   const [newConcept, setNewConcept] = useState("");
@@ -730,8 +730,12 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
         formData,
         {
           withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data", // مهم جدًا عند إرسال ملفات
+          },
         }
       );
+
       setCourse(res.data.course);
       setCourseData(res.data.course);
       showToast("success", res.data.message);
@@ -767,8 +771,13 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
           `}
                 onClick={async () => {
                   if (activeTab === "details") {
-                    await handleEditCourse();
-                    setActiveTab("sections");
+                    try {
+                      await handleEditCourse();
+                      setActiveTab("sections"); // فقط إذا نجح التحديث
+                    } catch (error) {
+                      console.error("Failed to edit course:", error);
+                      // يمكن عرض toast هنا
+                    }
                   } else {
                     router.push(`/course/${course?._id}`);
                   }

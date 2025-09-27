@@ -19,6 +19,7 @@ const CardCourse = ({ courseName, courseUrl, courseImg }: Props) => {
   const [currentSectionIndex, setCurrentSectionIndex] = useState<number | null>(
     null
   );
+  const yourCourseId = process.env.NEXT_PUBLIC_MY_COURSE_ID
 
   useEffect(() => {
     const lesson = localStorage.getItem("currentLessonName");
@@ -63,12 +64,12 @@ const CardCourse = ({ courseName, courseUrl, courseImg }: Props) => {
             {/* Continue Watching Button */}
             <div className="flex justify-center ">
               <a
-                href={`${courseUrl}?section=${currentSectionIndex}&video=${currentLessonIndex}`}
+                href={`${courseUrl ? `${courseUrl}?section=${currentSectionIndex}&video=${currentLessonIndex}`:`/course-overview/${yourCourseId}`}`}
                 className="bg-white/10 backdrop-blur-sm border border-white/30 text-white px-4 sm:px-6 lg:px-8 py-2 sm:py-2.5 lg:py-3 rounded-lg lg:rounded-xl hover:bg-white/30 transition-all duration-300 font-medium text-center inline-flex items-center gap-2 text-sm sm:text-base"
                 dir="rtl"
               >
                 <Play className="w-3 h-3 sm:w-4 sm:h-4" fill="currentColor" />
-                متابعة المشاهدة
+                {courseUrl ? "متابعة المشاهدة" : "إشترك الأن"}
               </a>
             </div>
           </div>

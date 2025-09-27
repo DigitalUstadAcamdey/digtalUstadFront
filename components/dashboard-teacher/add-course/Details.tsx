@@ -85,6 +85,7 @@ interface VideoUpload {
 const baseUrl = process.env.NEXT_PUBLIC_BACK_URL;
 
 export default function CourseUploader() {
+
   const router = useRouter();
   // stepre
   const [step, setStep] = useState(1);
@@ -1226,6 +1227,7 @@ function StepSectionsAndVideos({
                       }}
                       className="w-full border-2 border-gray-200 dark:border-gray-700 p-3 rounded-lg bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white"
                     />
+
                     <div className="flex gap-3">
                       <button
                         type="button"

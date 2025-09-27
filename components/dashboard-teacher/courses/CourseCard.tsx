@@ -61,14 +61,14 @@ const CourseCard = ({
     <>
       <div className="my-3 drop-shadow-md border flex flex-col max-h-[80vh] justify-between px-3 py-4 rounded-lg bg-white dark:bg-[#1a1c3d] dark:border-gray-700 dark:shadow-none transition-colors duration-300">
         <Link href={`/course/${courseId}`}>
-          <div className="relative min-w-full max-w-sm">
+          <div className="w-full max-w-[705px] mx-auto aspect-[705/397] overflow-hidden rounded-xl">
             <Image
               src={courseImg}
-              alt="Course-imageCover"
-              layout="responsive"
+              alt="Course Image"
               width={705}
               height={397}
-              className="rounded-lg object-cover"
+              className="w-full h-full object-cover"
+              loading="lazy"
             />
           </div>
         </Link>
