@@ -342,7 +342,7 @@ const CourseCardDetails = ({ courseId, userId, sections }: Props) => {
                                           </button>
                                         )}
 
-                                      <div className="flex-1 min-w-0 overflow-hidden">
+                                      <div className="min-w-0 overflow-hidden">
                                         <h4
                                           className={`font-medium text-sm truncate ${
                                             isActive
