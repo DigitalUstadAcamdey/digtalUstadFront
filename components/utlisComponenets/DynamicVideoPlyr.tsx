@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
 
 // استيراد المكون الديناميكي
 const VideoPlyr = dynamic(() => import("./VideoPlyr"), {
@@ -32,6 +33,19 @@ type Props = {
 };
 
 const DynamicVideoPlyr = ({ videoId }: Props) => {
+  const [videoSrc, setVideoSrc] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchVideoUrl = async () => {
+      const res = await fetch(`/api/video-url?videoId=${videoId}`);
+      const data = await res.json();
+      setVideoSrc(data.url);
+    };
+
+    fetchVideoUrl();
+  }, [videoId]);
+
+  if (!videoSrc) return null;
   return (
     <VideoPlyr
       videoSrc={`${process.env.NEXT_PUBLIC_BUNNY_BASE_URL}/${process.env.NEXT_PUBLIC_VIDEO_LIBRARY}/${videoId}`}
