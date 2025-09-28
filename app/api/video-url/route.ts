@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { NextResponse } from "next/server";
 
-const BUNNY_SECRET = process.env.BUNNY_API_KEY!;
+const BUNNY_SECRET = process.env.BUNNY_SECRET!;
 const LIBRARY_ID = process.env.VIDEO_LIBRARY!;
 
 export async function GET(req: Request) {
