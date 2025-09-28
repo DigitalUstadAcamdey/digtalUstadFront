@@ -11,7 +11,7 @@ const VideoPlyr = ({ videoSrc }: Props) => {
       style={{ paddingTop: "56.25%" }}
     >
       <iframe
-        src={`${videoSrc}?autoplay=false&loop=false&muted=false&preload=false&responsive=false`}
+        src={`${videoSrc}&autoplay=false&loop=false&muted=false&preload=false&responsive=false`}
         loading="lazy"
         className="absolute top-0 left-0 w-full h-full border-0"
         allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
