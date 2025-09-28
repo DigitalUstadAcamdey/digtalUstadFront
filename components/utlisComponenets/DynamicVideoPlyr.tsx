@@ -41,7 +41,7 @@ const DynamicVideoPlyr = ({ videoId }: Props) => {
       const data = await res.json();
       setVideoSrc(data.url);
     };
-
+    console.log(videoSrc)
     fetchVideoUrl();
   }, [videoId]);
 
