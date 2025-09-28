@@ -48,7 +48,8 @@ const DynamicVideoPlyr = ({ videoId }: Props) => {
   if (!videoSrc) return null;
   return (
     <VideoPlyr
-      videoSrc={`${process.env.NEXT_PUBLIC_BUNNY_BASE_URL}/${process.env.NEXT_PUBLIC_VIDEO_LIBRARY}/${videoId}`}
+      // videoSrc={`${process.env.NEXT_PUBLIC_BUNNY_BASE_URL}/${process.env.NEXT_PUBLIC_VIDEO_LIBRARY}/${videoId}`}
+      videoSrc={videoSrc}
     />
   );
 };
