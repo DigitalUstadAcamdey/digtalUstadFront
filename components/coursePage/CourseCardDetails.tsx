@@ -298,7 +298,7 @@ const CourseCardDetails = ({ courseId, userId, sections }: Props) => {
                                       );
                                     }}
                                   >
-                                    <div className="flex items-center gap-3 flex-1">
+                                    <div className="flex items-center gap-3 flex-1 min-w-0 max-w-[70%]">
                                       <div className="flex items-center">
                                         <div className="flex-shrink-0 w-12 h-12">
                                           <Image
@@ -342,7 +342,7 @@ const CourseCardDetails = ({ courseId, userId, sections }: Props) => {
                                           </button>
                                         )}
 
-                                      <div className="min-w-0 overflow-hidden">
+                                      <div className="flex-1 min-w-0 overflow-hidden">
                                         <h4
                                           className={`font-medium text-sm truncate ${
                                             isActive
