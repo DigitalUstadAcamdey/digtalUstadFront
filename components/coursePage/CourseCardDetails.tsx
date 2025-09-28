@@ -342,7 +342,7 @@ const CourseCardDetails = ({ courseId, userId, sections }: Props) => {
                                           </button>
                                         )}
 
-                                      <div className="flex-1 min-w-0">
+                                      <div className="flex-1 min-w-0 overflow-hidden">
                                         <h4
                                           className={`font-medium text-sm truncate ${
                                             isActive
@@ -356,14 +356,14 @@ const CourseCardDetails = ({ courseId, userId, sections }: Props) => {
                                     </div>
 
                                     <div
-                                      className={`flex items-center gap-1 text-xs ${
+                                      className={`flex items-center gap-1 text-xs flex-shrink-0 ml-3 min-w-fit ${
                                         isActive
                                           ? "text-white/80"
                                           : "text-gray-500 dark:text-gray-400"
                                       }`}
                                     >
-                                      <AccessTimeOutlined className="w-4 h-4" />
-                                      <span>{video.duration}</span>
+                                      <AccessTimeOutlined className="w-4 h-4  flex-shrink-0" />
+                                      <span className="whitespace-nowrap font-medium">{video.duration}</span>
                                     </div>
                                   </div>
                                 </div>
