@@ -34,14 +34,14 @@ const CardCourse = ({ courseName, courseUrl, courseImg }: Props) => {
 
   return (
     <div className="rounded-3xl border border-gray-500   text-white relative  overflow-hidden h-[300px] sm:h-[350px] lg:h-[400px] mx-auto ">
-        <Image
-          src={courseImg}
-          alt={courseName}
-          className="w-full h-full object-fill"
-          loading="lazy"
-          width={1200}
-          height={1200}
-        />
+      <Image
+        src={courseImg}
+        alt={courseName}
+        className=" object-fill"
+        loading="lazy"
+        fill
+        priority={false}
+      />
       <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60"></div>
       {/* Liquid Glass Container */}
       <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 lg:bottom-6 lg:right-6 lg:left-auto lg:w-[350px]">
