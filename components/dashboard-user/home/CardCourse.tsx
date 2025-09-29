@@ -33,7 +33,7 @@ const CardCourse = ({ courseName, courseUrl, courseImg }: Props) => {
   }, [setCurrentLessonName]);
 
   return (
-    <div className="rounded-3xl border border-gray-500  p-4 sm:p-6 lg:p-8 text-white relative  overflow-hidden h-[300px] sm:h-[350px] lg:h-[400px] mx-auto bg-cover bg-center bg-no-repeat">
+    <div className="rounded-3xl border border-gray-500   text-white relative  overflow-hidden h-[300px] sm:h-[350px] lg:h-[400px] mx-auto ">
       <Image
         src={courseImg}
         alt={courseName}
