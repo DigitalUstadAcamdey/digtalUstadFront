@@ -1,5 +1,6 @@
 "use client";
 import { Play } from "lucide-react";
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
 type Props = {
@@ -32,12 +33,13 @@ const CardCourse = ({ courseName, courseUrl, courseImg }: Props) => {
   }, [setCurrentLessonName]);
 
   return (
-    <div
-      className="rounded-3xl border border-gray-500  p-4 sm:p-6 lg:p-8 text-white relative overflow-hidden h-[300px] sm:h-[350px] lg:h-[400px] mx-auto bg-cover bg-center bg-no-repeat"
-      style={{
-        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url('${courseImg}')`,
-      }}
-    >
+    <div className="rounded-3xl border border-gray-500  p-4 sm:p-6 lg:p-8 text-white relative  overflow-hidden h-[300px] sm:h-[350px] lg:h-[400px] mx-auto bg-cover bg-center bg-no-repeat">
+      <Image
+        src={courseImg}
+        alt={courseName}
+        className="w-full h-full object-cover"
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60"></div>
       {/* Liquid Glass Container */}
       <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 lg:bottom-6 lg:right-6 lg:left-auto lg:w-[350px]">
         <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl lg:rounded-2xl p-4 sm:p-5 lg:p-6 shadow-2xl">
