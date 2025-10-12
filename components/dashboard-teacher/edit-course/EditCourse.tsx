@@ -745,7 +745,8 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
       setEditeCourseLoading(false);
     }
   };
-
+  // add edit the description of video 
+  // تعديل أماكن الدروس و الأقسام
   return (
     <div className="min-h-screen  p-6 ">
       <div className="max-w-7xl mx-auto">

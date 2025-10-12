@@ -15,6 +15,7 @@ type Notification = {
   lessonNumber: number;
 };
 const Notifications = () => {
+  // get the old notification only by user_id and remove the user store
   const { user, loading } = useUserStore();
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
@@ -23,7 +24,9 @@ const Notifications = () => {
       setNotifications([...notifications, data]);
     });
   }, [notifications]);
-  const allNotifications = [...notifications, ...user.notifications].slice(
+  const allNotifications = [...notifications, ...user.notifications 
+    //remove this 
+  ].slice(
     0,
     5
   );

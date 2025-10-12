@@ -521,6 +521,7 @@ export default function CourseUploader() {
       console.log(error);
     }
   };
+  // save the id in local sotrage when user is loading page
   return (
     <div className="min-h-screen  transition-colors duration-300">
       <div className="max-w-6xl mx-auto">

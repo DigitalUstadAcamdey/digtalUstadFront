@@ -20,6 +20,8 @@ type Notification = {
 };
 
 const Notifications = () => {
+    // get the old notification only by user_id and remove the user store
+
   const { user, loading } = useUserStore();
   const [notification, setNotification] = useState<Notification[]>([]);
 
@@ -37,7 +39,7 @@ const Notifications = () => {
     );
   }
 
-  const allNotifications = [...notification, ...user.notifications];
+  const allNotifications = [...notification, ...user.notifications]; //remove this 
   const hasNotifications = allNotifications.length > 0;
 
   return (

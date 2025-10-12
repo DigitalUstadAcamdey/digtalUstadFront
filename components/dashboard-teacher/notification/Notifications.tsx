@@ -9,7 +9,8 @@ import Spinner from "@/components/spinner/Spinner";
 const socket = io(process.env.NEXT_PUBLIC_BACK_URL as string);
 
 const Notifications = () => {
-  const { user, loading } = useUserStore();
+  // get the old notification only by user_id and remove the user store
+  const { user, loading } = useUserStore(); 
   const [liveNotifications, setLiveNotifications] = useState<Notifcation[]>([]);
 
   useEffect(() => {
@@ -35,7 +36,7 @@ const Notifications = () => {
   // دمج الإشعارات الجديدة مع الإشعارات القديمة
   const allNotifications = [
     ...liveNotifications,
-    ...(user.notifications || []),
+    ...(user.notifications || []), // remove this 
   ];
 
   return (
