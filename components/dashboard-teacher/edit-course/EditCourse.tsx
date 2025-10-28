@@ -186,6 +186,8 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
   const [currentSectionId, setCurrentSectionId] = useState<string>("");
   const [editingVideoId, setEditingVideoId] = useState<string | null>(null);
   const [editingVideoTitle, setEditingVideoTitle] = useState<string>("");
+  const [editingVideoDescription, setEditingVideoDescription] =
+    useState<string>("");
 
   // Files
   const [showFileModal, setShowFileModal] = useState<boolean>(false);
@@ -478,18 +480,20 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
       setAddVideoLoading(false);
     }
   };
-
+  // add updating description
   const updateVideo = async (
     sectionId: string,
     videoId: string,
-    newTitle: string
+    newTitle: string,
+    newDescription: string
   ) => {
     setEditVideoLoading(true);
     try {
-      await axios.put(
+      await axios.patch(
         `${process.env.NEXT_PUBLIC_BACK_URL}/api/courses/${course?._id}/sections/${sectionId}/videos/${videoId}`,
         {
           title: newTitle,
+          description: newDescription,
         },
         {
           withCredentials: true,
@@ -503,7 +507,11 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                 ...section,
                 videos: section.videos.map((video) =>
                   video._id === videoId
-                    ? { ...video, lessonTitle: newTitle }
+                    ? {
+                        ...video,
+                        lessonTitle: newTitle,
+                        description: newDescription,
+                      }
                     : video
                 ),
               }
@@ -745,7 +753,7 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
       setEditeCourseLoading(false);
     }
   };
-  // add edit the description of video 
+  // add edit the description of video
   // تعديل أماكن الدروس و الأقسام
   return (
     <div className="min-h-screen  p-6 ">
@@ -1028,10 +1036,36 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
               </div>
 
               <div className="space-y-6">
-                {sections.map((section) => (
+                {sections.map((section, sectionIndex) => (
                   <div
                     key={section._id}
-                    className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden"
+                    draggable="true" // هذا يجعل العنصر قابلاً للسحب
+                    // (1) عند بدء السحب: ضع بيانات بسيطة وقم بالتسجيل في الكونسول للاختبار
+                    onDragStart={(e) => {
+                      // هذه الخطوة ضرورية لجعل السحب يعمل بشكل صحيح في المتصفحات
+                      e.dataTransfer.setData("text/plain", section._id);
+                      e.dataTransfer.effectAllowed = "move";
+                      console.log(
+                        `بدء سحب القسم: ${section.title} (${section._id})`
+                      );
+                    }}
+                    // (2) عند دخول العنصر المسحوب فوق هذا العنصر
+                    onDragEnter={(e) => {
+                      e.preventDefault();
+                      console.log(`دخول فوق القسم رقم: ${sectionIndex}`);
+                    }}
+                    // (3) عند إفلات العنصر: لا نفعل شيئًا حالياً سوى التسجيل
+                    onDragEnd={() => {
+                      console.log("انتهت عملية السحب والإفلات");
+                    }}
+                    // (4) ضروري لمنع السلوك الافتراضي للمتصفح والسماح بالإفلات
+                    onDragOver={(e) => e.preventDefault()}
+                    // (5) إضافة onDrop (للتجربة، يمكن تركها فارغة مؤقتاً)
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      console.log(`تم الإفلات على القسم رقم: ${sectionIndex}`);
+                    }}
+                    className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden cursor-grab active:cursor-grabbing"
                   >
                     <div className="bg-gray-50 dark:bg-gray-950 px-6 py-4 border-b dark:border-gray-700">
                       <div className="flex items-center justify-between">
@@ -1139,10 +1173,40 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
 
                     <div className="p-4">
                       <div className="space-y-3">
-                        {section.videos.map((video) => (
+                        {section.videos.map((video, videoIndex) => (
                           <div
                             key={video._id}
-                            className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden hover:shadow-md transition-shadow duration-300"
+                            draggable="true" // هذا يجعل العنصر قابلاً للسحب
+                            // (1) عند بدء السحب: ضع بيانات بسيطة وقم بالتسجيل في الكونسول للاختبار
+                            onDragStart={(e) => {
+                              // هذه الخطوة ضرورية لجعل السحب يعمل بشكل صحيح في المتصفحات
+                              e.dataTransfer.setData("text/plain", video._id);
+                              e.dataTransfer.effectAllowed = "move";
+                              console.log(
+                                `بدء سحب الفيديو: ${video.lessonTitle} (${video._id})`
+                              );
+                            }}
+                            // (2) عند دخول العنصر المسحوب فوق هذا العنصر
+                            onDragEnter={(e) => {
+                              e.preventDefault();
+                              console.log(
+                                `دخول فوق الفيديو رقم: ${videoIndex}`
+                              );
+                            }}
+                            // (3) عند إفلات العنصر: لا نفعل شيئًا حالياً سوى التسجيل
+                            onDragEnd={() => {
+                              console.log("انتهت عملية السحب والإفلات");
+                            }}
+                            // (4) ضروري لمنع السلوك الافتراضي للمتصفح والسماح بالإفلات
+                            onDragOver={(e) => e.preventDefault()}
+                            // (5) إضافة onDrop (للتجربة، يمكن تركها فارغة مؤقتاً)
+                            onDrop={(e) => {
+                              e.preventDefault();
+                              console.log(
+                                `تم الإفلات على الفيديو رقم: ${videoIndex}`
+                              );
+                            }}
+                            className="bg-white  dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden hover:shadow-md transition-shadow duration-300 cursor-grab active:cursor-grabbing"
                           >
                             {/* Video Header */}
                             <div className="flex items-center gap-4 p-4">
@@ -1151,64 +1215,93 @@ const CourseEditPage = ({ courseFetcher }: { courseFetcher: Course }) => {
                                 size={20}
                               />
                               <div className="flex-1">
-                                {editingVideoId === video._id ? (
-                                  <div className="flex items-center gap-2">
-                                    <input
-                                      type="text"
-                                      value={editingVideoTitle}
-                                      onChange={(e) =>
-                                        setEditingVideoTitle(e.target.value)
-                                      }
-                                      className="px-3 py-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-[#3D45EE] focus:border-transparent transition-all duration-300 flex-1"
-                                      placeholder="عنوان الدرس"
-                                      autoFocus
-                                    />
-                                    <button
-                                      onClick={async () =>
-                                        await updateVideo(
-                                          section._id,
-                                          video._id,
-                                          editingVideoTitle
-                                        )
-                                      }
-                                      disabled={editVideoLoading}
-                                      className={`px-3 py-2 rounded-lg transition-colors duration-300 ${
-                                        editVideoLoading
-                                          ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                                          : "bg-green-500 hover:bg-green-600 text-white"
-                                      }`}
-                                    >
-                                      {editVideoLoading ? (
-                                        <Loader2
-                                          className="animate-spin"
-                                          size={16}
+                                <div className="flex-1">
+                                  {editingVideoId === video._id ? (
+                                    <div className="flex flex-col gap-2 w-full">
+                                      <div className="flex items-center gap-2">
+                                        <input
+                                          type="text"
+                                          value={editingVideoTitle}
+                                          onChange={(e) =>
+                                            setEditingVideoTitle(e.target.value)
+                                          }
+                                          className="px-3 py-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-[#3D45EE] focus:border-transparent transition-all duration-300 flex-1"
+                                          placeholder="عنوان الدرس"
+                                          autoFocus
                                         />
-                                      ) : (
-                                        <Save size={16} />
+                                        <button
+                                          onClick={async () =>
+                                            await updateVideo(
+                                              section._id,
+                                              video._id,
+                                              editingVideoTitle,
+                                              editingVideoDescription
+                                            )
+                                          }
+                                          disabled={editVideoLoading}
+                                          className={`px-3 py-2 rounded-lg transition-colors duration-300 ${
+                                            editVideoLoading
+                                              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                                              : "bg-green-500 hover:bg-green-600 text-white"
+                                          }`}
+                                        >
+                                          {editVideoLoading ? (
+                                            <Loader2
+                                              className="animate-spin"
+                                              size={16}
+                                            />
+                                          ) : (
+                                            <Save size={16} />
+                                          )}
+                                        </button>
+                                        <button
+                                          onClick={() => {
+                                            setEditingVideoId(null);
+                                            setEditingVideoTitle("");
+                                            setEditingVideoDescription("");
+                                          }}
+                                          disabled={editVideoLoading}
+                                          className="bg-gray-500 hover:bg-gray-600 text-white px-3 py-2 rounded-lg transition-colors duration-300 disabled:opacity-50"
+                                        >
+                                          <X size={16} />
+                                        </button>
+                                      </div>
+                                      <textarea
+                                        value={editingVideoDescription}
+                                        onChange={(e) =>
+                                          setEditingVideoDescription(
+                                            e.target.value
+                                          )
+                                        }
+                                        className="px-3 py-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-[#3D45EE] focus:border-transparent transition-all duration-300 w-full resize-none"
+                                        placeholder="وصف الدرس (اختياري)"
+                                        rows={2}
+                                      />
+                                    </div>
+                                  ) : (
+                                    <div>
+                                      <h4
+                                        className="font-medium cursor-pointer text-gray-800 dark:text-gray-100 hover:text-[#3D45EE] dark:hover:text-[#6A78FB] transition-colors duration-300"
+                                        onClick={() => {
+                                          setEditingVideoId(video._id);
+                                          setEditingVideoTitle(
+                                            video.lessonTitle
+                                          );
+                                          setEditingVideoDescription(
+                                            video.description || ""
+                                          );
+                                        }}
+                                      >
+                                        {video.lessonTitle}
+                                      </h4>
+                                      {video.description && (
+                                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                                          {video.description}
+                                        </p>
                                       )}
-                                    </button>
-                                    <button
-                                      onClick={() => {
-                                        setEditingVideoId(null);
-                                        setEditingVideoTitle("");
-                                      }}
-                                      disabled={editVideoLoading}
-                                      className="bg-gray-500 hover:bg-gray-600 text-white px-3 py-2 rounded-lg transition-colors duration-300 disabled:opacity-50"
-                                    >
-                                      <X size={16} />
-                                    </button>
-                                  </div>
-                                ) : (
-                                  <h4
-                                    className="font-medium cursor-pointer text-gray-800 dark:text-gray-100 hover:text-[#3D45EE] dark:hover:text-[#6A78FB] transition-colors duration-300"
-                                    onClick={() => {
-                                      setEditingVideoId(video._id);
-                                      setEditingVideoTitle(video.lessonTitle);
-                                    }}
-                                  >
-                                    {video.lessonTitle}
-                                  </h4>
-                                )}
+                                    </div>
+                                  )}
+                                </div>
                               </div>
 
                               <div className="flex items-center gap-2">

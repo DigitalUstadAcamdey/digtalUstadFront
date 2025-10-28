@@ -1,5 +1,11 @@
 "use client";
-import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
+import {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import showToast from "@/utils/showToast";
 import axios from "axios";
 import {
@@ -85,7 +91,6 @@ interface VideoUpload {
 const baseUrl = process.env.NEXT_PUBLIC_BACK_URL;
 
 export default function CourseUploader() {
-
   const router = useRouter();
   // stepre
   const [step, setStep] = useState(1);
@@ -200,6 +205,7 @@ export default function CourseUploader() {
       });
       showToast("success", res.data.message);
       setCurrentCourse(res.data.course);
+      sessionStorage.setItem("course_id", res.data.course._id);
       nextStep();
     } catch (error) {
       console.error("Error creating course:", error);
@@ -232,6 +238,7 @@ export default function CourseUploader() {
         sections: [...currentCourse.sections, res.data.section._id],
       });
       setSections([...sections, res.data.section]);
+
       setTitle(""); // Clear input after successful addition
     } catch (error) {
       console.log(error);
@@ -509,8 +516,14 @@ export default function CourseUploader() {
   };
   const fetchCourseAfterPublished = async () => {
     try {
+      const courseId = sessionStorage.getItem("course_id")
+        ? sessionStorage.getItem("course_id")
+        : currentCourse?._id;
+      if (!courseId) {
+        throw new Error("Course ID is missing.");
+      }
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACK_URL}/api/courses/${currentCourse._id}`,
+        `${process.env.NEXT_PUBLIC_BACK_URL}/api/courses/${courseId}`,
         {
           withCredentials: true,
         }
@@ -518,9 +531,10 @@ export default function CourseUploader() {
       const course = res.data.course;
       setCurrentCourse(course);
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   };
+
   // save the id in local sotrage when user is loading page
   return (
     <div className="min-h-screen  transition-colors duration-300">
@@ -679,6 +693,7 @@ export default function CourseUploader() {
                     onClick={() => {
                       showToast("success", "تم نشر الكورس بنجاح!");
                       router.push(`/course/${currentCourse._id}`);
+                      sessionStorage.removeItem("course_id");
                     }}
                     className="px-8 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl font-medium apply-fonts-normal transition-all duration-300 hover:shadow-lg transform hover:-translate-y-0.5"
                   >
