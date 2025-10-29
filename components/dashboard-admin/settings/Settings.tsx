@@ -92,8 +92,6 @@ const Settings = ({ userFetcher }: Props) => {
           </h1>
         </div>
 
-        
-
         {user && (
           <form onSubmit={handelupdate}>
             {/* Image */}
@@ -150,18 +148,23 @@ const Settings = ({ userFetcher }: Props) => {
               </div>
 
               {/* Email */}
-              <div>
-                <label className="apply-fonts-normal block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">
-                  البريد الإلكتروني
-                </label>
-                <input
-                  type="email"
-                  value={email}
-                  placeholder={user.email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-mainColor focus:border-mainColor block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                />
-              </div>
+              {/*no need to edit when login with */}
+              {user.googleId ? (
+                <></>
+              ) : (
+                <div>
+                  <label className="apply-fonts-normal block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">
+                    البريد الإلكتروني
+                  </label>
+                  <input
+                    type="email"
+                    value={email}
+                    placeholder={user.email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-mainColor focus:border-mainColor block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  />
+                </div>
+              )}
 
               {/* Phone Number */}
               <div className="col-span-2">
