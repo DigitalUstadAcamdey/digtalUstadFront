@@ -100,8 +100,7 @@ const HomePage = async () => {
             <Notifications />
           </div>
           <div className="rounded-3xl w-full border border-gray-500 text-white relative overflow-hidden h-[300px] sm:h-[350px] lg:h-[400px] mx-auto ">
-            {/* Background Overlay */}
-            <div className="absolute inset-0 bg-black/10"></div>
+      
 
             {/* Image Container */}
             <div className="w-full h-full flex items-center justify-center ">
