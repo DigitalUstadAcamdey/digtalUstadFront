@@ -203,7 +203,8 @@ const CourseCard = ({
 
           <div className="p-6 bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-800/50 dark:to-blue-900/50">
             <div className="space-y-4">
-              <div className="flex items-center justify-between p-4 bg-white rounded-xl shadow-sm border-2 border-slate-300 dark:bg-gray-900 dark:border-gray-700 dark:shadow-none">
+              {/* lesson duration */}
+              {/* <div className="flex items-center justify-between p-4 bg-white rounded-xl shadow-sm border-2 border-slate-300 dark:bg-gray-900 dark:border-gray-700 dark:shadow-none">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center dark:bg-orange-900/30">
                     <Clock
@@ -220,7 +221,7 @@ const CourseCard = ({
                 <span className="font-bold text-slate-800 dark:text-gray-100">
                   {duration}
                 </span>
-              </div>
+              </div> */}
 
               <div className="flex items-center justify-between p-4 bg-white rounded-xl shadow-sm border-2 border-slate-300 dark:bg-gray-900 dark:border-gray-700 dark:shadow-none">
                 <div className="flex items-center gap-3">
