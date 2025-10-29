@@ -132,7 +132,7 @@ const Settings = ({ userFetcher }: Props) => {
 
             <div className="grid gap-4 mb-4 sm:grid-cols-2">
               {/* Name */}
-              <div>
+              <div className={`${user.googleId ? "col-span-2" : ""}`}>
                 <label className="apply-fonts-normal block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200">
                   الإسم
                 </label>
