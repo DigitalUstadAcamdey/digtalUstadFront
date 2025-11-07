@@ -270,7 +270,7 @@ const Settings = ({ userFetcher }: Props) => {
               </div>
 
               {/* Email */}
-              {/*no need to edit when login with */}
+              {/*no need to edit when login with google */}
               {user.googleId ? (
                 <></>
               ) : (
